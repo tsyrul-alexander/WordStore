@@ -1,6 +1,6 @@
 ﻿namespace WordStore.ViewModel {
 	public abstract class BaseViewModel : BaseModel, IDisposable {
-		public void Initialize() {
+		public virtual void Initialize() {
 			SubscribeMessages();
 		}
 		protected virtual void SubscribeMessages() {

@@ -1,6 +1,6 @@
-namespace WordStore;
+namespace WordStore.View;
 
-public partial class MainView : ContentPage {
+public partial class MainView : Shell {
 	public MainView() {
 		InitializeComponent();
 	}

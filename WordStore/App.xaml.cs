@@ -1,4 +1,6 @@
-﻿namespace WordStore;
+﻿using WordStore.View;
+
+namespace WordStore;
 
 public partial class App : Application {
 	public App() {
