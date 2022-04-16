@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WordStore.MainView"
              Title="MainView"
-             BackgroundColor="White">
+             BackgroundColor="White"
+             BindingContext="{Binding Path=Main, Source={StaticResource Locator}}">
     <StackLayout>
-        <Label Text="Welcome to .NET MAUI!"
+        <Label Text="{Binding Header}"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
     </StackLayout>

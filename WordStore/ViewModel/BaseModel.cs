@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 
 namespace WordStore.ViewModel {
-    internal class BaseModel : INotifyPropertyChanged {
+    public abstract class BaseModel : INotifyPropertyChanged {
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual bool SetPropertyValue<T>(ref T setProperty, T value, [CallerMemberName] string propertyName = "") {
