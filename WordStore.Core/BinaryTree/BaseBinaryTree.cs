@@ -1,4 +1,4 @@
-﻿namespace WordStore.Model.BinaryTree {
+﻿namespace WordStore.Core.BinaryTree {
 	public abstract class BaseBinaryTree<TData, TValue, TNode> where TNode : BaseNode<TData, TValue>, new() where TData : class {
 		public TNode RootNode { get; set; }
 		public virtual TData Search(TValue value) {

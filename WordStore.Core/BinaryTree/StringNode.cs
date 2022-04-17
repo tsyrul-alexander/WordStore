@@ -1,4 +1,4 @@
-﻿namespace WordStore.Model.BinaryTree {
+﻿namespace WordStore.Core.BinaryTree {
 	public class StringNode<TData> : BaseNode<TData, string> {
 		protected override BaseNode<TData, string> CreateNode(TData data, string value) {
 			return new StringNode<TData> { Data = data, Value = value };

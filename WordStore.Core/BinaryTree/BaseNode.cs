@@ -1,6 +1,6 @@
-﻿namespace WordStore.Model.BinaryTree {
+﻿namespace WordStore.Core.BinaryTree {
 	public abstract class BaseNode<TData, TValue> where TData : class {
-		public BaseNode<TData, TValue> LeftNode{ get; set; }
+		public BaseNode<TData, TValue> LeftNode { get; set; }
 		public BaseNode<TData, TValue> RightNode { get; set; }
 		public TData Data { get; set; }
 		public TValue Value { get; set; }
