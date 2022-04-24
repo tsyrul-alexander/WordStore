@@ -5,7 +5,15 @@
              Title="Content" BindingContext="{Binding Path=Content, Source={StaticResource Locator}}">
     <ContentPage.Content>
 		<StackLayout>
-			
+			<Button Text="OpenFile" Command="{Binding OpenFileCommand}"/>
+			<FlexLayout BindableLayout.ItemsSource="{Binding Content}" Wrap="Wrap" JustifyContent="Start"
+				AlignItems="Start" AlignContent="Start">
+				<BindableLayout.ItemTemplate>
+					<DataTemplate>
+						<Label Text="{Binding Path=.}"></Label>
+					</DataTemplate>
+				</BindableLayout.ItemTemplate>
+			</FlexLayout>
 		</StackLayout>
-    </ContentPage.Content>
+	</ContentPage.Content>
 </ContentPage>

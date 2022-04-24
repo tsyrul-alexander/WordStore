@@ -25,5 +25,7 @@ public static class MauiProgram {
 	}
 	internal static void InitializeServices(ServiceCollection serviceCollection) {
 		serviceCollection.UseViewModel();
+		serviceCollection.UseMockFileManager();
+		serviceCollection.UsePagination();
 	}
 }
