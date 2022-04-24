@@ -1,4 +1,6 @@
-﻿namespace WordStore.Manager {
+﻿using WordStore.Core.Manager;
+
+namespace WordStore.Manager {
 	internal class MockFileManager: FileManager {
 		public override string[] ReadAllLines(string filePath) {
 			return new[] {

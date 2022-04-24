@@ -1,4 +1,5 @@
-﻿using WordStore.Manager;
+﻿using WordStore.Core.Manager;
+using WordStore.Manager;
 
 namespace WordStore.Extension {
 	public static class FileExtension {

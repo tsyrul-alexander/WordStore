@@ -1,7 +1,6 @@
-﻿
-namespace WordStore.Manager {
+﻿namespace WordStore.Core.Manager {
 	public interface IPaginationManager {
-		event Action<PaginationManager, EventArgs> Changed;
+		event Action<IPaginationManager, EventArgs> Changed;
 		int CurrentPage { get; }
 		int PageLineSize { get; set; }
 		string[] GetCurrentLines();

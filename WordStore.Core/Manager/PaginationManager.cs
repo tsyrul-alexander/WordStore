@@ -1,10 +1,10 @@
-﻿namespace WordStore.Manager {
+﻿namespace WordStore.Core.Manager {
 	public class PaginationManager : IPaginationManager {
 		private int pageLineSize = 30;
 		private int currentPage = 1;
 		private string[] content;
 
-		public event Action<PaginationManager, EventArgs> Changed;
+		public event Action<IPaginationManager, EventArgs> Changed;
 		public int PageLineSize {
 			get => pageLineSize;
 			set {
