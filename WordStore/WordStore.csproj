@@ -57,6 +57,7 @@
 	<ItemGroup>
 	  <Page Remove="View\ContentView.xaml" />
 	  <Page Remove="View\MainView.xaml" />
+	  <Page Remove="View\WordListView.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -81,6 +82,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\MainView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\WordListView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
