@@ -1,4 +1,4 @@
-﻿using WordStore.Manager;
+﻿using WordStore.Core.Manager;
 
 namespace WordStore.Extension {
 	public static class PaginationExtention {

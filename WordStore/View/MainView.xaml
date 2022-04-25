@@ -6,7 +6,12 @@
              Title="MainView"
              BackgroundColor="White"
              BindingContext="{Binding Path=Main, Source={StaticResource Locator}}">
-	<FlyoutItem>
-		<ShellContent ContentTemplate="{DataTemplate view:ContentView}"></ShellContent>
-	</FlyoutItem>
+	<TabBar>
+		<Tab Title="Content">
+			<ShellContent ContentTemplate="{DataTemplate view:ContentView}"/>
+		</Tab>
+		<Tab Title="WordList">
+			<ShellContent ContentTemplate="{DataTemplate view:WordListView}"/>
+		</Tab>
+	</TabBar>
 </Shell>

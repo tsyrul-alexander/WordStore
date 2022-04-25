@@ -3,7 +3,7 @@ using WordStore.Core.Model;
 using WordStore.Data.EntityFramework.EntityConfiguration;
 
 namespace WordStore.Data.EntityFramework {
-	internal class WordDbContext : DbContext {
+	public class WordDbContext : DbContext {
 		public DbSet<Word> Words { get; set; }
 		public DbSet<WordTranslation> Translations { get; set; }
 		public DbSet<WordExample> Examples { get; set; }
@@ -15,7 +15,7 @@ namespace WordStore.Data.EntityFramework {
 			modelBuilder.ApplyConfiguration(new WordConfiguration());
 			modelBuilder.ApplyConfiguration(new WordTranslationConfiquration());
 			modelBuilder.ApplyConfiguration(new WordExampleConfiquration());
-			DataInitializer.Initialize(this);
+			DataInitializer.Initialize(modelBuilder);
 			base.OnModelCreating(modelBuilder);
 		}
 	}

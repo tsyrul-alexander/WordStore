@@ -1,6 +1,7 @@
 ﻿namespace WordStore.Core.Model {
 	public class WordExample : BaseDbLookupEntity {
 		public Guid WordId{ get; set; }
-		public WordExample(Guid? id = null, string displayValue = "") : base(id, displayValue) { }
+		public WordExample() : this(Guid.Empty, "") { }
+		public WordExample(Guid? id, string displayValue) : base(id, displayValue) { }
 	}
 }

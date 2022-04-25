@@ -5,6 +5,7 @@ namespace WordStore.Extension {
         public static void UseViewModel(this ServiceCollection services) {
             services.AddTransient<MainViewModel>();
             services.AddTransient<ContentViewModel>();
+            services.AddTransient<WordListViewModel>();
         }
     }
 }

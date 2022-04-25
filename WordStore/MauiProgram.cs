@@ -24,8 +24,11 @@ public static class MauiProgram {
 		return serviceCollection.BuildServiceProvider();
 	}
 	internal static void InitializeServices(ServiceCollection serviceCollection) {
+		serviceCollection.AddSingleton<AppSettings>();
 		serviceCollection.UseViewModel();
 		serviceCollection.UseMockFileManager();
 		serviceCollection.UsePagination();
+		serviceCollection.UseWordManager();
+		serviceCollection.UseWordStorage();
 	}
 }
