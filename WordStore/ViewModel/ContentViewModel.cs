@@ -3,18 +3,21 @@ using System.Windows.Input;
 using WordStore.Core.Manager;
 using WordStore.Core.Model;
 using WordStore.Core.Utility;
-using WordStore.Model;
+using WordStore.Manager;
 
 namespace WordStore.ViewModel {
 	public class ContentViewModel : BaseViewModel {
-		public ObservableCollection<IWord> Content { get; set; } = new ObservableCollection<IWord>();
+		public ObservableCollection<WordItem> Content { get; set; } = new ObservableCollection<WordItem>();
 		public ICommand OpenFileCommand { get; set; }
 		public IFileManager FileManager { get; }
 		public IPaginationManager PaginationManager { get; }
+		public IWordManager WordManager { get; }
 
-		public ContentViewModel(IFileManager fileManager, IPaginationManager paginationManager) {
+		public ContentViewModel(IFileManager fileManager, IPaginationManager paginationManager,
+				IWordManager wordManager) {
 			FileManager = fileManager;
 			PaginationManager = paginationManager;
+			WordManager = wordManager;
 			OpenFileCommand = new Command(OpenFile);
 			paginationManager.Changed += PaginationManager_Changed;
 		}
@@ -28,14 +31,14 @@ namespace WordStore.ViewModel {
 			PaginationManager.SetContent(textLines);
 		}
 		protected virtual void PaginationManager_Changed(IPaginationManager arg1, EventArgs arg2) {
+			Content.Clear();
 			PrepareLines(arg1.GetCurrentLines());
 		}
 		protected virtual void PrepareLines(string[] lines) {
 			lines.Foreach(PrepareText);
 		}
 		protected virtual void PrepareText(string text) {
-			var worlds = text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-			worlds.Foreach(word => Content.Add(new Word(word)));
+			Content.AddRange(WordManager.GetWords(text));
 		}
 	}
 }
