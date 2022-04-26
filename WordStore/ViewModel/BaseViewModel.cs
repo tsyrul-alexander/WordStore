@@ -12,11 +12,11 @@
 		protected virtual void SendMessage<TSender>(TSender sender, string message) where TSender : class {
 			MessagingCenter.Send(sender, message);
 		}
-		protected virtual void SubscribeMessage<TSender>(TSender sender, string message, Action<TSender> action) 
+		protected virtual void SubscribeMessage<TSender>(string message, Action<TSender> action) 
 				where TSender : class {
 			MessagingCenter.Subscribe(this, message, action);
 		}
-		protected virtual void UnsubscribeMessage<TSender>(TSender sender, string message)
+		protected virtual void UnsubscribeMessage<TSender>(string message)
 				where TSender : class {
 			MessagingCenter.Unsubscribe<TSender>(this, message);
 		}

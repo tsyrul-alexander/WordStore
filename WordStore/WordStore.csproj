@@ -56,7 +56,9 @@
 
 	<ItemGroup>
 	  <Page Remove="View\ContentView.xaml" />
+	  <Page Remove="View\LookupEntityListView.xaml" />
 	  <Page Remove="View\MainView.xaml" />
+	  <Page Remove="View\WordDetailView.xaml" />
 	  <Page Remove="View\WordListView.xaml" />
 	</ItemGroup>
 
@@ -68,7 +70,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Control\" />
-	  <Folder Include="Model\" />
 	  <Folder Include="Resources\Images\" />
 	</ItemGroup>
 
@@ -81,7 +82,13 @@
 	  <MauiXaml Update="View\ContentView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="View\LookupEntityListView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\MainView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\WordDetailView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\WordListView.xaml">

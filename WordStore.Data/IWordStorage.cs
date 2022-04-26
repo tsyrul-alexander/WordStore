@@ -2,7 +2,7 @@
 
 namespace WordStore.Data {
 	public interface IWordStorage {
-		IEnumerable<WordItem> GetWords();
+		IEnumerable<WordItem> GetWords(int count = -1, string search = "");
 		Word GetWord(Guid id);
 	}
 }

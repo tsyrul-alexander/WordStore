@@ -1,4 +1,5 @@
-﻿using WordStore.Core.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using WordStore.Core.Model;
 
 namespace WordStore.Data.EntityFramework {
 	public class WordEFStorage : IWordStorage {
@@ -8,11 +9,15 @@ namespace WordStore.Data.EntityFramework {
 		}
 
 		public Word GetWord(Guid id) {
-			return Context.Words.FirstOrDefault(w => w.Id == id);
+			return Context.Words.Include(w => w.Examples).Include(w => w.Translations)
+				.FirstOrDefault(w => w.Id == id);
 		}
 
-		public IEnumerable<WordItem> GetWords() {
-			return Context.Words.Cast<WordItem>();//todo optimization
+		public IEnumerable<WordItem> GetWords(int count = -1, string search = "") {
+			var words = Context.Words;
+			IQueryable<Word> query = count > 0 ? words.Take(count) : words;
+			query = string.IsNullOrEmpty(search) ? query : query.Where(w => w.DisplayValue.Contains(search));
+			return query.OrderBy(w => w.DisplayValue).Cast<WordItem>();
 		}
 	}
 }

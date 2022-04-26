@@ -2,10 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WordStore.View.WordListView"
+			 xmlns:view="clr-namespace:WordStore.View"
              Title="WordList"
              BackgroundColor="White"
              BindingContext="{Binding Path=WordList, Source={StaticResource Locator}}">
-    <StackLayout>
-        
-    </StackLayout>
+	<Grid ColumnDefinitions="30*,70*">
+		<StackLayout Grid.Column="0">
+			<ListView ItemsSource="{Binding Words}" SelectedItem="{Binding SelectedWord}" BackgroundColor="Aqua" 
+				ItemTemplate="{StaticResource Key=BaseLookupDataTemplate}"/>
+		</StackLayout>
+		<view:WordDetailView Grid.Column="1"></view:WordDetailView>
+    </Grid>
 </ContentPage>
