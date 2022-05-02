@@ -1,7 +1,7 @@
-﻿using WordStore.Core.Model;
+﻿using WordStore.Model.View;
 
 namespace WordStore.Manager {
 	public interface IWordManager {
-		WordItem[] GetWords(string text);
+		IEnumerable<WordItemView> GetWords(string text);
 	}
 }

@@ -1,8 +1,26 @@
 ﻿namespace WordStore.Core.BinaryTree {
-	public class StringNode<TData> : BaseNode<TData, string> where TData : class {
-		protected override BaseNode<TData, string> CreateNode(TData data, string value) {
+	public class StringNode<TData> : BaseNode<TData, string, StringNode<TData>> where TData : class {
+		protected override StringNode<TData> CreateNode(TData data, string value) {
 			return new StringNode<TData> { Data = data, Value = value };
 		}
+
+		public IList<TData> SearchStartWith(string value) {
+			var list = new List<TData>();
+			SearchStartWith(value, list);
+			return list;
+		}
+
+		internal virtual void SearchStartWith(string value, IList<TData> items) {
+			if (Value.StartsWith(value)) {
+				items.Add(Data);
+			}
+			if (GetIsGreated(Value, value)) {
+				LeftNode?.SearchStartWith(value, items);
+			} else {
+				RightNode?.SearchStartWith(value, items);
+			}
+		}
+
 		protected override bool GetIsGreated(string value1, string value2) {
 			for (int i = 0; i < value1.Length; i++) {
 				if (value2.Length <= i) {

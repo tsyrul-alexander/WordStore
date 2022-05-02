@@ -1,7 +1,7 @@
 ﻿namespace WordStore.Core.BinaryTree {
-	public abstract class BaseNode<TData, TValue> where TData : class {
-		public BaseNode<TData, TValue> LeftNode { get; set; }
-		public BaseNode<TData, TValue> RightNode { get; set; }
+	public abstract class BaseNode<TData, TValue, TNode> where TData : class where TNode : BaseNode<TData, TValue, TNode> {
+		public TNode LeftNode { get; set; }
+		public TNode RightNode { get; set; }
 		public TData Data { get; set; }
 		public TValue Value { get; set; }
 
@@ -31,7 +31,7 @@
 				}
 			}
 		}
-		protected abstract BaseNode<TData, TValue> CreateNode(TData data, TValue value);
+		protected abstract TNode CreateNode(TData data, TValue value);
 		protected abstract bool GetIsGreated(TValue value1, TValue value2);
 	}
 }

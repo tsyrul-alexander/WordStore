@@ -1,13 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using WordStore.Core.Manager;
-using WordStore.Core.Model;
 using WordStore.Core.Utility;
 using WordStore.Manager;
+using WordStore.Model.View;
 
 namespace WordStore.ViewModel {
 	public class ContentViewModel : BaseViewModel {
-		public ObservableCollection<WordItem> Content { get; set; } = new ObservableCollection<WordItem>();
+		public ObservableCollection<WordItemView> Content { get; set; } = new ObservableCollection<WordItemView>();
 		public ICommand OpenFileCommand { get; set; }
 		public IFileManager FileManager { get; }
 		public IPaginationManager PaginationManager { get; }

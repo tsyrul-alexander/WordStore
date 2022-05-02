@@ -56,7 +56,7 @@
 
 	<ItemGroup>
 	  <Page Remove="View\ContentView.xaml" />
-	  <Page Remove="View\LookupEntityListView.xaml" />
+	  <Page Remove="View\ListEditView.xaml" />
 	  <Page Remove="View\MainView.xaml" />
 	  <Page Remove="View\WordDetailView.xaml" />
 	  <Page Remove="View\WordListView.xaml" />
@@ -79,10 +79,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="View\ListEditView.xaml.cs">
+	    <DependentUpon>ListEditView.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="View\ContentView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="View\LookupEntityListView.xaml">
+	  <MauiXaml Update="View\ListEditView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\MainView.xaml">

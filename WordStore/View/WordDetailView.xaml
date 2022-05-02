@@ -6,18 +6,21 @@
              x:Class="WordStore.View.WordDetailView"
             BindingContext="{Binding Path=WordDetail,Source={StaticResource Locator}}">
     <ContentView.Content>
-		<StackLayout IsVisible="{Binding Word, Converter={StaticResource IsNullConverter}, ConverterParameter={converter:Boolean Value=True}}">
-			<Label Text="{Binding Word.Value, StringFormat='Word: {0}'}" />
-			<StackLayout>
-				<Label Text="Translations:"/>
-				<view:LookupEntityListView ItemsSource="{Binding Word.Translations}" BackgroundColor="Beige"></view:LookupEntityListView>
-				<Button Text="add translations"/>
+		<Grid RowDefinitions="50, 1*, 1*"
+				IsVisible="{Binding Word, Converter={StaticResource IsNullConverter}, ConverterParameter={converter:Boolean Value=True}}">
+			<Label Grid.Row="0" Text="{Binding Word.Value, StringFormat='Word: {0}'}" Style="{StaticResource HeaderLabel}"/>
+			<StackLayout Grid.Row="1">
+				<StackLayout Orientation="Horizontal">
+					<Label Text="Translations:" Style="{StaticResource HeaderLabel}"/>
+					<ImageButton Source="add_icon.png" HorizontalOptions="Center"
+						VerticalOptions="Center"/>
+				</StackLayout>
+				<view:ListEditView ItemsSource="{Binding Word.Translations}" BackgroundColor="Beige"></view:ListEditView>
 			</StackLayout>
-			<StackLayout>
-				<Label Text="Examples"/>
-				<view:LookupEntityListView ItemsSource="{Binding Word.Examples}" BackgroundColor="Beige"></view:LookupEntityListView>
-				<Button Text="add example"/>
+			<StackLayout Grid.Row="2">
+				<Label Text="Examples" Style="{StaticResource HeaderLabel}"/>
+				<view:ListEditView ItemsSource="{Binding Word.Examples}" BackgroundColor="Beige"></view:ListEditView>
 			</StackLayout>
-        </StackLayout>
+        </Grid>
     </ContentView.Content>
 </ContentView>
