@@ -4,7 +4,7 @@ using WordStore.Data.EntityFramework;
 
 namespace WordStore.Extension {
 	public static class WordStorageExtension {
-		public static void UseWordStorage(this ServiceCollection services) {
+		public static void UseWordStorage(this IServiceCollection services) {
 			
 			services.AddSingleton<IWordStorage, WordEFStorage>((provider) => {
 				var optionsBuilder = new DbContextOptionsBuilder<WordDbContext>();

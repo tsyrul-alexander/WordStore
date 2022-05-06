@@ -11,24 +11,21 @@ public static class MauiProgram {
 			.ConfigureFonts(fonts => {
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 			});
-		InitializeServiceProvider();
-		return builder.Build();
+		InitializeServices(builder.Services);
+		var app = builder.Build();
+		InitializeViewModelLocator(app.Services);
+		return app;
 	}
-	internal static void InitializeServiceProvider() {
-		var serviceProvider = GetServiceProvider();
+	internal static void InitializeViewModelLocator(IServiceProvider serviceProvider) {
 		ViewModelLocator.ServiceProvider = serviceProvider;
 	}
-	internal static ServiceProvider GetServiceProvider() {
-		var serviceCollection = new ServiceCollection();
-		InitializeServices(serviceCollection);
-		return serviceCollection.BuildServiceProvider();
-	}
-	internal static void InitializeServices(ServiceCollection serviceCollection) {
+	internal static void InitializeServices(IServiceCollection serviceCollection) {
 		serviceCollection.AddSingleton<AppSettings>();
 		serviceCollection.UseViewModel();
 		serviceCollection.UseMockFileManager();
 		serviceCollection.UsePagination();
 		serviceCollection.UseWordManager();
 		serviceCollection.UseWordStorage();
+		serviceCollection.UseFileDialogManager();
 	}
 }

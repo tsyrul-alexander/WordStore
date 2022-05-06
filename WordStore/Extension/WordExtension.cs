@@ -2,7 +2,7 @@
 
 namespace WordStore.Extension {
 	public static class WordExtension {
-		public static void UseWordManager(this ServiceCollection services) {
+		public static void UseWordManager(this IServiceCollection services) {
 			services.AddTransient<IWordManager, WordManager>();
 		}
 	}
