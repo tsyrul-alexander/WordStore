@@ -1,10 +1,9 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using WordStore.Core.Model;
 using WordStore.Model.View;
 
 namespace WordStore.ViewModel {
-	public class WordDetailViewModel : BaseViewModel {
+	public class WordDetailViewModel : BaseViewModel, IQueryAttributable {
 		private WordView word;
 		public WordView Word { get => word; set => SetPropertyValue(ref word, value); }
 		public ICommand AddTranslation{ get; set; }
@@ -21,6 +20,11 @@ namespace WordStore.ViewModel {
 		protected override void UnsubscribeMessages() {
 			base.UnsubscribeMessages();
 			UnsubscribeMessage<Word>("ShowWordDetail");
+		}
+
+		public void ApplyQueryAttributes(IDictionary<string, object> query) {
+			var word = query["word"] as Word;
+			SetWord(word);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
@@ -48,22 +48,7 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<!-- Required - WinUI does not yet have buildTransitive for everything -->
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
-		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.0.30" />
-	</ItemGroup>
-
 	<ItemGroup>
-	  <Page Remove="View\ContentView.xaml" />
-	  <Page Remove="View\ListEditView.xaml" />
-	  <Page Remove="View\MainView.xaml" />
-	  <Page Remove="View\WordDetailView.xaml" />
-	  <Page Remove="View\WordListView.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 	  <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.1" />
 	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.2" />
 	</ItemGroup>
@@ -76,30 +61,6 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\WordStore.Core\WordStore.Core.csproj" />
 	  <ProjectReference Include="..\WordStore.Data\WordStore.Data.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Update="View\ListEditView.xaml.cs">
-	    <DependentUpon>ListEditView.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Update="View\ContentView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\ListEditView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\MainView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\WordDetailView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\WordListView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	</ItemGroup>
 
 	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">

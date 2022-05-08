@@ -4,23 +4,45 @@
              x:Class="WordStore.View.ContentView"
 			 xmlns:converter="clr-namespace:WordStore.Converter"
              Title="Content" BindingContext="{Binding Path=Content, Source={StaticResource Locator}}">
-    <ContentPage.Content>
+	<ContentPage.Resources>
+		<DataTemplate x:Key="WordDataTemplate">
+			<Label Text="{Binding Path=Value}" Margin="1, 0, 1, 0">
+				<Label.Triggers>
+					<DataTrigger TargetType="Label" Binding="{Binding WordItem, Converter={StaticResource IsNullConverter}, ConverterParameter={converter:Boolean Value=True}}" Value="True">
+						<Setter Property="TextColor" Value="#FFFF66"></Setter>
+					</DataTrigger>
+				</Label.Triggers>
+			</Label>
+		</DataTemplate>
+	</ContentPage.Resources>
+	<!--<ContentPage.MenuBarItems>
+		<MenuBarItem Text="File">
+			<MenuFlyoutItem Text="OpenFile" Command="{Binding OpenFileCommand}" />
+			<MenuFlyoutItem Text="SaveFile" Command="{Binding SaveFileCommand}" />
+		</MenuBarItem>
+	</ContentPage.MenuBarItems>-->
+	<ContentPage.Content>
 		<StackLayout>
-			<Button Text="OpenFile" Command="{Binding OpenFileCommand}"/>
-			<FlexLayout BindableLayout.ItemsSource="{Binding Content}" Wrap="Wrap" JustifyContent="Start"
-				AlignItems="Start" AlignContent="Start">
-				<BindableLayout.ItemTemplate>
+			<ListView ItemsSource="{Binding Content}">
+				<ListView.ItemTemplate>
 					<DataTemplate>
-						<Label Text="{Binding Path=Value}" Margin="1, 0, 1, 0">
-							<Label.Triggers>
-								<DataTrigger TargetType="Label" Binding="{Binding WordItem, Converter={StaticResource IsNullConverter}, ConverterParameter={converter:Boolean Value=True}}" Value="True">
-									<Setter Property="TextColor" Value="#FFFF66"></Setter>
-								</DataTrigger>
-							</Label.Triggers>
-						</Label>
+						<!--<StackLayout Orientation="Horizontal" BackgroundColor="Aqua" Margin="5">-->
+						<ViewCell>
+							<Frame BorderColor="Black"
+								Padding="5">
+								<StackLayout HorizontalOptions="FillAndExpand" Padding="10" VerticalOptions="Start">
+									<FlexLayout BindableLayout.ItemsSource="{Binding Words}" BindableLayout.ItemTemplate ="{StaticResource WordDataTemplate}" 
+									Wrap="Wrap" JustifyContent="Start" AlignItems="Start" AlignContent="Start" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+									</FlexLayout>
+								</StackLayout>
+							</Frame>
+						</ViewCell>
+						<!--<Label Text="{Binding Number}" WidthRequest="20"></Label>
+						</StackLayout>-->
 					</DataTemplate>
-				</BindableLayout.ItemTemplate>
-			</FlexLayout>
+				</ListView.ItemTemplate>
+			</ListView>
+			
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

@@ -1,4 +1,5 @@
 ﻿using WordStore.Extension;
+using WordStore.View;
 using WordStore.ViewModel;
 
 namespace WordStore;
@@ -14,6 +15,7 @@ public static class MauiProgram {
 		InitializeServices(builder.Services);
 		var app = builder.Build();
 		InitializeViewModelLocator(app.Services);
+		RegisterRoutes();
 		return app;
 	}
 	internal static void InitializeViewModelLocator(IServiceProvider serviceProvider) {
@@ -21,11 +23,16 @@ public static class MauiProgram {
 	}
 	internal static void InitializeServices(IServiceCollection serviceCollection) {
 		serviceCollection.AddSingleton<AppSettings>();
+		serviceCollection.AddSingleton<AppConstants>();
 		serviceCollection.UseViewModel();
-		serviceCollection.UseMockFileManager();
+		serviceCollection.UseFileManager();
 		serviceCollection.UsePagination();
 		serviceCollection.UseWordManager();
 		serviceCollection.UseWordStorage();
 		serviceCollection.UseFileDialogManager();
+		serviceCollection.UseNavigatioManager();
+	}
+	internal static void RegisterRoutes() {
+		Routing.RegisterRoute("word-details", typeof(WordDetailView));
 	}
 }

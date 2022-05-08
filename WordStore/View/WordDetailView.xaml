@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:converter="clr-namespace:WordStore.Converter"
 			 xmlns:view="clr-namespace:WordStore.View"
              x:Class="WordStore.View.WordDetailView"
-            BindingContext="{Binding Path=WordDetail,Source={StaticResource Locator}}">
-    <ContentView.Content>
-		<Grid RowDefinitions="50, 1*, 1*"
-				IsVisible="{Binding Word, Converter={StaticResource IsNullConverter}, ConverterParameter={converter:Boolean Value=True}}">
-			<Label Grid.Row="0" Text="{Binding Word.Value, StringFormat='Word: {0}'}" Style="{StaticResource HeaderLabel}"/>
+            BindingContext="{Binding Path=WordDetail,Source={StaticResource Locator}}" BackgroundColor="Brown" Shell.PresentationMode="ModalAnimated">
+	<ContentPage.Content>
+		<Grid RowDefinitions="50, 1*, 1*">
+			<Grid Grid.Row="0" ColumnDefinitions="*, 50">
+				<Label Grid.Column="0" Text="{Binding Word.Value, StringFormat='Word: {0}'}" Style="{StaticResource HeaderLabel}"/>
+				<Button Grid.Column="1" Text="Close" Command="{Binding BackNavigationCommand}"/>
+			</Grid>
 			<StackLayout Grid.Row="1">
 				<StackLayout Orientation="Horizontal">
 					<Label Text="Translations:" Style="{StaticResource HeaderLabel}"/>
@@ -22,5 +23,5 @@
 				<view:ListEditView ItemsSource="{Binding Word.Examples}" BackgroundColor="Beige"></view:ListEditView>
 			</StackLayout>
         </Grid>
-    </ContentView.Content>
-</ContentView>
+    </ContentPage.Content>
+</ContentPage>

@@ -11,6 +11,5 @@
 			<ListView ItemsSource="{Binding Words}" SelectedItem="{Binding SelectedWord}" 
 				ItemTemplate="{StaticResource Key=BaseLookupDataTemplate}"/>
 		</StackLayout>
-		<view:WordDetailView Grid.Column="1"></view:WordDetailView>
-    </Grid>
+	</Grid>
 </ContentPage>

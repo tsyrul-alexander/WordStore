@@ -1,6 +1,6 @@
 namespace WordStore.View;
 
-public partial class WordDetailView : Microsoft.Maui.Controls.ContentView {
+public partial class WordDetailView : ContentPage {
 	public WordDetailView() {
 		InitializeComponent();
 	}

@@ -8,7 +8,7 @@
 
 		protected virtual T GetViewModel<T>() where T : BaseViewModel {
 			var viewModel = ServiceProvider.GetService<T>();
-			viewModel.Initialize();
+			viewModel.Initialize(ServiceProvider);
 			return viewModel;
 		}
 	}
