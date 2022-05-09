@@ -9,7 +9,7 @@
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="model:ListItemView">
 						<ViewCell>
-							<Grid ColumnDefinitions="*, 60, 60">
+							<Grid ColumnDefinitions="*, Auto, Auto">
 								<Label Grid.Column="0" Text="{Binding Value}" Style="{StaticResource ListItemLabel}"/>
 								<ImageButton Grid.Column="1" Source="edit_icon.png" HorizontalOptions="Center"
 									VerticalOptions="Center"/>

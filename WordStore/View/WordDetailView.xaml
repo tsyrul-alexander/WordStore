@@ -3,25 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:view="clr-namespace:WordStore.View"
              x:Class="WordStore.View.WordDetailView"
-            BindingContext="{Binding Path=WordDetail,Source={StaticResource Locator}}" BackgroundColor="Brown" Shell.PresentationMode="ModalAnimated">
+            BindingContext="{Binding Path=WordDetail,Source={StaticResource Locator}}" Shell.PresentationMode="ModalAnimated">
 	<ContentPage.Content>
 		<Grid RowDefinitions="50, 1*, 1*">
-			<Grid Grid.Row="0" ColumnDefinitions="*, 50">
-				<Label Grid.Column="0" Text="{Binding Word.Value, StringFormat='Word: {0}'}" Style="{StaticResource HeaderLabel}"/>
+			<Grid Grid.Row="0" ColumnDefinitions="*, Auto">
+				<Label Grid.Column="0" Style="{StaticResource HeaderLabel}">
+					<Label.FormattedText>
+						<FormattedString>
+							<Span Text="Word: " />
+							<Span Text="{Binding Word.Value}"  FontAttributes="Bold"/>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
 				<Button Grid.Column="1" Text="Close" Command="{Binding BackNavigationCommand}"/>
 			</Grid>
 			<StackLayout Grid.Row="1">
-				<StackLayout Orientation="Horizontal">
-					<Label Text="Translations:" Style="{StaticResource HeaderLabel}"/>
-					<ImageButton Source="add_icon.png" HorizontalOptions="Center"
-						VerticalOptions="Center"/>
-				</StackLayout>
+				<Frame BorderColor="Gray" CornerRadius="5">
+					<StackLayout Orientation="Horizontal">
+						<Label Text="Translations:" VerticalTextAlignment="Center" Style="{StaticResource HeaderLabel}"/>
+						<ImageButton Source="add_icon.png" HorizontalOptions="Center" VerticalOptions="Center"/>
+					</StackLayout>
+				</Frame>
 				<view:ListEditView ItemsSource="{Binding Word.Translations}" BackgroundColor="Beige"></view:ListEditView>
 			</StackLayout>
-			<StackLayout Grid.Row="2">
+			<!--<StackLayout Grid.Row="2">
 				<Label Text="Examples" Style="{StaticResource HeaderLabel}"/>
 				<view:ListEditView ItemsSource="{Binding Word.Examples}" BackgroundColor="Beige"></view:ListEditView>
-			</StackLayout>
+			</StackLayout>-->
         </Grid>
     </ContentPage.Content>
 </ContentPage>

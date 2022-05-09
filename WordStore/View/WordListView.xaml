@@ -9,7 +9,7 @@
 	<Grid ColumnDefinitions="30*,70*">
 		<StackLayout Grid.Column="0">
 			<ListView ItemsSource="{Binding Words}" SelectedItem="{Binding SelectedWord}" 
-				ItemTemplate="{StaticResource Key=BaseLookupDataTemplate}"/>
+				ItemTemplate="{StaticResource Key=BaseLookupDataTemplate}" />
 		</StackLayout>
 	</Grid>
 </ContentPage>

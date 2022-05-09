@@ -13,6 +13,7 @@
 		<ResourceDictionary>
 			<viewModel:ViewModelLocator x:Key="Locator"/>
 			<converter:IsNullConverter x:Key="IsNullConverter"/>
+			<converter:InvertBoolConverter x:Key="InvertBoolConverter"/>
 			<Color x:Key="PrimaryColor">#512bdf</Color>
 			<Color x:Key="SecondaryColor">White</Color>
 			<Style TargetType="Label">
