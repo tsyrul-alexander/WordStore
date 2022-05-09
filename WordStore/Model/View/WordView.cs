@@ -8,12 +8,12 @@ namespace WordStore.Model.View {
 		private string _value;
 
 		public string Value { get => _value; set => SetPropertyValue(ref _value, value); }
-		public ObservableCollection<ListItemView> Translations { get; set; } = new ObservableCollection<ListItemView>();
-		public ObservableCollection<ListItemView> Examples { get; set; } = new ObservableCollection<ListItemView>();
+		public ObservableCollection<ListItemView<WordTranslation>> Translations { get; set; } = new ObservableCollection<ListItemView<WordTranslation>>();
+		public ObservableCollection<ListItemView<WordExample>> Examples { get; set; } = new ObservableCollection<ListItemView<WordExample>>();
 		public WordView(Word word) {
 			Value = word.DisplayValue;
-			Translations.AddRange(word.Translations.Select(t => new ListItemView(t.DisplayValue, t)));
-			Examples.AddRange(word.Examples.Select(e => new ListItemView(e.DisplayValue, e)));
+			Translations.AddRange(word.Translations.Select(t => new ListItemView<WordTranslation>(t.DisplayValue, t)));
+			Examples.AddRange(word.Examples.Select(e => new ListItemView<WordExample>(e.DisplayValue, e)));
 		}
 	}
 }

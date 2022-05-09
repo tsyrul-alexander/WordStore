@@ -4,10 +4,11 @@
              x:Class="WordStore.View.ContentView"
 			 xmlns:converter="clr-namespace:WordStore.Converter"
 			 xmlns:view_model="clr-namespace:WordStore.ViewModel"
+			 xmlns:model_view="clr-namespace:WordStore.Model.View"
 			 xmlns:control="clr-namespace:WordStore.Control"
              Title="Content" BindingContext="{Binding Path=Content, Source={StaticResource Locator}}">
 	<ContentPage.Resources>
-		<DataTemplate x:Key="WordDataTemplate">
+		<DataTemplate x:Key="WordDataTemplate" x:DataType="model_view:WordItemView">
 			<Button Text="{Binding Path=Value}" Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:ContentViewModel}}, Path=WordSelectedCommand}"
 				CommandParameter="{Binding}" Padding="0" Margin="1" BackgroundColor="Transparent" TextColor="#606060">
 				<Button.Triggers>
@@ -16,6 +17,17 @@
 					</DataTrigger>
 				</Button.Triggers>
 			</Button>
+		</DataTemplate>
+		<DataTemplate x:Key="LineDataTemplate" x:DataType="model_view:LineWordView">
+			<ViewCell>
+				<Frame>
+					<StackLayout Orientation="Horizontal" BackgroundColor="Aqua" Margin="5">
+						<Label Text="{Binding Number}" WidthRequest="20" VerticalOptions="Center" Margin="2"></Label>
+						<control:WrapLayout BindableLayout.ItemsSource="{Binding Words}" BindableLayout.ItemTemplate="{StaticResource WordDataTemplate}" 
+										Wrap="Wrap" JustifyContent="Start" AlignItems="Start" AlignContent="Start" HorizontalOptions="FillAndExpand" VerticalOptions="Start"/>
+					</StackLayout>
+				</Frame>
+			</ViewCell>
 		</DataTemplate>
 	</ContentPage.Resources>
 	<!--<ContentPage.MenuBarItems>
@@ -26,7 +38,7 @@
 	</ContentPage.MenuBarItems>-->
 	<ContentPage.Content>
 		<Grid RowDefinitions="Auto, *">
-			<Frame Grid.Row="0" BorderColor="Gray" CornerRadius="5">
+			<Frame Grid.Row="0">
 				<StackLayout Orientation="Horizontal">
 					<Label VerticalTextAlignment="Center" Margin="2">Edit mode</Label>
 					<Switch IsToggled="{Binding IsEditMode}" Margin="2"></Switch>
@@ -34,22 +46,7 @@
 			</Frame>
 			<Editor Grid.Row="1" Text="{Binding Text}" IsVisible="{Binding IsEditMode, Converter={StaticResource InvertBoolConverter}}"
 				VerticalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-			<ListView Grid.Row="1" ItemsSource="{Binding Content}" IsVisible="{Binding IsEditMode}">
-				<ListView.ItemTemplate>
-					<DataTemplate>
-
-						<ViewCell>
-							<Frame BorderColor="Black" Padding="5">
-								<StackLayout Orientation="Horizontal" BackgroundColor="Aqua" Margin="5">
-									<Label Text="{Binding Number}" WidthRequest="20" VerticalOptions="Center" Margin="2"></Label>
-									<control:WrapLayout BindableLayout.ItemsSource="{Binding Words}" BindableLayout.ItemTemplate="{StaticResource WordDataTemplate}" 
-										Wrap="Wrap" JustifyContent="Start" AlignItems="Start" AlignContent="Start" HorizontalOptions="FillAndExpand" VerticalOptions="Start"/>
-								</StackLayout>
-							</Frame>
-						</ViewCell>
-					</DataTemplate>
-				</ListView.ItemTemplate>
-			</ListView>
+			<ListView Grid.Row="1" ItemsSource="{Binding Content}" IsVisible="{Binding IsEditMode}" ItemTemplate="{StaticResource LineDataTemplate}"/>
 		</Grid>
 	</ContentPage.Content>
 </ContentPage>

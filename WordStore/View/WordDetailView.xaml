@@ -1,9 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:view="clr-namespace:WordStore.View"
+			 xmlns:view_model="clr-namespace:WordStore.ViewModel"
              x:Class="WordStore.View.WordDetailView"
             BindingContext="{Binding Path=WordDetail,Source={StaticResource Locator}}" Shell.PresentationMode="ModalAnimated">
+	<ContentPage.Resources>
+		<DataTemplate x:Key="ListItemViewDataTemplate">
+			<ViewCell>
+				<Frame>
+					<SwipeView>
+						<SwipeView.LeftItems>
+							<SwipeItems>
+								<SwipeItem Text="Edit"
+								   IconImageSource="edit_icon.png"
+								   BackgroundColor="LightGreen"
+								   Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=EditTranslationCommand}" />
+								<SwipeItem Text="Delete"
+								   IconImageSource="delete_icon.png"
+								   BackgroundColor="LightPink"
+								   Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=DeleteTranslationCommand}" />
+							</SwipeItems>
+						</SwipeView.LeftItems>
+					</SwipeView>
+				</Frame>
+			</ViewCell>
+		</DataTemplate>
+	</ContentPage.Resources>
 	<ContentPage.Content>
 		<Grid RowDefinitions="50, 1*, 1*">
 			<Grid Grid.Row="0" ColumnDefinitions="*, Auto">
@@ -17,15 +39,33 @@
 				</Label>
 				<Button Grid.Column="1" Text="Close" Command="{Binding BackNavigationCommand}"/>
 			</Grid>
-			<StackLayout Grid.Row="1">
-				<Frame BorderColor="Gray" CornerRadius="5">
-					<StackLayout Orientation="Horizontal">
-						<Label Text="Translations:" VerticalTextAlignment="Center" Style="{StaticResource HeaderLabel}"/>
-						<ImageButton Source="add_icon.png" HorizontalOptions="Center" VerticalOptions="Center"/>
-					</StackLayout>
-				</Frame>
-				<view:ListEditView ItemsSource="{Binding Word.Translations}" BackgroundColor="Beige"></view:ListEditView>
-			</StackLayout>
+			<Frame Grid.Row="1">
+				<StackLayout>
+					<Frame>
+						<StackLayout Orientation="Horizontal">
+							<Label Text="Translations:" VerticalTextAlignment="Center" Style="{StaticResource HeaderLabel}"/>
+							<ImageButton Source="add_icon.png" HorizontalOptions="Center" VerticalOptions="Center"/>
+						</StackLayout>
+					</Frame>
+					<Frame>
+						<ListView ItemsSource="{Binding Path=Word.Translations}">
+							<ListView.ItemTemplate>
+								<DataTemplate>
+									<ViewCell>
+										<Grid ColumnDefinitions="*, Auto, Auto">
+											<Label Grid.Column="0" Text="{Binding Value}" Style="{StaticResource ListItemLabel}"/>
+											<ImageButton Grid.Column="1" Source="edit_icon.png" HorizontalOptions="Center"
+									VerticalOptions="Center"/>
+											<ImageButton Grid.Column="2" Source="delete_icon.png" Margin="0" Padding="0" Aspect="AspectFit"/>
+										</Grid>
+									</ViewCell>
+								</DataTemplate>
+							</ListView.ItemTemplate>
+						</ListView>
+					</Frame>
+				</StackLayout>
+			</Frame>
+			
 			<!--<StackLayout Grid.Row="2">
 				<Label Text="Examples" Style="{StaticResource HeaderLabel}"/>
 				<view:ListEditView ItemsSource="{Binding Word.Examples}" BackgroundColor="Beige"></view:ListEditView>

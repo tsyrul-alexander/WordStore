@@ -2,13 +2,20 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WordStore.View.WordListView"
-			 xmlns:view="clr-namespace:WordStore.View"
+			 xmlns:handler="clr-namespace:WordStore.Handler"
              Title="WordList"
              BackgroundColor="White"
              BindingContext="{Binding Path=WordList, Source={StaticResource Locator}}">
+	<Shell.SearchHandler>
+		<handler:WordSearchHandler x:FactoryMethod="GetWordSearchHandler" Placeholder="Enter search term"
+                                      ShowsResults="true"
+                                      DisplayMemberName="Name">
+			<!--Fix for windows https://github.com/dotnet/maui/issues/6036-->
+		</handler:WordSearchHandler>
+	</Shell.SearchHandler>
 	<Grid ColumnDefinitions="30*,70*">
 		<StackLayout Grid.Column="0">
-			<ListView ItemsSource="{Binding Words}" SelectedItem="{Binding SelectedWord}" 
+			<ListView ItemsSource="{Binding Words}" SelectedItem="{Binding SelectedWord}"
 				ItemTemplate="{StaticResource Key=BaseLookupDataTemplate}" />
 		</StackLayout>
 	</Grid>

@@ -21,18 +21,18 @@ namespace WordStore.ViewModel {
 		public IFileManager FileManager { get; }
 		public IPaginationManager PaginationManager { get; }
 		public IWordManager WordManager { get; }
-		public IFileDialogManager FileDialogManager { get; }
+		public IDialogManager DialogManager { get; }
 		public INavigationManager NavigationManager { get; }
 		public IWordStorage WordStorage { get; }
 		public AppConstants AppConstants { get; }
 
 		public ContentViewModel(IFileManager fileManager, IPaginationManager paginationManager,
-				IWordManager wordManager, IFileDialogManager fileDialogManager, INavigationManager navigationManager,
+				IWordManager wordManager, IDialogManager dialogManager, INavigationManager navigationManager,
 				IWordStorage wordStorage, AppConstants appConstants) {
 			FileManager = fileManager;
 			PaginationManager = paginationManager;
 			WordManager = wordManager;
-			FileDialogManager = fileDialogManager;
+			DialogManager = dialogManager;
 			NavigationManager = navigationManager;
 			WordStorage = wordStorage;
 			AppConstants = appConstants;
@@ -64,7 +64,7 @@ namespace WordStore.ViewModel {
 			//todo
 		}
 		protected virtual async void OpenFile() {
-			var filePath = await FileDialogManager.ShowFileDialogAsync(AppConstants.TxtFileType);
+			var filePath = await DialogManager.ShowFileDialogAsync(AppConstants.TxtFileType);
 			if (filePath == null) {
 				return;
 			}
