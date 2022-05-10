@@ -30,7 +30,7 @@ public static class MauiProgram {
 		serviceCollection.UseFileManager();
 		serviceCollection.UsePagination();
 		serviceCollection.UseWordManager();
-		serviceCollection.UseWordStorage();
+		serviceCollection.UseEFWordStorage();
 		serviceCollection.UseDialogManager();
 		serviceCollection.UseNavigatioManager();
 	}

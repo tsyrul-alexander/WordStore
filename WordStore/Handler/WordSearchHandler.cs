@@ -1,4 +1,5 @@
-﻿using WordStore.Data;
+﻿using WordStore.Core.Model;
+using WordStore.Data;
 using WordStore.Model.View;
 using WordStore.ViewModel;
 
@@ -14,7 +15,10 @@ namespace WordStore.Handler {
 				ItemsSource = null;
 				return;
 			}
-			var words = WordStorage.GetWords(30, newValue);
+			var words = WordStorage.WordRepository.Get<WordItem, string>(new OrderQueryOptions<Word, string> {
+				Count = 30,
+				OrderBy = QueryUtilities.LookupOrderBy<Word>()
+			});
 			ItemsSource = words.Select(word => new WordItemView(word.DisplayValue, word));
 		}
 		public static WordSearchHandler GetWordSearchHandler() {

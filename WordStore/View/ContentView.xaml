@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Name="content_view"
              x:Class="WordStore.View.ContentView"
 			 xmlns:converter="clr-namespace:WordStore.Converter"
 			 xmlns:view_model="clr-namespace:WordStore.ViewModel"
 			 xmlns:model_view="clr-namespace:WordStore.Model.View"
 			 xmlns:control="clr-namespace:WordStore.Control"
-             Title="Content" BindingContext="{Binding Path=Content, Source={StaticResource Locator}}">
+			 BindingContext="{Binding Path=Content, Source={StaticResource Locator}}">
 	<ContentPage.Resources>
 		<DataTemplate x:Key="WordDataTemplate" x:DataType="model_view:WordItemView">
 			<Button Text="{Binding Path=Value}" Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:ContentViewModel}}, Path=WordSelectedCommand}"
@@ -30,12 +31,12 @@
 			</ViewCell>
 		</DataTemplate>
 	</ContentPage.Resources>
-	<!--<ContentPage.MenuBarItems>
+	<ContentPage.MenuBarItems>
 		<MenuBarItem Text="File">
-			<MenuFlyoutItem Text="OpenFile" Command="{Binding OpenFileCommand}" />
-			<MenuFlyoutItem Text="SaveFile" Command="{Binding SaveFileCommand}" />
+			<MenuFlyoutItem Text="OpenFile" BindingContext="{Binding Path=BindingContext, Source={x:Reference content_view}}" Command="{Binding OpenFileCommand}" />
+			<MenuFlyoutItem Text="SaveFile" Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:ContentViewModel}}, Path=SaveFileCommand}" />
 		</MenuBarItem>
-	</ContentPage.MenuBarItems>-->
+	</ContentPage.MenuBarItems>
 	<ContentPage.Content>
 		<Grid RowDefinitions="Auto, *">
 			<Frame Grid.Row="0">

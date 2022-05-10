@@ -2,7 +2,8 @@
 
 namespace WordStore.Data {
 	public interface IWordStorage {
-		IEnumerable<WordItem> GetWords(int count = -1, string search = "");
-		Word GetWord(Guid id);
+		IRepository<Word> WordRepository { get; }
+		IRepository<WordTranslation> WordTranslationRepository { get; }
+		IRepository<WordExample> WordExampleRepository { get; }
 	}
 }

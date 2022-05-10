@@ -47,7 +47,7 @@ namespace WordStore.ViewModel {
 			if (wordItemView.WordItem == null) {
 				word = new Word{ DisplayValue = wordItemView.Value };
 			} else {
-				word = WordStorage.GetWord(wordItemView.WordItem.Id);
+				word = WordStorage.WordRepository.GetById(wordItemView.WordItem.Id);
 			}
 			NavigationManager.GoToAsync("word-details", new Dictionary<string, object>{
 				{ "word", word }

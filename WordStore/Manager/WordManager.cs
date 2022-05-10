@@ -23,7 +23,7 @@ namespace WordStore.Manager {
 		}
 		protected virtual void InitializeWordsTree() {
 			Tree = new StringBinaryTree<WordItem>();
-			var words = WordStorage.GetWords();
+			var words = WordStorage.WordRepository.Get<WordItem>();
 			words.Foreach(word => Tree.AddNode(word, word.DisplayValue));
 		}
 		public virtual IEnumerable<WordItemView> GetWords(string text) {

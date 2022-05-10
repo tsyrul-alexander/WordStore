@@ -3,40 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:view_model="clr-namespace:WordStore.ViewModel"
              x:Class="WordStore.View.WordDetailView"
-            BindingContext="{Binding Path=WordDetail,Source={StaticResource Locator}}" Shell.PresentationMode="ModalAnimated">
+            BindingContext="{Binding Path=WordDetail,Source={StaticResource Locator}}" Shell.PresentationMode="Animated">
 	<ContentPage.Resources>
 		<DataTemplate x:Key="ListItemViewDataTemplate">
-			<ViewCell>
-				<Frame>
-					<SwipeView>
-						<SwipeView.LeftItems>
-							<SwipeItems>
-								<SwipeItem Text="Edit"
-								   IconImageSource="edit_icon.png"
-								   BackgroundColor="LightGreen"
-								   Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=EditTranslationCommand}" />
-								<SwipeItem Text="Delete"
-								   IconImageSource="delete_icon.png"
-								   BackgroundColor="LightPink"
-								   Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=DeleteTranslationCommand}" />
-							</SwipeItems>
-						</SwipeView.LeftItems>
-					</SwipeView>
-				</Frame>
-			</ViewCell>
+			<!--Fix this https://github.com/dotnet/maui/pull/6220-->
+			<ContentView>
+				<OnPlatform x:TypeArguments="View">
+					<On Platform="Android,iOS, macOS">
+						<SwipeView>
+							<SwipeView.LeftItems>
+								<SwipeItems>
+									<SwipeItem Text="Edit"
+											IconImageSource="edit_icon.png"
+											BackgroundColor="LightGreen"
+											Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=EditTranslationCommand}" CommandParameter="{Binding}" />
+									<SwipeItem Text="Delete"
+											IconImageSource="delete_icon.png"
+											BackgroundColor="LightPink"
+											Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=DeleteTranslationCommand}" CommandParameter="{Binding}" />
+								</SwipeItems>
+							</SwipeView.LeftItems>
+							<Frame>
+								<Label VerticalOptions="Center" Text="{Binding Value}" Margin="10"></Label>
+							</Frame>
+						</SwipeView>
+					</On>
+					<On Platform="UWP">
+						<Frame>
+							<Label VerticalOptions="Center" Text="{Binding Value}" Margin="10"></Label>
+						</Frame>
+					</On>
+				</OnPlatform>
+			</ContentView>
 		</DataTemplate>
 	</ContentPage.Resources>
 	<ContentPage.Content>
 		<Grid RowDefinitions="50, 1*, 1*">
 			<Grid Grid.Row="0" ColumnDefinitions="*, Auto">
-				<Label Grid.Column="0" Style="{StaticResource HeaderLabel}">
-					<Label.FormattedText>
-						<FormattedString>
-							<Span Text="Word: " />
-							<Span Text="{Binding Word.Value}"  FontAttributes="Bold"/>
-						</FormattedString>
-					</Label.FormattedText>
-				</Label>
+				<StackLayout Orientation="Horizontal">
+					<Label Grid.Column="0" Text="Word:" Margin="1" Style="{StaticResource HeaderLabel}"/>
+					<Label Grid.Column="0" Text="{Binding Word.Value}" Margin="1" Style="{StaticResource HeaderLabel}" FontAttributes="Bold"/>
+				</StackLayout>
 				<Button Grid.Column="1" Text="Close" Command="{Binding BackNavigationCommand}"/>
 			</Grid>
 			<Frame Grid.Row="1">
@@ -44,24 +51,11 @@
 					<Frame>
 						<StackLayout Orientation="Horizontal">
 							<Label Text="Translations:" VerticalTextAlignment="Center" Style="{StaticResource HeaderLabel}"/>
-							<ImageButton Source="add_icon.png" HorizontalOptions="Center" VerticalOptions="Center"/>
+							<ImageButton Source="add_icon.png" HorizontalOptions="Center" VerticalOptions="Center" Command="{Binding AddTranslationCommand}"/>
 						</StackLayout>
 					</Frame>
 					<Frame>
-						<ListView ItemsSource="{Binding Path=Word.Translations}">
-							<ListView.ItemTemplate>
-								<DataTemplate>
-									<ViewCell>
-										<Grid ColumnDefinitions="*, Auto, Auto">
-											<Label Grid.Column="0" Text="{Binding Value}" Style="{StaticResource ListItemLabel}"/>
-											<ImageButton Grid.Column="1" Source="edit_icon.png" HorizontalOptions="Center"
-									VerticalOptions="Center"/>
-											<ImageButton Grid.Column="2" Source="delete_icon.png" Margin="0" Padding="0" Aspect="AspectFit"/>
-										</Grid>
-									</ViewCell>
-								</DataTemplate>
-							</ListView.ItemTemplate>
-						</ListView>
+						<CollectionView ItemsSource="{Binding Path=Word.Translations}" ItemTemplate="{StaticResource ListItemViewDataTemplate}"/>
 					</Frame>
 				</StackLayout>
 			</Frame>

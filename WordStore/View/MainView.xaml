@@ -3,13 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:view="clr-namespace:WordStore.View"
              x:Class="WordStore.View.MainView"
-             Title="MainView"
              BackgroundColor="White"
              BindingContext="{Binding Path=Main, Source={StaticResource Locator}}">
 	<TabBar>
-		<Tab Title="Content">
-			<ShellContent ContentTemplate="{DataTemplate view:ContentView}"/>
-		</Tab>
+		<ShellContent Title="Content" Icon="add_icon.png" ContentTemplate="{DataTemplate view:ContentView}"/>
 		<Tab Title="WordList">
 			<ShellContent ContentTemplate="{DataTemplate view:WordListView}"/>
 		</Tab>

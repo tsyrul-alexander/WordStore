@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WordStore.View.WordListView"
 			 xmlns:handler="clr-namespace:WordStore.Handler"
+			 xmlns:view_model="clr-namespace:WordStore.ViewModel"
              Title="WordList"
              BackgroundColor="White"
              BindingContext="{Binding Path=WordList, Source={StaticResource Locator}}">
@@ -13,10 +14,16 @@
 			<!--Fix for windows https://github.com/dotnet/maui/issues/6036-->
 		</handler:WordSearchHandler>
 	</Shell.SearchHandler>
-	<Grid ColumnDefinitions="30*,70*">
-		<StackLayout Grid.Column="0">
-			<ListView ItemsSource="{Binding Words}" SelectedItem="{Binding SelectedWord}"
-				ItemTemplate="{StaticResource Key=BaseLookupDataTemplate}" />
-		</StackLayout>
-	</Grid>
+	<ContentPage.Resources>
+		<DataTemplate x:Key="WordListDataTemplate">
+			<ViewCell>
+				<Frame HorizontalOptions="Fill">
+					<Button Text="{Binding DisplayValue}" Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordListViewModel}}, Path=SelectedWordCommand}" CommandParameter="{Binding}"/>
+				</Frame>
+			</ViewCell>
+		</DataTemplate>
+	</ContentPage.Resources>
+	<StackLayout>
+		<ListView ItemsSource="{Binding Words}" ItemTemplate="{StaticResource Key=WordListDataTemplate}" />
+	</StackLayout>
 </ContentPage>

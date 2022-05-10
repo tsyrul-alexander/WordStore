@@ -12,8 +12,8 @@ namespace WordStore.Model.View {
 		public ObservableCollection<ListItemView<WordExample>> Examples { get; set; } = new ObservableCollection<ListItemView<WordExample>>();
 		public WordView(Word word) {
 			Value = word.DisplayValue;
-			Translations.AddRange(word.Translations.Select(t => new ListItemView<WordTranslation>(t.DisplayValue, t)));
-			Examples.AddRange(word.Examples.Select(e => new ListItemView<WordExample>(e.DisplayValue, e)));
+			Translations.AddRange(word.Translations.Select(t => new ListItemView<WordTranslation>(t)));
+			Examples.AddRange(word.Examples.Select(e => new ListItemView<WordExample>(e)));
 		}
 	}
 }
