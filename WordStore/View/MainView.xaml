@@ -5,10 +5,6 @@
              x:Class="WordStore.View.MainView"
              BackgroundColor="White"
              BindingContext="{Binding Path=Main, Source={StaticResource Locator}}">
-	<TabBar>
-		<ShellContent Title="Content" Icon="add_icon.png" ContentTemplate="{DataTemplate view:ContentView}"/>
-		<Tab Title="WordList">
-			<ShellContent ContentTemplate="{DataTemplate view:WordListView}"/>
-		</Tab>
-	</TabBar>
+	<ShellContent Title="Content" Icon="add_icon.png" ContentTemplate="{DataTemplate view:ContentView}"/>
+	<ShellContent Title="WordList" ContentTemplate="{DataTemplate view:WordListView}"/>
 </Shell>

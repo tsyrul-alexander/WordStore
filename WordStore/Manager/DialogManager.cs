@@ -15,5 +15,9 @@
 			var result = await FilePicker.PickAsync(options);
 			return result?.FullPath;
 		}
+
+		public Task SaveFileDislog(string filePath, string fileName) { 
+			return null;
+		}
 	}
 }

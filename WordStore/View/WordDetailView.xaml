@@ -9,29 +9,27 @@
 			<!--Fix this https://github.com/dotnet/maui/pull/6220-->
 			<ContentView>
 				<OnPlatform x:TypeArguments="View">
-					<On Platform="Android,iOS, macOS">
+					<OnPlatform.Default>
+						<Frame>
+							<Label VerticalOptions="Center" Text="{Binding Value}" Margin="10"></Label>
+						</Frame>
+					</OnPlatform.Default>
+					<On Platform="Android,iOS,macOS">
 						<SwipeView>
 							<SwipeView.LeftItems>
 								<SwipeItems>
-									<SwipeItem Text="Edit"
-											IconImageSource="edit_icon.png"
-											BackgroundColor="LightGreen"
-											Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=EditTranslationCommand}" CommandParameter="{Binding}" />
-									<SwipeItem Text="Delete"
-											IconImageSource="delete_icon.png"
-											BackgroundColor="LightPink"
-											Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=DeleteTranslationCommand}" CommandParameter="{Binding}" />
+									<SwipeItem Text="Edit" IconImageSource="edit_icon.png" BackgroundColor="LightGreen"
+											Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=EditTranslationCommand}"
+											CommandParameter="{Binding}" />
+									<SwipeItem Text="Delete" IconImageSource="delete_icon.png" BackgroundColor="LightPink"
+											Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=DeleteTranslationCommand}"
+											CommandParameter="{Binding}" />
 								</SwipeItems>
 							</SwipeView.LeftItems>
 							<Frame>
 								<Label VerticalOptions="Center" Text="{Binding Value}" Margin="10"></Label>
 							</Frame>
 						</SwipeView>
-					</On>
-					<On Platform="UWP">
-						<Frame>
-							<Label VerticalOptions="Center" Text="{Binding Value}" Margin="10"></Label>
-						</Frame>
 					</On>
 				</OnPlatform>
 			</ContentView>

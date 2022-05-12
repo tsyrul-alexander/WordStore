@@ -15,7 +15,7 @@ namespace WordStore.ViewModel {
 		}
 		protected virtual void SubscribeMessages() { }
 		protected virtual void UnsubscribeMessages() { }
-		protected virtual void SendMessage<TSender>(TSender sender, string message) where TSender : class {
+		protected virtual void SendMessage<TSender>(string message, TSender sender) where TSender : class {
 			MessagingCenter.Send(sender, message);
 		}
 		protected virtual void SubscribeMessage<TSender>(string message, Action<TSender> action) 

@@ -15,10 +15,8 @@ namespace WordStore.Handler {
 				ItemsSource = null;
 				return;
 			}
-			var words = WordStorage.WordRepository.Get<WordItem, string>(new OrderQueryOptions<Word, string> {
-				Count = 30,
-				OrderBy = QueryUtilities.LookupOrderBy<Word>()
-			});
+			var words = WordStorage.WordRepository.Get<WordItem>(query => query.Where(word => word.DisplayValue.Contains(newValue))
+					.LookupOrderBy().Take(30));
 			ItemsSource = words.Select(word => new WordItemView(word.DisplayValue, word));
 		}
 		public static WordSearchHandler GetWordSearchHandler() {

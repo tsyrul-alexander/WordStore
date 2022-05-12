@@ -43,14 +43,25 @@ namespace WordStore.ViewModel {
 		}
 
 		protected virtual void WordSelected(WordItemView wordItemView) {
-			Word word;
 			if (wordItemView.WordItem == null) {
-				word = new Word{ DisplayValue = wordItemView.Value };
+				AddWord(wordItemView);
 			} else {
-				word = WordStorage.WordRepository.GetById(wordItemView.WordItem.Id);
+				EditWord(wordItemView);
 			}
+
+		}
+		protected virtual void EditWord(WordItemView wordItemView) {
+			Word word = WordStorage.WordRepository.GetById(wordItemView.WordItem.Id);
 			NavigationManager.GoToAsync("word-details", new Dictionary<string, object>{
 				{ "word", word }
+			});
+		}
+
+		protected virtual void AddWord(WordItemView wordItemView) {
+			var line = Content.First(line => line.Words.Contains(wordItemView));
+			SendMessage("AddWord", new AddWordView {
+				WordItemView = wordItemView,
+				LineWordView = line
 			});
 		}
 
@@ -80,6 +91,7 @@ namespace WordStore.ViewModel {
 		}
 		protected virtual void PrepareText(string text) {
 			var line = new LineWordView();
+			line.Sentence = text;
 			line.Words.AddRange(WordManager.GetWords(text));
 			line.Number = Content.Count;
 			Content.Add(line);

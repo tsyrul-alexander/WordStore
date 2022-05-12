@@ -6,6 +6,7 @@ namespace WordStore.Model.View {
 		private int number;
 
 		public int Number { get => number; set => SetPropertyValue(ref number, value); }
+		public string Sentence { get; set; }
 		public ObservableCollection<WordItemView> Words { get; set; } = new ObservableCollection<WordItemView>();
 	}
 }

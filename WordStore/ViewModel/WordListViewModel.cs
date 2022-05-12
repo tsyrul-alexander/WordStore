@@ -23,8 +23,8 @@ namespace WordStore.ViewModel {
 		}
 
 		private void SelectedWord(WordItem item) {
-			var word = item == null ? null : WordStorage.WordRepository.GetById(item.Id);
-			NavigationManager.GoToAsync("word-details", new Dictionary<string, object>{
+			var word = item == null ? null : WordStorage.WordRepository.GetById(item.Id, nameof(Word.Translations), nameof(Word.Examples));
+			NavigationManager.GoToAsync("word-details", new Dictionary<string, object> {
 				{ "word", word }
 			});
 		}
@@ -35,10 +35,7 @@ namespace WordStore.ViewModel {
 		}
 		protected virtual void LoadWords() {
 			Words.Clear();
-			var words = WordStorage.WordRepository.Get<WordItem, string>(new OrderQueryOptions<Word, string> {
-				Count = 30,
-				OrderBy = QueryUtilities.LookupOrderBy<Word>()
-			});
+			var words = WordStorage.WordRepository.Get<WordItem>(query => query.LookupOrderBy().Take(WordCount));
 			Words.AddRange(words);
 		}
 	}

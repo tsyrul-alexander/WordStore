@@ -22,7 +22,7 @@ namespace WordStore.Data.EntityFramework {
 		public static IQueryable<TEntity> SetIncludeProperties<TEntity>(this IQueryable<TEntity> query,
 				string[]? includeProperties) where TEntity : BaseDbEntity {
 			if (includeProperties != null) {
-				includeProperties.Foreach(prop => query.Include(prop));
+				includeProperties.Foreach(prop => query = query.Include(prop));
 			}
 			return query;
 		}
@@ -30,9 +30,9 @@ namespace WordStore.Data.EntityFramework {
 				Expression<Func<TEntity, TKey>>? orderBy, bool descending) where TEntity : BaseDbEntity {
 			if (orderBy != null) {
 				if (descending) {
-					query.OrderByDescending(orderBy);
+					query = query.OrderByDescending(orderBy);
 				} else {
-					query.OrderBy(orderBy);
+					query = query.OrderBy(orderBy);
 				}
 			}
 			return query;

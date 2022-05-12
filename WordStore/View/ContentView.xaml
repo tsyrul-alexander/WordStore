@@ -4,9 +4,11 @@
 			 x:Name="content_view"
              x:Class="WordStore.View.ContentView"
 			 xmlns:converter="clr-namespace:WordStore.Converter"
+			 xmlns:view="clr-namespace:WordStore.View"
 			 xmlns:view_model="clr-namespace:WordStore.ViewModel"
 			 xmlns:model_view="clr-namespace:WordStore.Model.View"
 			 xmlns:control="clr-namespace:WordStore.Control"
+			 Title="Content"
 			 BindingContext="{Binding Path=Content, Source={StaticResource Locator}}">
 	<ContentPage.Resources>
 		<DataTemplate x:Key="WordDataTemplate" x:DataType="model_view:WordItemView">
@@ -20,34 +22,33 @@
 			</Button>
 		</DataTemplate>
 		<DataTemplate x:Key="LineDataTemplate" x:DataType="model_view:LineWordView">
-			<ViewCell>
-				<Frame>
-					<StackLayout Orientation="Horizontal" BackgroundColor="Aqua" Margin="5">
-						<Label Text="{Binding Number}" WidthRequest="20" VerticalOptions="Center" Margin="2"></Label>
-						<control:WrapLayout BindableLayout.ItemsSource="{Binding Words}" BindableLayout.ItemTemplate="{StaticResource WordDataTemplate}" 
+			<Frame>
+				<StackLayout Orientation="Horizontal" BackgroundColor="Aqua" Margin="5">
+					<Label Text="{Binding Number}" WidthRequest="20" VerticalOptions="Center" Margin="2"></Label>
+					<control:WrapLayout BindableLayout.ItemsSource="{Binding Words}" BindableLayout.ItemTemplate="{StaticResource WordDataTemplate}" 
 										Wrap="Wrap" JustifyContent="Start" AlignItems="Start" AlignContent="Start" HorizontalOptions="FillAndExpand" VerticalOptions="Start"/>
-					</StackLayout>
-				</Frame>
-			</ViewCell>
+				</StackLayout>
+			</Frame>
 		</DataTemplate>
 	</ContentPage.Resources>
-	<ContentPage.MenuBarItems>
-		<MenuBarItem Text="File">
-			<MenuFlyoutItem Text="OpenFile" BindingContext="{Binding Path=BindingContext, Source={x:Reference content_view}}" Command="{Binding OpenFileCommand}" />
-			<MenuFlyoutItem Text="SaveFile" Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:ContentViewModel}}, Path=SaveFileCommand}" />
-		</MenuBarItem>
-	</ContentPage.MenuBarItems>
 	<ContentPage.Content>
-		<Grid RowDefinitions="Auto, *">
+		<Grid RowDefinitions="Auto, *, Auto">
 			<Frame Grid.Row="0">
 				<StackLayout Orientation="Horizontal">
+					<Frame>
+						<StackLayout Orientation="Horizontal">
+							<Button Text="OpenFile" Command="{Binding OpenFileCommand}"/>
+							<Button Text="SaveFile" Command="{Binding SaveFileCommand}"/>
+						</StackLayout>
+					</Frame>
 					<Label VerticalTextAlignment="Center" Margin="2">Edit mode</Label>
 					<Switch IsToggled="{Binding IsEditMode}" Margin="2"></Switch>
 				</StackLayout>
 			</Frame>
-			<Editor Grid.Row="1" Text="{Binding Text}" IsVisible="{Binding IsEditMode, Converter={StaticResource InvertBoolConverter}}"
-				VerticalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-			<ListView Grid.Row="1" ItemsSource="{Binding Content}" IsVisible="{Binding IsEditMode}" ItemTemplate="{StaticResource LineDataTemplate}"/>
+			<Editor Grid.Row="1" Grid.RowSpan="2" Text="{Binding Text}" IsVisible="{Binding IsEditMode, Converter={StaticResource InvertBoolConverter}}"
+				VerticalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" AutoSize="TextChanges" />
+			<CollectionView Grid.Row="1" Grid.RowSpan="2"  ItemsSource="{Binding Content}" IsVisible="{Binding IsEditMode}" ItemTemplate="{StaticResource LineDataTemplate}"/>
+			<view:AddWordView Grid.Row="2" IsVisible="false"></view:AddWordView>
 		</Grid>
 	</ContentPage.Content>
 </ContentPage>
