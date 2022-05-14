@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordStore.Core", "WordStore
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordStore.Data", "WordStore.Data\WordStore.Data.csproj", "{E3E2062F-8D83-486B-8871-4C1A10B61B0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordStore.Core.Test", "WordStore.Core.Test\WordStore.Core.Test.csproj", "{FF196D10-2695-44A1-B262-D51A8C98C16F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordStore.Core.Test", "WordStore.Core.Test\WordStore.Core.Test.csproj", "{FF196D10-2695-44A1-B262-D51A8C98C16F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

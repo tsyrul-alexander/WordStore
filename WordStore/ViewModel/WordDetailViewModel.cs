@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using WordStore.Core.Model;
+using WordStore.Data;
 using WordStore.Manager;
 using WordStore.Model.View;
 
@@ -10,15 +11,21 @@ namespace WordStore.ViewModel {
 		public ICommand AddTranslationCommand { get; set; }
 		public ICommand EditTranslationCommand { get; set; }
 		public ICommand DeleteTranslationCommand { get; set; }
+		public IWordStorage WordStorage { get; }
 		public IDialogManager DialogManager { get; }
 
-		public WordDetailViewModel(IDialogManager dialogManager) {
+		public WordDetailViewModel(IWordStorage wordStorage, IDialogManager dialogManager) {
 			AddTranslationCommand = new Command(AddTranslation);
 			EditTranslationCommand = new Command<ListItemView<WordTranslation>>(EditTranslation);
 			DeleteTranslationCommand = new Command<ListItemView<WordTranslation>>(DeleteTranslation);
+			WordStorage = wordStorage;
 			DialogManager = dialogManager;
 		}
 
+		public void ApplyQueryAttributes(IDictionary<string, object> query) {
+			var word = (Guid)query["wordId"];
+			SetWord(word);
+		}
 		protected virtual void DeleteTranslation(ListItemView<WordTranslation> translationView) {
 			Word.Translations.Remove(translationView);
 		}
@@ -36,20 +43,9 @@ namespace WordStore.ViewModel {
 			}
 			translationView.Value = text;
 		}
-		protected override void SubscribeMessages() {
-			base.SubscribeMessages();
-			SubscribeMessage<Word>("ShowWordDetail", SetWord);
-		}
-		protected virtual void SetWord(Word word) {
+		protected virtual void SetWord(Guid wordId) {
+			Word word = WordStorage.WordRepository.GetById(wordId, nameof(Word.Translations), nameof(Word.Examples));
 			Word = new WordView(word);
-		}
-		protected override void UnsubscribeMessages() {
-			base.UnsubscribeMessages();
-			UnsubscribeMessage<Word>("ShowWordDetail");
-		}
-		public void ApplyQueryAttributes(IDictionary<string, object> query) {
-			var word = query["word"] as Word;
-			SetWord(word);
 		}
 	}
 }

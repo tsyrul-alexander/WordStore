@@ -5,6 +5,7 @@
     <ContentView.Content>
 		<Frame BackgroundColor="AntiqueWhite">
 			<Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, *" HorizontalOptions="Fill">
+				<Label Grid.Column="0" Grid.Row="0" Text="{Binding AddWordView.WordItemView.Value}" Style="{StaticResource HeaderLabel}"></Label>
 				<Button Grid.Column="1" Grid.Row="0" Text="Close" Padding="10" Command="{Binding CloseCommand}"/>
 			</Grid>
         </Frame>

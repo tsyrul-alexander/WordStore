@@ -43,20 +43,20 @@ namespace WordStore.ViewModel {
 		}
 
 		protected virtual void WordSelected(WordItemView wordItemView) {
+			if (wordItemView.Type == WordItemViewType.Char) {
+				return;
+			}
 			if (wordItemView.WordItem == null) {
 				AddWord(wordItemView);
 			} else {
 				EditWord(wordItemView);
 			}
-
 		}
 		protected virtual void EditWord(WordItemView wordItemView) {
-			Word word = WordStorage.WordRepository.GetById(wordItemView.WordItem.Id);
 			NavigationManager.GoToAsync("word-details", new Dictionary<string, object>{
-				{ "word", word }
+				{ "wordId", wordItemView.WordItem.Id }
 			});
 		}
-
 		protected virtual void AddWord(WordItemView wordItemView) {
 			var line = Content.First(line => line.Words.Contains(wordItemView));
 			SendMessage("AddWord", new AddWordView {
@@ -64,15 +64,18 @@ namespace WordStore.ViewModel {
 				LineWordView = line
 			});
 		}
-
 		protected virtual void EditModeChanged(bool isEdit) {
-			if (isEdit && !string.IsNullOrEmpty(Text)) {
-				var lines = Text.Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-				PaginationManager.SetContent(lines);
-			}
+			UpdateContent();
 		}
-		protected virtual void SaveFile() {
+		protected virtual async void SaveFile() {
 			//todo
+			var fn = "Attachment.txt";
+			var file = Path.Combine(FileSystem.CacheDirectory, fn);
+			File.WriteAllText(file, "Hello World");
+			await Share.RequestAsync(new ShareFileRequest {
+				Title = "Test",
+				File = new ShareFile(file)
+			});
 		}
 		protected virtual async void OpenFile() {
 			var filePath = await DialogManager.ShowFileDialogAsync(AppConstants.TxtFileType);
@@ -80,22 +83,30 @@ namespace WordStore.ViewModel {
 				return;
 			}
 			var textLines = FileManager.ReadAllLines(filePath);
-			Text = string.Join(Environment.NewLine, textLines);
+			PaginationManager.SetContent(textLines);
 		}
 		protected virtual void PaginationManager_Changed(IPaginationManager arg1, EventArgs arg2) {
-			Content.Clear();
-			PrepareLines(arg1.GetCurrentLines());
+			UpdateContent();
+		}
+		protected virtual void UpdateContent() {
+			var lines = PaginationManager.GetCurrentLines();
+			if (isEditMode) {
+				Content.Clear();
+				PrepareLines(lines);
+			} else {
+				Text = string.Join(Environment.NewLine, lines);
+			}
 		}
 		protected virtual void PrepareLines(string[] lines) {
 			lines.Foreach(PrepareText);
 		}
 		protected virtual void PrepareText(string text) {
-			var line = new LineWordView();
-			line.Sentence = text;
+			var line = new LineWordView {
+				Sentence = text,
+				Number = Content.Count
+			};
 			line.Words.AddRange(WordManager.GetWords(text));
-			line.Number = Content.Count;
 			Content.Add(line);
-			
 		}
 	}
 }

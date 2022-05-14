@@ -22,16 +22,14 @@ namespace WordStore.ViewModel {
 			SelectedWordCommand = new Command<WordItem>(SelectedWord);
 		}
 
-		private void SelectedWord(WordItem item) {
-			var word = item == null ? null : WordStorage.WordRepository.GetById(item.Id, nameof(Word.Translations), nameof(Word.Examples));
-			NavigationManager.GoToAsync("word-details", new Dictionary<string, object> {
-				{ "word", word }
-			});
-		}
-
 		public override void Initialize(IServiceProvider serviceProvider) {
 			base.Initialize(serviceProvider);
 			LoadWords();
+		}
+		protected virtual void SelectedWord(WordItem item) {
+			NavigationManager.GoToAsync("word-details", new Dictionary<string, object> {
+				{ "wordId", item.Id }
+			});
 		}
 		protected virtual void LoadWords() {
 			Words.Clear();

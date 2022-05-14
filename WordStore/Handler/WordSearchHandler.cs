@@ -17,7 +17,7 @@ namespace WordStore.Handler {
 			}
 			var words = WordStorage.WordRepository.Get<WordItem>(query => query.Where(word => word.DisplayValue.Contains(newValue))
 					.LookupOrderBy().Take(30));
-			ItemsSource = words.Select(word => new WordItemView(word.DisplayValue, word));
+			ItemsSource = words.Select(word => new WordItemView(word.DisplayValue, WordItemViewType.Word, word));
 		}
 		public static WordSearchHandler GetWordSearchHandler() {
 			return ViewModelLocator.ServiceProvider.GetService<WordSearchHandler>();

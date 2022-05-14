@@ -18,9 +18,11 @@ namespace WordStore.Manager {
 			}
 			set { tree = value; }
 		}
+
 		public WordManager(IWordStorage wordStorage) {
 			WordStorage = wordStorage;
 		}
+
 		protected virtual void InitializeWordsTree() {
 			Tree = new StringBinaryTree<WordItem>();
 			var words = WordStorage.WordRepository.Get<WordItem>();
@@ -28,38 +30,53 @@ namespace WordStore.Manager {
 		}
 		public virtual IEnumerable<WordItemView> GetWords(string text) {
 			var list = new List<WordItemView>();
-			var worlds = text.Split(new[] { ' ', '.', ',' }, StringSplitOptions.RemoveEmptyEntries);
-			for (int i = 0; i < worlds.Length;) {
-				var (word, count) = GetWord(worlds[i], worlds[i..]);
-				i += count;
-				list.Add(word);
+			string word = string.Empty;
+			int startIndex = 0;
+			for (int i = 0; i < text.Length; i++) {
+				var currentChar = text[i];
+				var isLast = i == text.Length - 1;
+				var isLetter = GetIsLetter(currentChar);
+				if (isLetter) {
+					word += currentChar;
+					if (!isLast) {
+						continue;
+					}
+				}
+				if (word.Length != 0) {
+					var wordView = GetWord(word, startIndex, ref i, text);
+					list.Add(wordView);
+					word = string.Empty;
+					startIndex = (i + 1);
+				}
+				if (currentChar != ' ' && !isLetter) {
+					list.Add(new WordItemView(currentChar.ToString(), WordItemViewType.Char));
+				}
 			}
 			return list;
 		}
-		protected virtual (WordItemView word, int wordCount) GetWord(string word, string[] nextWords) {//todo
+		protected virtual bool GetIsLetter(char ch) {
+			return char.IsLetter(ch);
+		}
+		protected virtual WordItemView GetWord(string word, int startIndex, ref int index, string text) {//todo
 			var findWords = Tree.SearchStartWith(word);
 			if (findWords.Count == 0) {
-				return (new WordItemView(word), 1);
+				return new WordItemView(word);
 			}
 			foreach (var findWord in findWords.OrderByDescending(w => w.DisplayValue.Length)) {
 				if (findWord.DisplayValue == word) { 
-					return (new WordItemView(word, findWord), 1);
+					return new WordItemView(word, WordItemViewType.Word, findWord);
 				}
-				var findWordTextArray = findWord.DisplayValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-				if (nextWords.Length < findWordTextArray.Length) {
+				var findWordLength = findWord.DisplayValue.Length;
+				if (findWordLength > (text.Length - startIndex)) {
 					continue;
 				}
-				var isCompared = true;
-				for (int i = 0; i < findWordTextArray.Length; i++) {
-					if (findWordTextArray[i].ToLower() != nextWords[i].ToLower()) {
-						isCompared = false;
-					}
-				}
-				if (isCompared) {
-					return (new WordItemView(findWord.DisplayValue, findWord), findWordTextArray.Length);
+				if (text[startIndex..(startIndex + findWordLength)] == findWord.DisplayValue) {
+					var charCount = (findWordLength - word.Length) - 1;
+					index += charCount;
+					return new WordItemView(findWord.DisplayValue, WordItemViewType.Word, findWord);
 				}
 			}
-			return (new WordItemView(word), 1);
+			return new WordItemView(word);
 		}
 	}
 }

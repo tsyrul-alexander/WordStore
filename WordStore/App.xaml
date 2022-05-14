@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModel="clr-namespace:WordStore.ViewModel"
 			 xmlns:converter="clr-namespace:WordStore.Converter"
+			 xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
              x:Class="WordStore.App">
 	<Application.Resources>
 		<ResourceDictionary>
@@ -14,6 +15,7 @@
 			<viewModel:ViewModelLocator x:Key="Locator"/>
 			<converter:IsNullConverter x:Key="IsNullConverter"/>
 			<converter:InvertBoolConverter x:Key="InvertBoolConverter"/>
+			<toolkit:EnumToBoolConverter x:Key="EnumToBoolConverter" />
 			<Color x:Key="PrimaryColor">#512bdf</Color>
 			<Color x:Key="SecondaryColor">White</Color>
 			<Style TargetType="Label">
@@ -24,7 +26,6 @@
 				<Setter Property="TextColor" Value="{DynamicResource SecondaryColor}" />
 				<Setter Property="FontFamily" Value="OpenSansRegular" />
 				<Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}" />
-				<!--<Setter Property="Padding" Value="14,10" />-->
 			</Style>
 		</ResourceDictionary>
 	</Application.Resources>
