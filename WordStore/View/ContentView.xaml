@@ -9,6 +9,7 @@
 			 xmlns:model_view="clr-namespace:WordStore.Model.View"
 			 xmlns:control="clr-namespace:WordStore.Control"
 			 Title="Content"
+			 Shell.NavBarIsVisible="false"
 			 BindingContext="{Binding Path=Content, Source={StaticResource Locator}}">
 	<ContentPage.Resources>
 		<DataTemplate x:Key="WordDataTemplate" x:DataType="model_view:WordItemView">

@@ -5,5 +5,7 @@ namespace WordStore.Data {
 		IRepository<Word> WordRepository { get; }
 		IRepository<WordTranslation> WordTranslationRepository { get; }
 		IRepository<WordExample> WordExampleRepository { get; }
+		IRepository<Book> BookRepository { get; }
+		IRepository<BookPage> BookPageRepository { get; }
 	}
 }

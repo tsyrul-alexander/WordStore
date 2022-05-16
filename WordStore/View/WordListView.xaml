@@ -4,6 +4,7 @@
              x:Class="WordStore.View.WordListView"
 			 xmlns:handler="clr-namespace:WordStore.Handler"
 			 xmlns:view_model="clr-namespace:WordStore.ViewModel"
+			 xmlns:core_model="clr-namespace:WordStore.Core.Model;assembly=WordStore.Core"
              Title="WordList"
              BackgroundColor="White"
              BindingContext="{Binding Path=WordList, Source={StaticResource Locator}}">
@@ -15,7 +16,7 @@
 		</handler:WordSearchHandler>
 	</Shell.SearchHandler>
 	<ContentPage.Resources>
-		<DataTemplate x:Key="WordListDataTemplate">
+		<DataTemplate x:Key="WordListDataTemplate" x:DataType="core_model:BaseDbLookupEntity">
 			<ViewCell>
 				<Frame HorizontalOptions="Fill">
 					<Button Text="{Binding DisplayValue}" Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordListViewModel}}, Path=SelectedWordCommand}" CommandParameter="{Binding}"/>

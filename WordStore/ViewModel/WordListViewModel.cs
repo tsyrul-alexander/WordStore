@@ -11,7 +11,7 @@ namespace WordStore.ViewModel {
 		private string search;
 
 		public string Search { get => search; set => SetPropertyValue(ref search, value); }
-		public ObservableCollection<WordItem> Words { get; set; } = new ObservableCollection<WordItem>();
+		public ObservableCollection<BaseDbLookupEntity> Words { get; set; } = new ObservableCollection<BaseDbLookupEntity>();
 		public ICommand SelectedWordCommand { get; set; }
 		public IWordStorage WordStorage { get; }
 		public INavigationManager NavigationManager { get; }
@@ -19,21 +19,21 @@ namespace WordStore.ViewModel {
 		public WordListViewModel(IWordStorage wordStorage, INavigationManager navigationManager) {
 			WordStorage = wordStorage;
 			NavigationManager = navigationManager;
-			SelectedWordCommand = new Command<WordItem>(SelectedWord);
+			SelectedWordCommand = new Command<BaseDbLookupEntity>(SelectedWord);
 		}
 
 		public override void Initialize(IServiceProvider serviceProvider) {
 			base.Initialize(serviceProvider);
 			LoadWords();
 		}
-		protected virtual void SelectedWord(WordItem item) {
+		protected virtual void SelectedWord(BaseDbLookupEntity item) {
 			NavigationManager.GoToAsync("word-details", new Dictionary<string, object> {
 				{ "wordId", item.Id }
 			});
 		}
-		protected virtual void LoadWords() {
+		protected virtual async void LoadWords() {
 			Words.Clear();
-			var words = WordStorage.WordRepository.Get<WordItem>(query => query.LookupOrderBy().Take(WordCount));
+			var words = await WordStorage.WordRepository.GetCustomAsync(query => query.LookupOrderBy().Take(WordCount).LookupSelect());
 			Words.AddRange(words);
 		}
 	}

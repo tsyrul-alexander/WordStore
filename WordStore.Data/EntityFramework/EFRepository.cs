@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 using WordStore.Core.Model.Db;
 
 namespace WordStore.Data.EntityFramework {
@@ -11,48 +10,52 @@ namespace WordStore.Data.EntityFramework {
 			Context = context;
 		}
 
-		public IEnumerable<TBase> Get<TBase>(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryFn = null) 
-				where TBase : BaseDbEntity {
+		public virtual Task<List<TBase>> GetCustomAsync<TBase>(Func<IQueryable<TEntity>, IQueryable<TBase>> queryFn)
+				where TBase : class {
+			IQueryable<TBase> query = queryFn(DBSet);
+			return query.AsNoTracking().ToListAsync();
+		}
+		public virtual Task<List<TEntity>> GetAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>>? queryFn = null) {
 			IQueryable<TEntity> query = DBSet;
 			if (queryFn != null) {
 				query = queryFn(query);
 			}
-			return query.Cast<TBase>().ToList();
+			return query.AsNoTracking().ToListAsync();
 		}
-		public IEnumerable<TBase> Get<TBase>(QueryOptions<TEntity> options = null) where TBase : BaseDbEntity {
-			IQueryable<TEntity> query = SetQueryOptions(options);
-			return query.Cast<TBase>().ToList();
+		public virtual Task<TEntity> GetByIdAsync(Guid id, params string[] includeProperties) {
+			return DBSet.SetIncludeProperties(includeProperties).AsNoTracking()
+				.FirstAsync(query => query.Id == id);
 		}
-		public TEntity GetById(Guid id, params string[] includeProperties) {
-			return DBSet.SetIncludeProperties(includeProperties).First(query => query.Id == id);
-		}
-		public void Insert(TEntity entity) {
+		public virtual async Task InsertAsync(TEntity entity) {
 			DBSet.Add(entity);
-			Save();
+			await Save();
 		}
-		public void Update(TEntity entity) {
+		public virtual async Task UpdateAsync(TEntity entity) {
 			DBSet.Attach(entity);
 			Context.Entry(entity).State = EntityState.Modified;
-			Save();
+			await Save();
 		}
-		public void Delete(Guid id) {
-			var entity = Find(id);
+		public virtual async Task DeleteAsync(Guid id) {
+			var entity = await FindAsync(id);
+			if (entity == null) {
+				throw new NullReferenceException(nameof(id));
+			}
 			if (Context.Entry(entity).State == EntityState.Detached) {
 				DBSet.Attach(entity);
 			}
 			DBSet.Remove(entity);
-			Save();
+			await Save();
 		}
 		protected virtual IQueryable<TEntity> SetQueryOptions(QueryOptions<TEntity> options) {
 			return DBSet.SetCount(options.Count)
 				.SetFilter(options?.Filter)
 				.SetIncludeProperties(options?.IncludeProperties);
 		}
-		protected virtual void Save() {
-			Context.SaveChanges();
+		protected virtual Task Save() {
+			return Context.SaveChangesAsync();
 		}
-		protected virtual TEntity Find(Guid id) {
-			return DBSet.Find(id);
+		protected virtual Task<TEntity?> FindAsync(Guid id) {
+			return DBSet.FindAsync(id).AsTask();
 		}
 	}
 }

@@ -9,14 +9,14 @@ namespace WordStore.Handler {
 		public WordSearchHandler(IWordStorage wordStorage) {
 			WordStorage = wordStorage;
 		}
-		protected override void OnQueryChanged(string oldValue, string newValue) {
+		protected override async void OnQueryChanged(string oldValue, string newValue) {
 			base.OnQueryChanged(oldValue, newValue);
 			if (string.IsNullOrWhiteSpace(newValue)) {
 				ItemsSource = null;
 				return;
 			}
-			var words = WordStorage.WordRepository.Get<WordItem>(query => query.Where(word => word.DisplayValue.Contains(newValue))
-					.LookupOrderBy().Take(30));
+			var words = await WordStorage.WordRepository.GetCustomAsync(query => query.Where(word => word.DisplayValue.Contains(newValue))
+					.LookupOrderBy().Take(30).LookupSelect());
 			ItemsSource = words.Select(word => new WordItemView(word.DisplayValue, WordItemViewType.Word, word));
 		}
 		public static WordSearchHandler GetWordSearchHandler() {

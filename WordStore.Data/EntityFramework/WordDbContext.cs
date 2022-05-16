@@ -7,8 +7,10 @@ namespace WordStore.Data.EntityFramework {
 		public DbSet<Word> Words { get; set; }
 		public DbSet<WordTranslation> Translations { get; set; }
 		public DbSet<WordExample> Examples { get; set; }
+		public DbSet<Book> Books { get; set; }
+		public DbSet<BookPage> BookPages { get; set; }
 		public WordDbContext(DbContextOptions<WordDbContext> options) : base(options) {
-			//Database.EnsureDeleted();
+			Database.EnsureDeleted();
 			Database.EnsureCreated();
 		}
 		protected override void OnModelCreating(ModelBuilder modelBuilder) {

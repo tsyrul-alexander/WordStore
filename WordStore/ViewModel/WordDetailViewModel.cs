@@ -43,8 +43,8 @@ namespace WordStore.ViewModel {
 			}
 			translationView.Value = text;
 		}
-		protected virtual void SetWord(Guid wordId) {
-			Word word = WordStorage.WordRepository.GetById(wordId, nameof(Word.Translations), nameof(Word.Examples));
+		protected virtual async void SetWord(Guid wordId) {
+			Word word = await WordStorage.WordRepository.GetByIdAsync(wordId, nameof(Word.Translations), nameof(Word.Examples));
 			Word = new WordView(word);
 		}
 	}

@@ -4,7 +4,14 @@
              xmlns:view="clr-namespace:WordStore.View"
              x:Class="WordStore.View.MainView"
              BackgroundColor="White"
-             BindingContext="{Binding Path=Main, Source={StaticResource Locator}}">
-	<ShellContent Title="Content" Icon="add_icon.png" ContentTemplate="{DataTemplate view:ContentView}"/>
-	<ShellContent Title="WordList" ContentTemplate="{DataTemplate view:WordListView}"/>
+             BindingContext="{Binding Path=Main, Source={StaticResource Locator}}"
+             CurrentItem="{Binding CurrentShellItem}">
+	<TabBar>
+		<ShellContent Title="Books" ContentTemplate="{DataTemplate view:BookListView}"/>
+		<ShellContent Title="Content" ContentTemplate="{DataTemplate view:ContentView}"/>
+		<ShellContent Title="WordList" ContentTemplate="{DataTemplate view:WordListView}"/>
+	</TabBar>
+	<!--<Shell.TitleView>
+		<ActivityIndicator IsRunning="{Binding ActivityIndicatorIsRunning}" Color="Orange" />
+	</Shell.TitleView>-->
 </Shell>

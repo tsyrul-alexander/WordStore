@@ -2,10 +2,11 @@
 
 namespace WordStore.Data {
 	public interface IRepository<TEntity> where TEntity : BaseDbEntity {
-		IEnumerable<TBase> Get<TBase>(Func<IQueryable<TEntity>, IQueryable<TEntity>> query = null) where TBase : BaseDbEntity;
-		TEntity GetById(Guid id, params string[] includeProperties);
-		void Insert(TEntity entity);
-		void Update(TEntity entity);
-		void Delete(Guid id);
+		Task<List<TBase>> GetCustomAsync<TBase>(Func<IQueryable<TEntity>, IQueryable<TBase>> queryFn) where TBase : class;
+		Task<List<TEntity>> GetAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>>? queryFn = null);
+		Task<TEntity> GetByIdAsync(Guid id, params string[] includeProperties);
+		Task InsertAsync(TEntity entity);
+		Task UpdateAsync(TEntity entity);
+		Task DeleteAsync(Guid id);
 	}
 }

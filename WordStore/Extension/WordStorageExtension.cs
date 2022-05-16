@@ -17,6 +17,8 @@ namespace WordStore.Extension {
 			services.AddSingleton<IRepository<Word>, EFRepository<Word>>();
 			services.AddSingleton<IRepository<WordTranslation>, EFRepository<WordTranslation>>();
 			services.AddSingleton<IRepository<WordExample>, EFRepository<WordExample>>();
+			services.AddSingleton<IRepository<Book>, EFRepository<Book>>();
+			services.AddSingleton<IRepository<BookPage>, EFRepository<BookPage>>();
 		}
 	}
 }

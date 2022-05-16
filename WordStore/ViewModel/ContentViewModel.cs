@@ -42,6 +42,15 @@ namespace WordStore.ViewModel {
 			paginationManager.Changed += PaginationManager_Changed;
 		}
 
+		protected override void SubscribeMessages() {
+			base.SubscribeMessages();
+			SubscribeMessage<Word>("OpenBook", OpenBook);
+		}
+
+		private void OpenBook(Word obj) {
+			
+		}
+
 		protected virtual void WordSelected(WordItemView wordItemView) {
 			if (wordItemView.Type == WordItemViewType.Char) {
 				return;

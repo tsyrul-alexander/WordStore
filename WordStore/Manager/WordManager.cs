@@ -6,10 +6,10 @@ using WordStore.Model.View;
 
 namespace WordStore.Manager {
 	public class WordManager : IWordManager {
-		private StringBinaryTree<WordItem> tree;
+		private StringBinaryTree<BaseDbLookupEntity> tree;
 
 		public IWordStorage WordStorage { get; }
-		protected StringBinaryTree<WordItem> Tree { 
+		protected StringBinaryTree<BaseDbLookupEntity> Tree { 
 			get {
 				if (tree == null) {
 					InitializeWordsTree();
@@ -23,9 +23,9 @@ namespace WordStore.Manager {
 			WordStorage = wordStorage;
 		}
 
-		protected virtual void InitializeWordsTree() {
-			Tree = new StringBinaryTree<WordItem>();
-			var words = WordStorage.WordRepository.Get<WordItem>();
+		protected virtual async void InitializeWordsTree() {
+			Tree = new StringBinaryTree<BaseDbLookupEntity>();
+			var words = await WordStorage.WordRepository.GetCustomAsync(query => query.LookupSelect());
 			words.Foreach(word => Tree.AddNode(word, word.DisplayValue));
 		}
 		public virtual IEnumerable<WordItemView> GetWords(string text) {
