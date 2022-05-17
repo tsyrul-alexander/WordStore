@@ -5,6 +5,7 @@ namespace WordStore.ViewModel {
 	public abstract class BaseViewModel : BaseModel, IDisposable {
 		public ICommand BackNavigationCommand { get; set; }
 		public IServiceProvider ServiceProvider { get; set; }
+
 		public BaseViewModel() {
 			BackNavigationCommand = new Command(BackNavigation);
 		}
@@ -18,7 +19,7 @@ namespace WordStore.ViewModel {
 		protected virtual void SendMessage<TSender>(string message, TSender sender) where TSender : class {
 			MessagingCenter.Send(sender, message);
 		}
-		protected virtual void SubscribeMessage<TSender>(string message, Action<TSender> action) 
+		protected virtual void SubscribeMessage<TSender>(string message, Action<TSender> action)
 				where TSender : class {
 			MessagingCenter.Subscribe(this, message, action);
 		}

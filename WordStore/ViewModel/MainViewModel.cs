@@ -9,13 +9,13 @@ namespace WordStore.ViewModel {
 			get => currentShellItem;
 			set => SetPropertyValue(ref currentShellItem, value, OnCurrentShellItemChanged);
 		}
-		public bool ActivityIndicatorIsRunning { 
-			get => activityIndicatorIsRunning; 
-			set => SetPropertyValue(ref activityIndicatorIsRunning, value); 
+		public bool ActivityIndicatorIsRunning {
+			get => activityIndicatorIsRunning;
+			set => SetPropertyValue(ref activityIndicatorIsRunning, value);
 		}
 
 		public virtual void OnCurrentShellItemChanged(ShellItem item) {
-			SendMessage("ShellTabChanged", GetShellTabChangedEventArgs(item));
+			SendMessage("ShellTabChanged", GetShellTabChangedEventArgs(item.CurrentItem));
 			ActivityIndicatorIsRunning = !ActivityIndicatorIsRunning;
 		}
 		protected virtual ShellTabChangedEventArgs GetShellTabChangedEventArgs(ShellItem item) {

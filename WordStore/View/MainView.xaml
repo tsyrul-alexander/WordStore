@@ -11,7 +11,4 @@
 		<ShellContent Title="Content" ContentTemplate="{DataTemplate view:ContentView}"/>
 		<ShellContent Title="WordList" ContentTemplate="{DataTemplate view:WordListView}"/>
 	</TabBar>
-	<!--<Shell.TitleView>
-		<ActivityIndicator IsRunning="{Binding ActivityIndicatorIsRunning}" Color="Orange" />
-	</Shell.TitleView>-->
 </Shell>

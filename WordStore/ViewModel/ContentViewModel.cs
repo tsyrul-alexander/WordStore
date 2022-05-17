@@ -74,7 +74,9 @@ namespace WordStore.ViewModel {
 			});
 		}
 		protected virtual void EditModeChanged(bool isEdit) {
+			var indicator = DialogManager.ShowActivityIndicator();
 			UpdateContent();
+			indicator.Hide();
 		}
 		protected virtual async void SaveFile() {
 			//todo

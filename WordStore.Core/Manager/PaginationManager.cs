@@ -36,6 +36,9 @@
 			CurrentPage--;
 		}
 		public virtual string[] GetCurrentLines() {
+			if (Content == null) {
+				return new string[0];
+			}
 			var startIndex = CurrentPage - 1;
 			var endIndex = CurrentPage * PageLineSize;
 			if (endIndex >= Content.Length) {

@@ -1,4 +1,5 @@
-﻿using WordStore.Extension;
+﻿using CommunityToolkit.Maui;
+using WordStore.Extension;
 using WordStore.Handler;
 using WordStore.View;
 using WordStore.ViewModel;
@@ -7,9 +8,9 @@ namespace WordStore;
 
 public static class MauiProgram {
 	public static MauiApp CreateMauiApp() {
-		var builder = MauiApp.CreateBuilder();
-		builder
+		var builder = MauiApp.CreateBuilder()
 			.UseMauiApp<App>()
+			.UseMauiCommunityToolkit()
 			.ConfigureFonts(fonts => {
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 			});
