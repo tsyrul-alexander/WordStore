@@ -15,7 +15,7 @@ namespace WordStore.Handler {
 				ItemsSource = null;
 				return;
 			}
-			var words = await WordStorage.WordRepository.GetCustomAsync(query => query.Where(word => word.DisplayValue.Contains(newValue))
+			var words = await WordStorage.WordRepository.GetListAsync(query => query.Where(word => word.DisplayValue.Contains(newValue))
 					.LookupOrderBy().Take(30).LookupSelect());
 			ItemsSource = words.Select(word => new WordItemView(word.DisplayValue, WordItemViewType.Word, word));
 		}

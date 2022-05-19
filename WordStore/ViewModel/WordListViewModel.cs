@@ -33,7 +33,7 @@ namespace WordStore.ViewModel {
 		}
 		protected virtual async void LoadWords() {
 			Words.Clear();
-			var words = await WordStorage.WordRepository.GetCustomAsync(query => query.LookupOrderBy().Take(WordCount).LookupSelect());
+			var words = await WordStorage.WordRepository.GetListAsync(query => query.LookupOrderBy().Take(WordCount).LookupSelect());
 			Words.AddRange(words);
 		}
 	}

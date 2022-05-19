@@ -10,30 +10,32 @@ namespace WordStore.Data.EntityFramework {
 			Context = context;
 		}
 
-		public virtual Task<List<TBase>> GetCustomAsync<TBase>(Func<IQueryable<TEntity>, IQueryable<TBase>> queryFn)
+		public virtual Task<List<TBase>> GetListAsync<TBase>(Func<IQueryable<TEntity>, IQueryable<TBase>> queryFn)
 				where TBase : class {
 			IQueryable<TBase> query = queryFn(DBSet);
-			return query.AsNoTracking().ToListAsync();
+			return query.ToListAsync();
 		}
-		public virtual Task<List<TEntity>> GetAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>>? queryFn = null) {
-			IQueryable<TEntity> query = DBSet;
-			if (queryFn != null) {
-				query = queryFn(query);
-			}
-			return query.AsNoTracking().ToListAsync();
+		public virtual Task<TBase?> GetAsync<TBase>(Func<IQueryable<TEntity>, IQueryable<TBase>> queryFn,
+				params string[] includeProperties) {
+			IQueryable<TBase> query = queryFn(DBSet
+				.IgnoreAutoIncludes()
+				.SetIncludeProperties(includeProperties));
+			return query.FirstOrDefaultAsync();
 		}
 		public virtual Task<TEntity> GetByIdAsync(Guid id, params string[] includeProperties) {
-			return DBSet.SetIncludeProperties(includeProperties).AsNoTracking()
+			return DBSet.SetIncludeProperties(includeProperties)
 				.FirstAsync(query => query.Id == id);
 		}
 		public virtual async Task InsertAsync(TEntity entity) {
-			DBSet.Add(entity);
+			var entry = DBSet.Add(entity);
 			await Save();
+			entry.State = EntityState.Detached;
 		}
 		public virtual async Task UpdateAsync(TEntity entity) {
-			DBSet.Attach(entity);
-			Context.Entry(entity).State = EntityState.Modified;
+			var entry = DBSet.Attach(entity);
+			entry.State = EntityState.Modified;
 			await Save();
+			entry.State = EntityState.Detached;
 		}
 		public virtual async Task DeleteAsync(Guid id) {
 			var entity = await FindAsync(id);
@@ -45,11 +47,6 @@ namespace WordStore.Data.EntityFramework {
 			}
 			DBSet.Remove(entity);
 			await Save();
-		}
-		protected virtual IQueryable<TEntity> SetQueryOptions(QueryOptions<TEntity> options) {
-			return DBSet.SetCount(options.Count)
-				.SetFilter(options?.Filter)
-				.SetIncludeProperties(options?.IncludeProperties);
 		}
 		protected virtual Task Save() {
 			return Context.SaveChangesAsync();

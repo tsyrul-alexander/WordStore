@@ -25,7 +25,7 @@ namespace WordStore.Manager {
 
 		protected virtual async void InitializeWordsTree() {
 			Tree = new StringBinaryTree<BaseDbLookupEntity>();
-			var words = await WordStorage.WordRepository.GetCustomAsync(query => query.LookupSelect());
+			var words = await WordStorage.WordRepository.GetListAsync(query => query.LookupSelect());
 			words.Foreach(word => Tree.AddNode(word, word.DisplayValue));
 		}
 		public virtual IEnumerable<WordItemView> GetWords(string text) {

@@ -15,6 +15,8 @@
 			<viewModel:ViewModelLocator x:Key="Locator"/>
 			<converter:IsNullConverter x:Key="IsNullConverter"/>
 			<converter:InvertBoolConverter x:Key="InvertBoolConverter"/>
+			<converter:IterateNumberConverter x:Key="IterateNumberConverter"/>
+			<converter:NumberAdditionConverter x:Key="NumberAdditionConverter"/>
 			<toolkit:EnumToBoolConverter x:Key="EnumToBoolConverter" />
 			<Color x:Key="PrimaryColor">#512bdf</Color>
 			<Color x:Key="SecondaryColor">White</Color>

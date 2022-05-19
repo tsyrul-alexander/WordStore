@@ -13,6 +13,10 @@ namespace WordStore.Data.EntityFramework {
 			Database.EnsureDeleted();
 			Database.EnsureCreated();
 		}
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+			base.OnConfiguring(optionsBuilder);
+			optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+		}
 		protected override void OnModelCreating(ModelBuilder modelBuilder) {
 			modelBuilder.ApplyConfiguration(new WordConfiguration());
 			modelBuilder.ApplyConfiguration(new WordTranslationConfiquration());

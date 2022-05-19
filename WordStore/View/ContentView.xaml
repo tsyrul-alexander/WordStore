@@ -37,24 +37,9 @@
 		</DataTemplate>
 	</ContentPage.Resources>
 	<ContentPage.Content>
-		<Grid RowDefinitions="Auto, *, Auto">
-			<Frame Grid.Row="0">
-				<StackLayout Orientation="Horizontal">
-					<Frame>
-						<StackLayout Orientation="Horizontal">
-							<Button Text="OpenFile" Command="{Binding OpenFileCommand}"/>
-							<Button Text="SaveFile" Command="{Binding SaveFileCommand}"/>
-						</StackLayout>
-					</Frame>
-					<Label VerticalTextAlignment="Center" Margin="2">Edit mode</Label>
-					<Switch IsToggled="{Binding IsEditMode}" Margin="2"></Switch>
-					<Label Text="{Binding Content.Count}"/>
-				</StackLayout>
-			</Frame>
-			<Editor Grid.Row="1" Grid.RowSpan="2" Text="{Binding Text}" IsVisible="{Binding IsEditMode, Converter={StaticResource InvertBoolConverter}}"
-				VerticalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" AutoSize="TextChanges" />
-			<CollectionView VerticalScrollBarVisibility="Default" Grid.Row="1" Grid.RowSpan="2"  ItemsSource="{Binding Content}" IsVisible="{Binding IsEditMode}" ItemTemplate="{StaticResource LineDataTemplate}"/>
-			<view:AddWordView Grid.Row="2" IsVisible="false"></view:AddWordView>
+		<Grid RowDefinitions="*, Auto">
+			<CollectionView VerticalScrollBarVisibility="Default" Grid.Row="0" Grid.RowSpan="2"  ItemsSource="{Binding Content}" ItemTemplate="{StaticResource LineDataTemplate}" />
+			<view:AddWordView Grid.Row="1" IsVisible="false"></view:AddWordView>
 		</Grid>
 	</ContentPage.Content>
 </ContentPage>

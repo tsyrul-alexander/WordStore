@@ -3,6 +3,7 @@
 namespace WordStore.Core.Model {
 	public class BookPage : BaseDbEntity {
 		public Guid BookId { get; set; }
-		public string Value { get; set; }
+		public int Number { get; set; }
+		public string? Value { get; set; }
 	}
 }
