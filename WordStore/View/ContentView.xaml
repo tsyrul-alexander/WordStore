@@ -12,41 +12,26 @@
 			 Shell.NavBarIsVisible="false"
 			 BindingContext="{Binding Path=Content, Source={StaticResource Locator}}">
 	<ContentPage.Resources>
-		<DataTemplate x:Key="WordDataTemplate" x:DataType="model_view:WordItemView">
-			<Button Text="{Binding Path=Value}" Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:ContentViewModel}}, Path=WordSelectedCommand}"
-					CommandParameter="{Binding}" Padding="0" Margin="1" BackgroundColor="Transparent" TextColor="#606060">
-				<Button.Triggers>
-					<DataTrigger TargetType="Button" Binding="{Binding WordItem, Converter={StaticResource IsNullConverter}, ConverterParameter={converter:Boolean Value=True}}" Value="True">
-						<Setter Property="TextColor" Value="#CCCC00"></Setter>
-					</DataTrigger>
-					<DataTrigger TargetType="Button" Binding="{Binding Type, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static model_view:WordItemViewType.Char}}" Value="True">
-						<Setter Property="IsEnabled">False</Setter>
-						<Setter Property="Margin">0, 1, 0, 1</Setter>
-					</DataTrigger>
-				</Button.Triggers>
-			</Button>
-			<!--<Label Text="{Binding Path=Value}" Padding="0" Margin="1" BackgroundColor="Transparent" TextColor="#606060"/>-->
-
-		</DataTemplate>
 		<DataTemplate x:Key="LineDataTemplate" x:DataType="model_view:LineWordView">
-			<Frame BackgroundColor="AliceBlue" MinimumHeightRequest="10">
-				<StackLayout Orientation="Horizontal" BackgroundColor="Aqua" Margin="5">
-					<Label Text="{Binding Number}" WidthRequest="20" VerticalOptions="Center" Margin="2"></Label>
-					<FlexLayout BindableLayout.ItemsSource="{Binding Words}" BindableLayout.ItemTemplate="{StaticResource WordDataTemplate}"
-							HorizontalOptions="FillAndExpand" VerticalOptions="Start" Wrap="Wrap" JustifyContent="Start" AlignItems="Start"
-							AlignContent="Start"/>
-				</StackLayout>
-			</Frame>
+			<Border Stroke="Gray" StrokeShape="RoundRectangle 20">
+				<Grid ColumnDefinitions="Auto, *, 5" Margin="5">
+					<Label Grid.Column="0" Text="{Binding Number}" VerticalOptions="Center" Margin="2"></Label>
+					<control:WrapLayout Grid.Column="1" ItemsSource="{Binding Words}" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
+							Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:ContentViewModel}}, Path=WordSelectedCommand}"/>
+				</Grid>
+			</Border>
 		</DataTemplate>
 	</ContentPage.Resources>
 	<ContentPage.Content>
 		<Grid RowDefinitions="*, Auto, Auto">
-			<CollectionView VerticalScrollBarVisibility="Always" Grid.Row="0" Grid.RowSpan="2"  ItemsSource="{Binding Content}" 
-					ItemTemplate="{StaticResource LineDataTemplate}" />
+			<ScrollView Grid.Row="0" Grid.RowSpan="2">
+				<StackLayout  BindableLayout.ItemsSource="{Binding Content}" 
+					BindableLayout.ItemTemplate="{StaticResource LineDataTemplate}"/>
+			</ScrollView>
 			<view:AddWordView Grid.Row="1" IsVisible="false"></view:AddWordView>
 			<Frame Grid.Row="2">
-				<Grid ColumnDefinitions="*, Auto">
-					<control:PagingControl Grid.Column="1"  Number="{Binding PaginationManager.PageNumber}" Count="{Binding PaginationManager.PageCount}"/>
+				<Grid ColumnDefinitions="*, Auto, 20">
+					<control:PagingControl Grid.Column="1" Number="{Binding PaginationManager.PageNumber}" Count="{Binding PaginationManager.PageCount}"/>
 				</Grid>
 			</Frame>
 		</Grid>
