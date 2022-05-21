@@ -34,6 +34,7 @@ public static class MauiProgram {
 		serviceCollection.UseEFWordStorage();
 		serviceCollection.UseDialogManager();
 		serviceCollection.UseNavigatioManager();
+		serviceCollection.UseBookReader();
 	}
 	internal static void RegisterRoutes() {
 		Routing.RegisterRoute("word-details", typeof(WordDetailView));

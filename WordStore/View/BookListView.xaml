@@ -2,25 +2,43 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WordStore.View.BookListView"
+			 xmlns:view_model="clr-namespace:WordStore.ViewModel"
              Title="BookListView"
              BindingContext="{Binding Path=BookList, Source={StaticResource Locator}}">
 	<StackLayout>
-		<CollectionView ItemsSource="{Binding Books}">
-			<CollectionView.Header>
-				<Frame VerticalOptions="Fill" HorizontalOptions="Fill">
-					<Button Text="Add book" Command="{Binding AddBookCommand}" VerticalOptions="Fill" HorizontalOptions="Fill"></Button>
-				</Frame>
-			</CollectionView.Header>
-			<CollectionView.ItemsLayout>
-				<GridItemsLayout Orientation="Horizontal" Span="2" />
-			</CollectionView.ItemsLayout>
-			<CollectionView.ItemTemplate>
+		<StackLayout>
+			<Frame VerticalOptions="Fill" HorizontalOptions="Fill">
+				<StackLayout Orientation="Horizontal">
+					<Button Text="Add book" Command="{Binding AddBookCommand}" VerticalOptions="Fill" HorizontalOptions="Fill"/>
+					<Button Text="Import" Command="{Binding ImportBookCommand}" VerticalOptions="Fill" HorizontalOptions="Fill"/>
+				</StackLayout>
+			</Frame>
+		</StackLayout>
+		<ListView ItemsSource="{Binding Books}">
+			<ListView.ItemTemplate>
 				<DataTemplate>
-					<Frame>
-						<Label Text="{Binding DisplayValue}"></Label>
-					</Frame>
+					<ViewCell>
+						<Frame BorderColor="Gray" VerticalOptions="Fill" HorizontalOptions="Fill" Padding="5">
+							<StackLayout HorizontalOptions="Fill">
+								<Button Text="{Binding BookItem.DisplayValue}" Style="{StaticResource TextButton}"
+									Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:BookListViewModel}}, Path=OpenBookCommand}"
+									CommandParameter="{Binding}" HorizontalOptions="Start"/>
+								<BoxView Color="Gray"
+									 HeightRequest="2"
+									 HorizontalOptions="Fill" />
+								<Label>
+									<Label.FormattedText>
+										<FormattedString>
+											<Span Text="Pages: " />
+											<Span Text="{Binding Count}" />
+										</FormattedString>
+									</Label.FormattedText>
+								</Label>
+							</StackLayout>
+						</Frame>
+					</ViewCell>
 				</DataTemplate>
-			</CollectionView.ItemTemplate>
-		</CollectionView>
+			</ListView.ItemTemplate>
+		</ListView>
     </StackLayout>
 </ContentPage>

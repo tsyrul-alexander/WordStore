@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WordStore.Core.Model.Db;
+using WordStore.Core.Utility;
 
 namespace WordStore.Data.EntityFramework {
 	public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : BaseDbEntity {
@@ -26,14 +27,18 @@ namespace WordStore.Data.EntityFramework {
 			return DBSet.SetIncludeProperties(includeProperties)
 				.FirstAsync(query => query.Id == id);
 		}
-		public virtual async Task InsertAsync(TEntity entity) {
-			var entry = DBSet.Add(entity);
+		public virtual async Task InsertAsync(params TEntity[] entities) {
+			var entries = entities.Select(entity => DBSet.Add(entity)).ToList();
 			await Save();
-			entry.State = EntityState.Detached;
+			entries.Foreach(entry => entry.State = EntityState.Detached);
 		}
-		public virtual async Task UpdateAsync(TEntity entity) {
+		public virtual async Task UpdateAsync(TEntity entity, params string[] properties) {
 			var entry = DBSet.Attach(entity);
-			entry.State = EntityState.Modified;
+			if (properties == null || properties.Length == 0) {
+				entry.State = EntityState.Modified;
+			} else {
+				properties.Foreach(prop => entry.Property(prop).IsModified = true);
+			}
 			await Save();
 			entry.State = EntityState.Detached;
 		}

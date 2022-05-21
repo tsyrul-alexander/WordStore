@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WordStore.View.BookEditorView"
 			 xmlns:converter="clr-namespace:WordStore.Converter"
+			 xmlns:control="clr-namespace:WordStore.Control"
              Title="{Binding PaginationManager.Book.DisplayValue}" BindingContext="{Binding Path=BookEditor, Source={StaticResource Locator}}">
 	<Grid RowDefinitions="Auto, *, Auto" IsVisible="{Binding PaginationManager.Book, Converter={StaticResource IsNullConverter}, ConverterParameter={converter:Boolean Value=True}}">
 		<Frame Grid.Row="0">
@@ -12,30 +13,11 @@
 			</StackLayout>
 		</Frame>
 		<Frame Grid.Row="1">
-			<Grid ColumnDefinitions="Auto, *">
-				<StackLayout Grid.Column="0"
-						BindableLayout.ItemsSource="{Binding  PaginationManager.LineCount, Converter={StaticResource IterateNumberConverter}, UpdateSourceEventName=PropertyChanged}"
-						MinimumWidthRequest="10">
-					<BindableLayout.ItemTemplate>
-						<DataTemplate>
-							<Label Text="{Binding}"/>
-						</DataTemplate>
-					</BindableLayout.ItemTemplate>
-				</StackLayout>
-				<Editor Grid.Column="1" Text="{Binding PaginationManager.Value}" HorizontalOptions="Fill" VerticalOptions="Fill"/>
-			</Grid>
+			<Editor x:Name="MyEditor" Grid.Column="1" Text="{Binding PaginationManager.Value}" HorizontalOptions="Fill" VerticalOptions="Fill"/>
 		</Frame>
 		<Frame Grid.Row="2">
-			<Grid ColumnDefinitions="*, Auto">
-				<StackLayout Grid.Column="1" Orientation="Horizontal">
-					<Button Text="‹" VerticalOptions="Center" Command="{Binding SetCurrentPageCommand}" 
-						CommandParameter="{Binding PaginationManager.CurrentPage.Number, Converter={StaticResource NumberAdditionConverter}, 
-							ConverterParameter={converter:Intager Value=-1}}"/>
-					<Label Text="{Binding PaginationManager.CurrentPage.Number}" Margin="2" VerticalOptions="Center"/>
-					<Button Text="›" VerticalOptions="Center" Command="{Binding SetCurrentPageCommand}"
-						CommandParameter="{Binding PaginationManager.CurrentPage.Number, Converter={StaticResource NumberAdditionConverter}, 
-							ConverterParameter={converter:Intager Value=1}}" />
-				</StackLayout>
+			<Grid Grid.Row="2" ColumnDefinitions="*, Auto">
+				<control:PagingControl Grid.Column="1"  Number="{Binding PaginationManager.PageNumber}" Count="{Binding PaginationManager.PageCount}" />
 			</Grid>
 		</Frame>
 	</Grid>

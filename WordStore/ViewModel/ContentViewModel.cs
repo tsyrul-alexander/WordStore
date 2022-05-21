@@ -38,11 +38,9 @@ namespace WordStore.ViewModel {
 			NavigationManager.Navigated += NavigationManager_Navigate;
 			UpdateContent();
 		}
-
-		private void NavigationManager_Navigate(INavigationManager _, NavigatedEventArgs args) {
+		protected virtual void NavigationManager_Navigate(INavigationManager _, NavigatedEventArgs args) {
 			IsActive = args.RouteName == "//Content/BookReader";
 		}
-
 		protected virtual void WordSelected(WordItemView wordItemView) {
 			if (wordItemView.Type == WordItemViewType.Char) {
 				return;
@@ -70,26 +68,34 @@ namespace WordStore.ViewModel {
 		}
 		protected virtual void PaginationManager_PropertyChanged(object sender, 
 				System.ComponentModel.PropertyChangedEventArgs e) {
-			UpdateContent();
+			if (e.PropertyName == nameof(IBookPaginationManager.Value)) {
+				UpdateContent();
+			}
 		}
-		protected virtual void UpdateContent() {
+		protected virtual async void UpdateContent() {
 			if (!IsActive) {
 				return;
 			}
-			var lines = PaginationManager.Value.GetLines();
+			var indicator = DialogManager.ShowActivityIndicator();
+			var textLines = PaginationManager.Value.GetLines();
 			Content.Clear();
-			PrepareLines(lines);
+			var lines = await PrepareLines(textLines);
+			Content.AddRange(lines);
+			indicator.Hide();
 		}
-		protected virtual void PrepareLines(string[] lines) {
-			lines.Foreach(PrepareText);
+		protected virtual Task<List<LineWordView>> PrepareLines(string[] lines) {
+			return Task.Run(() => {
+				return lines.Where(line => !string.IsNullOrWhiteSpace(line))
+					.Select((line, i) => PrepareText(line, i + 1)).ToList();
+			});
 		}
-		protected virtual void PrepareText(string text) {
+		protected virtual LineWordView PrepareText(string text, int number) {
 			var line = new LineWordView {
 				Sentence = text,
-				Number = Content.Count
+				Number = number
 			};
 			line.Words.AddRange(WordManager.GetWords(text));
-			Content.Add(line);
+			return line;
 		}
 	}
 }

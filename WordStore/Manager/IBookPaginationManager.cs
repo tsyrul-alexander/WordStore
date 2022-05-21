@@ -7,11 +7,10 @@ namespace WordStore.Manager {
 		BookPage CurrentPage { get; }
 		string Value { get; set; }
 		int LineCount { get; set; }
+		int PageNumber { get; set; }
 		int PageCount { get; set; }
 		Task Initialize(Guid bookId);
 		Task ReInitialize();
-		Task NextPage();
-		Task PreviousPage();
 		Task SetCurrentPage(int number);
 	}
 }

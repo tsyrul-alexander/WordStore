@@ -26,6 +26,7 @@ namespace WordStore.ViewModel {
 			var page = CreateNewEmptyPage();
 			await WordStorage.BookPageRepository.InsertAsync(page);
 			await PaginationManager.ReInitialize();
+			PaginationManager.PageNumber++;
 		}
 		protected virtual BookPage CreateNewEmptyPage() {
 			return new BookPage {
@@ -34,7 +35,8 @@ namespace WordStore.ViewModel {
 				BookId = PaginationManager.Book.Id
 			};
 		}
-		protected virtual async void SetCurrentPage(int pageNumber) {
+		protected virtual async void SetCurrentPage(int step) {
+			var pageNumber = PaginationManager.CurrentPage.Number + step;
 			await PaginationManager.SetCurrentPage(pageNumber);
 		}
 		protected virtual async void OpenBook(Guid bookId) {

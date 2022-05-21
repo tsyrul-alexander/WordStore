@@ -1,5 +1,5 @@
 ﻿namespace WordStore {
-	internal class AppSettings {
+	public class AppSettings {
 		public const string WordStorageDbName = "Test.db";
 		public string WordStorageDbPath {
 			get {
@@ -12,5 +12,6 @@
 				return $"Data Source={WordStorageDbPath}";
 			}
 		}
+		public int MaxPageLineSize { get; } = 15;
 	}
 }

@@ -5,20 +5,33 @@ using WordStore.Core.Utility;
 using WordStore.Data;
 using WordStore.Manager;
 using WordStore.Model.View;
+using WordStore.Reader;
 
 namespace WordStore.ViewModel {
 	public class BookListViewModel : BaseViewModel {
 		public ICommand AddBookCommand { get; set; }
+		public ICommand OpenBookCommand { get; set; }
+		public ICommand ImportBookCommand { get; set; }
 		public ObservableCollection<BookItemView> Books { get; set; } = new ObservableCollection<BookItemView>();
 		public IDialogManager DialogManager { get; }
 		public IWordStorage WordStorage { get; }
 		public INavigationManager NavigationManager { get; }
+		public IEpubReader EpubReader { get; }
+		public AppSettings AppSettings { get; }
+		public AppConstants AppConstants { get; }
 
-		public BookListViewModel(IDialogManager dialogManager, IWordStorage wordStorage, INavigationManager navigationManager) {
-			AddBookCommand = new Command(AddBook);
+		public BookListViewModel(IDialogManager dialogManager, IWordStorage wordStorage,
+				INavigationManager navigationManager, IEpubReader epubReader, AppSettings appSettings,
+				AppConstants appConstants) {
 			DialogManager = dialogManager;
 			WordStorage = wordStorage;
 			NavigationManager = navigationManager;
+			EpubReader = epubReader;
+			AppSettings = appSettings;
+			AppConstants = appConstants;
+			AddBookCommand = new Command(AddBook);
+			OpenBookCommand = new Command<BookItemView>(OpenBook);
+			ImportBookCommand = new Command(ImportBook);
 		}
 
 		public override void Initialize(IServiceProvider serviceProvider) {
@@ -39,35 +52,52 @@ namespace WordStore.ViewModel {
 			if (string.IsNullOrEmpty(name)) {
 				return;
 			}
-			var book = await CreateBook(name);
-			await CreateBookPage(book);
-			OpenBookPage(book);
+			var book = CreateEmptyBook(name);
+			await SaveBookAsync(book);
+			OpenBookPage(book.Id);
 			Books.Add(new BookItemView(book, 1));
 		}
-		protected virtual async Task<Book> CreateBook(string name) {
+		protected virtual void OpenBook(BookItemView item) {
+			OpenBookPage(item.BookItem.Id);
+		}
+		protected virtual async void ImportBook() {
+			var fileName = await DialogManager.ShowFileDialogAsync(AppConstants.EpubFileType);
+			if (string.IsNullOrEmpty(fileName)) {
+				return;
+			}
+			using var stream = File.Open(fileName, FileMode.Open);
+			var book = await EpubReader.ReadBook(stream, new BookReaderOptions() {
+				MaxPageLineSize = AppSettings.MaxPageLineSize
+			});
+			await SaveBookAsync(book);
+			OpenBookPage(book.Id);
+		}
+		protected virtual Book CreateEmptyBook(string name) {
 			var book = new Book() {
 				Id = Guid.NewGuid(),
 				DisplayValue = name,
-				PageNumber = 1
+				PageNumber = 1,
+				Pages = new List<BookPage>()
 			};
-			//var viewItem = new BookItemView(book, 1);
-			//Books.Add(viewItem);
-			await WordStorage.BookRepository.InsertAsync(book);
+			book.Pages.Add(CreateEmptyBookPage(book));
 			return book;
 		}
-		protected virtual async Task<BookPage> CreateBookPage(Book book) {
+		protected virtual BookPage CreateEmptyBookPage(Book book) {
 			var page = new BookPage() {
 				Id = Guid.NewGuid(),
 				BookId = book.Id,
-				Value = string.Empty,
+				Content = string.Empty,
 				Number = 1
 			};
-			await WordStorage.BookPageRepository.InsertAsync(page);
 			return page;
 		}
-		protected virtual void OpenBookPage(Book book) {
+		protected virtual async Task SaveBookAsync(Book book) {
+			await WordStorage.BookRepository.InsertAsync(book);
+			//await WordStorage.BookPageRepository.InsertAsync(book.Pages.ToArray());
+		}
+		protected virtual void OpenBookPage(Guid bookId) {
 			NavigationManager.GoToAsync("//Content/BookEditor", new Dictionary<string, object>() { 
-				{ "bookId", book.Id }
+				{ "bookId", bookId }
 			});
 		}
 	}

@@ -11,9 +11,22 @@ namespace WordStore.Manager {
 				keyboard, initialValue);
 		}
 		public virtual ActivityIndicatorDialogInfo ShowActivityIndicator() {
-			var popup = new ActivityIndicatorPopup();
-			Application.Current.MainPage.ShowPopup(popup);
-			return new ActivityIndicatorDialogInfo(() => HideActivityIndicator(popup));
+			var page = Shell.Current.CurrentPage;
+			CommunityToolkit.Maui.Views.Popup popup = null;
+			if (Shell.Current.CurrentPage.IsLoaded) {
+				popup = ShowActivityIndicatorPopup(page);
+				return new ActivityIndicatorDialogInfo(() => HideActivityIndicator(popup));
+			}
+			var loadedFn = new EventHandler((sender, e) => {
+				popup = ShowActivityIndicatorPopup(page);
+			});
+			page.Loaded += loadedFn;
+			return new ActivityIndicatorDialogInfo(() => {
+				page.Loaded -= loadedFn;
+				if (popup != null) {
+					HideActivityIndicator(popup);
+				}
+			});
 		}
 		public virtual async Task<string> ShowFileDialogAsync(FilePickerFileType types) {
 			var options = new PickOptions();
@@ -26,8 +39,13 @@ namespace WordStore.Manager {
 		public virtual Task SaveFileDislog(string filePath, string fileName) { 
 			return null;
 		}
-		protected virtual void HideActivityIndicator(ActivityIndicatorPopup popup) {
+		protected virtual void HideActivityIndicator(CommunityToolkit.Maui.Views.Popup popup) {
 			popup?.Close();
+		}
+		protected virtual CommunityToolkit.Maui.Views.Popup ShowActivityIndicatorPopup(Page page) {
+			var popup = new ActivityIndicatorPopup();
+			page.ShowPopup(popup);
+			return popup;
 		}
 	}
 }

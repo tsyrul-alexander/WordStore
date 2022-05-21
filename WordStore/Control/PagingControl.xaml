@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:converter="clr-namespace:WordStore.Converter"
+             x:Class="WordStore.Control.PagingControl" Padding="2">
+	<StackLayout Orientation="Horizontal">
+		<Button Text="‹" VerticalOptions="Center" Clicked="PreviousButton_Clicked"/>
+		<Label x:Name="NumberLabel" Text="{Binding Number}" Margin="2" VerticalOptions="Center"/>
+		<Button Text="›" VerticalOptions="Center" Clicked="NextButton_Clicked"/>
+	</StackLayout>
+</ContentView>

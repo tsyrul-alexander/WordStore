@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using WordStore.Core.Model;
+﻿using WordStore.Core.Model;
 using WordStore.Core.Utility;
 using WordStore.Data;
 using WordStore.ViewModel;
@@ -11,14 +10,16 @@ namespace WordStore.Manager {
 		private Book book;
 		private int pageCount;
 		private string _value;
+		private int pageNumber;
 
 		public Book Book { get => book; private set => SetPropertyValue(ref book, value); }
-		public BookPage CurrentPage { 
-			get => currentPage; private 
-			set => SetPropertyValue(ref currentPage, value, OnCurrentPageChanged); 
+		public BookPage CurrentPage {
+			get => currentPage; private
+			set => SetPropertyValue(ref currentPage, value, OnCurrentPageChanged);
 		}
 		public string Value { get => _value; set => SetPropertyValue(ref _value, value, OnValueChanged); }
 		public int LineCount { get => lineCount; set => SetPropertyValue(ref lineCount, value); }
+		public int PageNumber { get => pageNumber; set => SetPropertyValue(ref pageNumber, value, OnPageNumberChanged); }
 		public int PageCount { get => pageCount; set => SetPropertyValue(ref pageCount, value); }
 		public IWordStorage WordStorage { get; }
 
@@ -29,28 +30,30 @@ namespace WordStore.Manager {
 		public async Task Initialize(Guid bookId) {
 			await SetBook(bookId);
 			await SetCurrentPage(Book.PageNumber);
+			PageNumber = CurrentPage.Number;
 		}
 		public async Task ReInitialize() {
 			await Initialize(Book.Id);
 		}
-		public virtual async Task NextPage() {
-			await SetCurrentPage(Book.PageNumber + 1);
-		}
-		public virtual async Task PreviousPage() {
-			await SetCurrentPage(Book.PageNumber - 1);
-		}
 		public virtual async Task SetCurrentPage(int number) {
-			if (number > PageCount || number < 1) {
+			CurrentPage = await GetBookPage(number);
+			if (Book.PageNumber == number) {
 				return;
 			}
-			CurrentPage = await GetBookPage(number);
+			await SetBookPageNumber(number);
 		}
 		protected virtual void OnValueChanged(string value) {
-			CurrentPage.Value = value;
+			CurrentPage.Content = value;
 			LineCount = value?.GetLineCount() ?? 0;
 		}
+		protected virtual async void OnPageNumberChanged(int number) {
+			if (CurrentPage.Number == number) {
+				return;
+			}
+			await SetCurrentPage(number);
+		}
 		protected virtual void OnCurrentPageChanged(BookPage page) {
-			Value = CurrentPage?.Value;
+			Value = CurrentPage?.Content;
 		}
 		protected virtual async Task SetBook(Guid bookId) {
 			var bookInfo = await WordStorage.BookRepository.GetAsync(query => query
@@ -62,6 +65,11 @@ namespace WordStore.Manager {
 		protected virtual async Task<BookPage> GetBookPage(int number) {
 			return await WordStorage.BookPageRepository.GetAsync(query =>
 					query.Where(page => page.BookId == Book.Id && page.Number == number));
+		}
+		protected virtual Task SetBookPageNumber(int number) {
+			Book.DisplayValue += "123";
+			Book.PageNumber = number;
+			return WordStorage.BookRepository.UpdateAsync(Book, nameof(Book.PageNumber));
 		}
 	}
 }
