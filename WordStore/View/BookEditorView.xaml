@@ -6,19 +6,19 @@
 			 xmlns:control="clr-namespace:WordStore.Control"
              Title="{Binding PaginationManager.Book.DisplayValue}" BindingContext="{Binding Path=BookEditor, Source={StaticResource Locator}}">
 	<Grid RowDefinitions="Auto, *, Auto" IsVisible="{Binding PaginationManager.Book, Converter={StaticResource IsNullConverter}, ConverterParameter={converter:Boolean Value=True}}">
-		<Frame Grid.Row="0">
+		<Border Grid.Row="0" StrokeShape="RoundRectangle 5">
 			<StackLayout Orientation="Horizontal">
 				<Button Text="Add page" Command="{Binding AddPageCommand}"/>
 				<Button Text="Save" Command="{Binding SavePageCommand}"/>
 			</StackLayout>
-		</Frame>
-		<Frame Grid.Row="1">
+		</Border>
+		<Border Grid.Row="1" StrokeShape="RoundRectangle 5">
 			<Editor x:Name="MyEditor" Grid.Column="1" Text="{Binding PaginationManager.Value}" HorizontalOptions="Fill" VerticalOptions="Fill"/>
-		</Frame>
-		<Frame Grid.Row="2">
-			<Grid Grid.Row="2" ColumnDefinitions="*, Auto">
-				<control:PagingControl Grid.Column="1"  Number="{Binding PaginationManager.PageNumber}" Count="{Binding PaginationManager.PageCount}" />
+		</Border>
+		<Border Grid.Row="2" StrokeShape="RoundRectangle 5">
+			<Grid ColumnDefinitions="*, Auto, 5">
+				<control:PagingControl Grid.Column="1"  Number="{Binding PaginationManager.PageNumber}" Count="{Binding PaginationManager.PageCount}" HorizontalOptions="End" />
 			</Grid>
-		</Frame>
+		</Border>
 	</Grid>
 </ContentPage>

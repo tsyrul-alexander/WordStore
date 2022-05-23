@@ -7,26 +7,26 @@
              BindingContext="{Binding Path=BookList, Source={StaticResource Locator}}">
 	<StackLayout>
 		<StackLayout>
-			<Frame VerticalOptions="Fill" HorizontalOptions="Fill">
+			<Border StrokeShape="RoundRectangle 5">
 				<StackLayout Orientation="Horizontal">
 					<Button Text="Add book" Command="{Binding AddBookCommand}" VerticalOptions="Fill" HorizontalOptions="Fill"/>
 					<Button Text="Import" Command="{Binding ImportBookCommand}" VerticalOptions="Fill" HorizontalOptions="Fill"/>
 				</StackLayout>
-			</Frame>
+			</Border>
 		</StackLayout>
-		<ListView ItemsSource="{Binding Books}">
-			<ListView.ItemTemplate>
+		<StackLayout BindableLayout.ItemsSource="{Binding Books}">
+			<BindableLayout.ItemTemplate>
 				<DataTemplate>
-					<ViewCell>
-						<Frame BorderColor="Gray" VerticalOptions="Fill" HorizontalOptions="Fill" Padding="5">
-							<StackLayout HorizontalOptions="Fill">
+					<Border StrokeShape="RoundRectangle 5">
+						<Grid ColumnDefinitions="Auto, *">
+							<Image Grid.Column="0" Source="{Binding Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"
+									MaximumHeightRequest="50" MaximumWidthRequest="50" Aspect="AspectFit"/>
+							<StackLayout Grid.Column="1">
 								<Button Text="{Binding BookItem.DisplayValue}" Style="{StaticResource TextButton}"
 									Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:BookListViewModel}}, Path=OpenBookCommand}"
-									CommandParameter="{Binding}" HorizontalOptions="Start"/>
-								<BoxView Color="Gray"
-									 HeightRequest="2"
-									 HorizontalOptions="Fill" />
-								<Label>
+									CommandParameter="{Binding}" HorizontalOptions="Start" Margin="1"/>
+								<BoxView Style="{StaticResource SeparatorBox}"/>
+								<Label Margin="1">
 									<Label.FormattedText>
 										<FormattedString>
 											<Span Text="Pages: " />
@@ -35,10 +35,10 @@
 									</Label.FormattedText>
 								</Label>
 							</StackLayout>
-						</Frame>
-					</ViewCell>
+						</Grid>
+					</Border>
 				</DataTemplate>
-			</ListView.ItemTemplate>
-		</ListView>
+			</BindableLayout.ItemTemplate>
+		</StackLayout>
     </StackLayout>
 </ContentPage>

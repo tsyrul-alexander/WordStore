@@ -1,15 +1,15 @@
 ﻿using WordStore.Core.BinaryTree;
-using WordStore.Core.Model;
+using WordStore.Core.Model.Db;
 using WordStore.Core.Utility;
 using WordStore.Data;
 using WordStore.Model.View;
 
 namespace WordStore.Manager {
 	public class WordManager : IWordManager {
-		private StringBinaryTree<BaseDbLookupEntity> tree;
+		private StringBinaryTree<BaseLookupEntity> tree;
 
 		public IWordStorage WordStorage { get; }
-		protected StringBinaryTree<BaseDbLookupEntity> Tree { 
+		protected StringBinaryTree<BaseLookupEntity> Tree { 
 			get {
 				if (tree == null) {
 					InitializeWordsTree();
@@ -24,7 +24,7 @@ namespace WordStore.Manager {
 		}
 
 		protected virtual async void InitializeWordsTree() {
-			Tree = new StringBinaryTree<BaseDbLookupEntity>();
+			Tree = new StringBinaryTree<BaseLookupEntity>();
 			var words = await WordStorage.WordRepository.GetListAsync(query => query.LookupSelect());
 			words.Foreach(word => Tree.AddNode(word, word.DisplayValue));
 		}

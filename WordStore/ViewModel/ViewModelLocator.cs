@@ -5,9 +5,11 @@
 		public ContentViewModel Content => GetViewModel<ContentViewModel>();
 		public WordListViewModel WordList => GetViewModel<WordListViewModel>();
 		public WordDetailViewModel WordDetail => GetViewModel<WordDetailViewModel>();
-		public AddWordViewModel AddWord => GetViewModel<AddWordViewModel>();
+		public WordInfoViewModel AddWord => GetViewModel<WordInfoViewModel>();
 		public BookListViewModel BookList => GetViewModel<BookListViewModel>();
 		public BookEditorViewModel BookEditor => GetViewModel<BookEditorViewModel>();
+		public TranslationEditListViewModel TranslationEditList => GetViewModel<TranslationEditListViewModel>();
+		public ExampleEditListViewModel ExampleEditList => GetViewModel<ExampleEditListViewModel>();
 		protected virtual T GetViewModel<T>() where T : BaseViewModel {
 			var viewModel = ServiceProvider.GetService<T>();
 			viewModel.Initialize(ServiceProvider);

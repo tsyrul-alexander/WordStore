@@ -1,5 +1,8 @@
 ﻿using System.Windows.Input;
+using WordStore.Core.Model;
+using WordStore.Core.Model.Db;
 using WordStore.Manager;
+using WordStore.Model.View;
 
 namespace WordStore.ViewModel {
 	public abstract class BaseViewModel : BaseModel, IDisposable {
@@ -29,6 +32,9 @@ namespace WordStore.ViewModel {
 		}
 		protected virtual void BackNavigation() {
 			ServiceProvider.GetService<INavigationManager>().GoBack();
+		}
+		protected virtual LookupItemView<T> GreateLookupItemView<T>(T item) where T : BaseLookupEntity {
+			return new LookupItemView<T>(item);
 		}
 		public virtual void Dispose() {
 			UnsubscribeMessages();

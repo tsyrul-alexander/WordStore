@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using WordStore.Core.Model;
+using WordStore.Core.Model.Db;
 using WordStore.Core.Utility;
 using WordStore.Data;
 using WordStore.Manager;
@@ -11,7 +11,7 @@ namespace WordStore.ViewModel {
 		private string search;
 
 		public string Search { get => search; set => SetPropertyValue(ref search, value); }
-		public ObservableCollection<BaseDbLookupEntity> Words { get; set; } = new ObservableCollection<BaseDbLookupEntity>();
+		public ObservableCollection<BaseLookupEntity> Words { get; set; } = new ObservableCollection<BaseLookupEntity>();
 		public ICommand SelectedWordCommand { get; set; }
 		public IWordStorage WordStorage { get; }
 		public INavigationManager NavigationManager { get; }
@@ -19,14 +19,14 @@ namespace WordStore.ViewModel {
 		public WordListViewModel(IWordStorage wordStorage, INavigationManager navigationManager) {
 			WordStorage = wordStorage;
 			NavigationManager = navigationManager;
-			SelectedWordCommand = new Command<BaseDbLookupEntity>(SelectedWord);
+			SelectedWordCommand = new Command<BaseLookupEntity>(SelectedWord);
 		}
 
 		public override void Initialize(IServiceProvider serviceProvider) {
 			base.Initialize(serviceProvider);
 			LoadWords();
 		}
-		protected virtual void SelectedWord(BaseDbLookupEntity item) {
+		protected virtual void SelectedWord(BaseLookupEntity item) {
 			NavigationManager.GoToAsync("word-details", new Dictionary<string, object> {
 				{ "wordId", item.Id }
 			});

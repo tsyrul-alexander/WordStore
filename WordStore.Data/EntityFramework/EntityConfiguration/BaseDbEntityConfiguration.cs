@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WordStore.Core.Model.Db;
 
 namespace WordStore.Data.EntityFramework.EntityConfiguration {
-	internal class BaseDbEntityConfiguration<T> : IEntityTypeConfiguration<T> where T : BaseDbEntity {
+	internal class BaseDbEntityConfiguration<T> : IEntityTypeConfiguration<T> where T : BaseEntity {
 		public virtual void Configure(EntityTypeBuilder<T> builder) {
 			ConfiqureKey(builder);
 		}

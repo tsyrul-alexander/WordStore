@@ -1,67 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:view="clr-namespace:WordStore.View"
 			 xmlns:view_model="clr-namespace:WordStore.ViewModel"
              x:Class="WordStore.View.WordDetailView"
             BindingContext="{Binding Path=WordDetail,Source={StaticResource Locator}}" Shell.PresentationMode="Animated">
-	<ContentPage.Resources>
-		<DataTemplate x:Key="ListItemViewDataTemplate">
-			<!--Fix this https://github.com/dotnet/maui/pull/6220-->
-			<ContentView>
-				<OnPlatform x:TypeArguments="View">
-					<OnPlatform.Default>
-						<Frame>
-							<Label VerticalOptions="Center" Text="{Binding Value}" Margin="10"></Label>
-						</Frame>
-					</OnPlatform.Default>
-					<On Platform="Android,iOS,macOS">
-						<SwipeView>
-							<SwipeView.LeftItems>
-								<SwipeItems>
-									<SwipeItem Text="Edit" IconImageSource="edit_icon.png" BackgroundColor="LightGreen"
-											Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=EditTranslationCommand}"
-											CommandParameter="{Binding}" />
-									<SwipeItem Text="Delete" IconImageSource="delete_icon.png" BackgroundColor="LightPink"
-											Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=DeleteTranslationCommand}"
-											CommandParameter="{Binding}" />
-								</SwipeItems>
-							</SwipeView.LeftItems>
-							<Frame>
-								<Label VerticalOptions="Center" Text="{Binding Value}" Margin="10"></Label>
-							</Frame>
-						</SwipeView>
-					</On>
-				</OnPlatform>
-			</ContentView>
-		</DataTemplate>
-	</ContentPage.Resources>
 	<ContentPage.Content>
-		<Grid RowDefinitions="50, 1*, 1*">
+		<Grid RowDefinitions="Auto, 1*, 1*">
 			<Grid Grid.Row="0" ColumnDefinitions="*, Auto">
-				<StackLayout Orientation="Horizontal">
-					<Label Grid.Column="0" Text="Word:" Margin="1" Style="{StaticResource HeaderLabel}"/>
-					<Label Grid.Column="0" Text="{Binding Word.Value}" Margin="1" Style="{StaticResource HeaderLabel}" FontAttributes="Bold"/>
-				</StackLayout>
+				<Border Grid.Column="0" StrokeShape="RoundRectangle 5" Grid.Row="1">
+					<StackLayout Orientation="Horizontal">
+						<Label Text="Word:" Margin="1" Style="{StaticResource HeaderLabel}"/>
+						<Label Text="{Binding Word.Value}" Margin="1" Style="{StaticResource HeaderLabel}" FontAttributes="Bold"/>
+					</StackLayout>
+				</Border>
 				<Button Grid.Column="1" Text="Close" Command="{Binding BackNavigationCommand}"/>
 			</Grid>
-			<Frame Grid.Row="1">
-				<StackLayout>
-					<Frame>
-						<StackLayout Orientation="Horizontal">
-							<Label Text="Translations:" VerticalTextAlignment="Center" Style="{StaticResource HeaderLabel}"/>
-							<ImageButton Source="add_icon.png" HorizontalOptions="Center" VerticalOptions="Center" Command="{Binding AddTranslationCommand}"/>
-						</StackLayout>
-					</Frame>
-					<Frame>
-						<CollectionView ItemsSource="{Binding Path=Word.Translations}" ItemTemplate="{StaticResource ListItemViewDataTemplate}"/>
-					</Frame>
-				</StackLayout>
-			</Frame>
-			
-			<!--<StackLayout Grid.Row="2">
-				<Label Text="Examples" Style="{StaticResource HeaderLabel}"/>
-				<view:ListEditView ItemsSource="{Binding Word.Examples}" BackgroundColor="Beige"></view:ListEditView>
-			</StackLayout>-->
-        </Grid>
+			<view:TranslationEditListView Grid.Row="1" WordId="{Binding Word.Item.Id}"/>
+			<view:ExampleEditListView Grid.Row="2" WordId="{Binding Word.Item.Id}" Sentence="{Binding CurrentSentence}" />
+		</Grid>
     </ContentPage.Content>
 </ContentPage>

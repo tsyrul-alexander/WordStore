@@ -1,7 +1,6 @@
 ﻿using WordStore.Core.Model;
 using WordStore.Core.Utility;
 using WordStore.Data;
-using WordStore.ViewModel;
 
 namespace WordStore.Manager {
 	public class BookPaginationManager : BaseModel, IBookPaginationManager {

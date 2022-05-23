@@ -45,7 +45,7 @@ namespace WordStore.ViewModel {
 		}
 		protected virtual Task<List<BookItemView>> GetBooks() {
 			return WordStorage.BookRepository.GetListAsync(query => query.Take(30)
-					.Select(book => new BookItemView(book, book.Pages.Count)));
+					.Select(book => new BookItemView(book, book.Pages.Count, book.Image)));
 		}
 		protected virtual async void AddBook() {
 			var name = await DialogManager.DisplayPromptAsync("Page", "Name");

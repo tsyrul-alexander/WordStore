@@ -17,24 +17,11 @@
 			<converter:InvertBoolConverter x:Key="InvertBoolConverter"/>
 			<converter:IterateNumberConverter x:Key="IterateNumberConverter"/>
 			<converter:NumberAdditionConverter x:Key="NumberAdditionConverter"/>
-			<toolkit:EnumToBoolConverter x:Key="EnumToBoolConverter" />
-			<Color x:Key="PrimaryColor">#512bdf</Color>
-			<Color x:Key="SecondaryColor">White</Color>
-			<Style TargetType="Label">
-				<Setter Property="TextColor" Value="{DynamicResource PrimaryColor}" />
-				<Setter Property="FontFamily" Value="OpenSansRegular" />
-			</Style>
-			<Style TargetType="Button">
-				<Setter Property="TextColor" Value="{DynamicResource SecondaryColor}" />
-				<Setter Property="FontFamily" Value="OpenSansRegular" />
-				<Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}" />
-			</Style>
-			<Style TargetType="Button" x:Key="TextButton">
-				<Setter Property="BorderColor" Value="Transparent" />
-				<Setter Property="TextColor" Value="#606060" />
-				<Setter Property="Padding" Value="0" />
-				<Setter Property="BackgroundColor" Value="Transparent" />
-			</Style>
+			<converter:PositiveNumberConverter x:Key="PositiveNumberConverter"/>
+			<toolkit:EnumToBoolConverter x:Key="EnumToBoolConverter"/>
+			<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"/>
+			<converter:Boolean x:Key="FalseValue" Value="False"/>
+			<converter:Boolean x:Key="TrueValue" Value="True"/>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

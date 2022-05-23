@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Name="Info"
+             x:Class="WordStore.View.WordInfoView" BindingContext="{Binding Path=AddWord, Source={StaticResource Locator}}">
+    <ContentView.Content>
+		<Border BackgroundColor="AntiqueWhite" StrokeShape="RoundRectangle 5">
+			<StackLayout>
+				<Grid Grid.Row="0" ColumnDefinitions="*, Auto, 5" HorizontalOptions="Fill">
+					<StackLayout Grid.Column="0" Orientation="Horizontal">
+						<Label Text="{Binding WordInfoView.WordItemView.Value}" Style="{StaticResource HeaderLabel}"/>
+						<Button Text="Detail" Command="{Binding OpenDetailCommand}"
+							IsVisible="{Binding WordInfoView.WordItemView.WordItem, Converter={StaticResource IsNullConverter}, ConverterParameter={StaticResource TrueValue}}"/>
+						<Button Text="Add" Command="{Binding AddCommand}"
+							IsVisible="{Binding WordInfoView.WordItemView.WordItem, Converter={StaticResource IsNullConverter}}"/>
+					</StackLayout>
+					<Button Grid.Column="1" Text="Close" Padding="10" Command="{Binding CloseCommand}"/>
+				</Grid>
+				<StackLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Translations}">
+					<BindableLayout.ItemTemplate>
+						<DataTemplate>
+							<Border StrokeShape="RoundRectangle 5">
+								<Label Text="{Binding Value}"/>
+							</Border>
+						</DataTemplate>
+					</BindableLayout.ItemTemplate>
+				</StackLayout>
+			</StackLayout>
+		</Border>
+    </ContentView.Content>
+</ContentView>

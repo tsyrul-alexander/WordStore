@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:view_model="clr-namespace:WordStore.ViewModel"
+             x:Class="WordStore.View.ExampleEditListView"
+             BindingContext="{Binding ExampleEditList, Source={StaticResource Locator}}">
+	<ContentView.Resources>
+		<DataTemplate x:Key="ItemDataTemplate">
+			<!--Fix this https://github.com/dotnet/maui/pull/6220-->
+			<ContentView>
+				<OnPlatform x:TypeArguments="View">
+					<OnPlatform.Default>
+						<Border StrokeShape="RoundRectangle 5">
+							<Label VerticalOptions="Center" Text="{Binding Value}"/>
+						</Border>
+					</OnPlatform.Default>
+					<On Platform="Android,iOS,macOS">
+						<SwipeView>
+							<SwipeView.LeftItems>
+								<SwipeItems>
+									<SwipeItem Text="Edit" IconImageSource="edit_icon.png" BackgroundColor="LightGreen"
+											Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:ExampleEditListViewModel}}, Path=EditCommand}"
+											CommandParameter="{Binding}" />
+									<SwipeItem Text="Delete" IconImageSource="delete_icon.png" BackgroundColor="LightPink"
+											Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:ExampleEditListViewModel}}, Path=DeleteCommand}"
+											CommandParameter="{Binding}" />
+								</SwipeItems>
+							</SwipeView.LeftItems>
+							<Border StrokeShape="RoundRectangle 5">
+								<Label VerticalOptions="Center" Text="{Binding Value}" Margin="10"/>
+							</Border>
+						</SwipeView>
+					</On>
+				</OnPlatform>
+			</ContentView>
+		</DataTemplate>
+	</ContentView.Resources>
+	<Border StrokeShape="RoundRectangle 5">
+		<StackLayout>
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Examples:" VerticalTextAlignment="Center" Style="{StaticResource HeaderLabel}"/>
+				<Button Text="Add" HorizontalOptions="Center" VerticalOptions="Center" Command="{Binding AddCommand}"/>
+			</StackLayout>
+			<StackLayout>
+				<Grid ColumnDefinitions="*, Auto" IsVisible="{Binding CurrentSentence, Converter={StaticResource IsNullConverter}, ConverterParameter={StaticResource TrueValue}}">
+					<Label Grid.Column="0" Text="{Binding CurrentSentence}"/>
+					<Button Text="Add" Command="{Binding AddCurrentSentenceCommand}"/>
+				</Grid>
+				<StackLayout BindableLayout.ItemsSource="{Binding Path=Items}" BindableLayout.ItemTemplate="{StaticResource ItemDataTemplate}"/>
+			</StackLayout>
+		</StackLayout>
+	</Border>
+</ContentView>

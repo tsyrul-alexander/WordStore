@@ -1,8 +1,10 @@
 ﻿using WordStore.Core.Model;
-using WordStore.ViewModel;
+using WordStore.Core.Model.Db;
 
 namespace WordStore.Model.View {
-	public class ListItemView<T> : BaseModel where T : BaseDbLookupEntity {
+	public class LookupItemView<T> : BaseModel where T : BaseLookupEntity {
+		private T item;
+
 		public string Value {
 			get => Item.DisplayValue;
 			set {
@@ -11,8 +13,8 @@ namespace WordStore.Model.View {
 				Item.DisplayValue = value;
 			}
 		}
-		public T Item { get; }
-		public ListItemView(T item) {
+		public T Item { get => item; set => SetPropertyValue(ref item, value); }
+		public LookupItemView(T item) {
 			Item = item;
 		}
 	}

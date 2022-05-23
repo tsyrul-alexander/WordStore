@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WordStore.Core.Model;
+using WordStore.Core.Model.Db;
 
 namespace WordStore.Data.EntityFramework.EntityConfiguration {
-	internal class BaseDbLookupEntityConfiguration<T> : BaseDbEntityConfiguration<T> where T : BaseDbLookupEntity {
+	internal class BaseDbLookupEntityConfiguration<T> : BaseDbEntityConfiguration<T> where T : BaseLookupEntity {
 		public override void Configure(EntityTypeBuilder<T> builder) {
 			base.Configure(builder);
 		}

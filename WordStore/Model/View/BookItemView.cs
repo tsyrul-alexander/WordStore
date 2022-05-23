@@ -1,13 +1,15 @@
-﻿using WordStore.Core.Model;
+﻿using WordStore.Core.Model.Db;
 
 namespace WordStore.Model.View {
 	public class BookItemView {
-		public BaseDbLookupEntity BookItem { get; set; }
+		public BaseLookupEntity BookItem { get; set; }
+		public byte[] Image { get; set; }
 		public int Count { get; set; }
 
-		public BookItemView(BaseDbLookupEntity bookItem, int count) {
+		public BookItemView(BaseLookupEntity bookItem, int count, byte[] image = null) {
 			BookItem = bookItem;
 			Count = count;
+			Image = image;
 		}
 	}
 }

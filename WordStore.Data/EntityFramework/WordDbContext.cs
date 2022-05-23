@@ -10,7 +10,7 @@ namespace WordStore.Data.EntityFramework {
 		public DbSet<Book> Books { get; set; }
 		public DbSet<BookPage> BookPages { get; set; }
 		public WordDbContext(DbContextOptions<WordDbContext> options) : base(options) {
-			Database.EnsureDeleted();
+			//Database.EnsureDeleted();
 			Database.EnsureCreated();
 		}
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {

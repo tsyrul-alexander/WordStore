@@ -45,20 +45,11 @@ namespace WordStore.ViewModel {
 			if (wordItemView.Type == WordItemViewType.Char) {
 				return;
 			}
-			if (wordItemView.WordItem == null) {
-				AddWord(wordItemView);
-			} else {
-				EditWord(wordItemView);
-			}
+			WordInfo(wordItemView);
 		}
-		protected virtual void EditWord(WordItemView wordItemView) {
-			NavigationManager.GoToAsync("word-details", new Dictionary<string, object>{
-				{ "wordId", wordItemView.WordItem.Id }
-			});
-		}
-		protected virtual void AddWord(WordItemView wordItemView) {
+		protected virtual void WordInfo(WordItemView wordItemView) {
 			var line = Content.First(line => line.Words.Contains(wordItemView));
-			SendMessage("AddWord", new AddWordView {
+			SendMessage("WordInfo", new WordInfoView {
 				WordItemView = wordItemView,
 				LineWordView = line
 			});

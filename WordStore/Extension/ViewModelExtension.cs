@@ -7,9 +7,11 @@ namespace WordStore.Extension {
             services.AddTransient<ContentViewModel>();
             services.AddTransient<WordListViewModel>();
             services.AddTransient<WordDetailViewModel>();
-            services.AddTransient<AddWordViewModel>(); 
+            services.AddTransient<WordInfoViewModel>(); 
 			services.AddTransient<BookListViewModel>();
 		    services.AddTransient<BookEditorViewModel>();
+			services.AddTransient<ExampleEditListViewModel>();
+			services.AddTransient<TranslationEditListViewModel>();
 		}
     }
 }

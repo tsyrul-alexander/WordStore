@@ -3,7 +3,7 @@ using WordStore.Core.Model.Db;
 using WordStore.Core.Utility;
 
 namespace WordStore.Data.EntityFramework {
-	public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : BaseDbEntity {
+	public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity {
 		public WordDbContext Context { get; }
 		public DbSet<TEntity> DBSet => Context.Set<TEntity>();
 

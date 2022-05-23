@@ -1,11 +1,11 @@
-﻿using WordStore.Core.Model;
+﻿using WordStore.Core.Model.Db;
 
 namespace WordStore.Model.View {
 	public class WordItemView {
-		public string Value{ get; set; }
-		public BaseDbLookupEntity WordItem { get; set; }
+		public string Value { get; set; }
+		public BaseLookupEntity WordItem { get; set; }
 		public WordItemViewType Type { get; set; }
-		public WordItemView(string value, WordItemViewType type = WordItemViewType.Word, BaseDbLookupEntity wordItem = null) {
+		public WordItemView(string value, WordItemViewType type = WordItemViewType.Word, BaseLookupEntity wordItem = null) {
 			Value = value;
 			Type = type;
 			WordItem = wordItem;

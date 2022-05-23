@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using WordStore.ViewModel;
+using WordStore.Core.Model;
 
 namespace WordStore.Model.View {
 	public class LineWordView : BaseModel {

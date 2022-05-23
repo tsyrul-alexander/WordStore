@@ -2,16 +2,16 @@ using WordStore.ViewModel;
 
 namespace WordStore.View;
 
-public partial class AddWordView : Microsoft.Maui.Controls.ContentView {
-	public AddWordView() {
+public partial class WordInfoView : Microsoft.Maui.Controls.ContentView {
+	public WordInfoView() {
 		InitializeComponent();
 		var viewModel = (BaseViewModel)BindingContext;
 		viewModel.PropertyChanged += ViewModel_PropertyChanged;
 	}
 	private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
-		var viewModel = (AddWordViewModel)sender;
-		if (e.PropertyName == nameof(viewModel.AddWordView)) {
-			if (viewModel.AddWordView == null) {
+		var viewModel = (WordInfoViewModel)sender;
+		if (e.PropertyName == nameof(viewModel.WordInfoView)) {
+			if (viewModel.WordInfoView == null) {
 				await this.FadeTo(0, 500);
 				IsVisible = false;
 			} else {
