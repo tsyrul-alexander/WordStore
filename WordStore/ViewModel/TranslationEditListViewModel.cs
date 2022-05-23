@@ -4,9 +4,14 @@ using WordStore.Manager;
 
 namespace WordStore.ViewModel {
 	public class TranslationEditListViewModel : WordItemEditListViewModel<WordTranslation> {
-		public TranslationEditListViewModel(IDialogManager dialogManager, IRepository<WordTranslation> repository) : 
-				base(dialogManager, repository) {}
+		public TranslationEditListViewModel(IDialogManager dialogManager, IRepository<WordTranslation> repository) :
+				base(dialogManager, repository) { }
 
+		protected override WordTranslation CreateEntity(string name) {
+			var entity = base.CreateEntity(name);
+			entity.WordId = WordId;
+			return entity;
+		}
 		protected override string GetHeader() {
 			return "Translations";
 		}

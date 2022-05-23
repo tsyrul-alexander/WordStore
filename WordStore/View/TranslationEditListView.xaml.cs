@@ -2,8 +2,9 @@ using WordStore.ViewModel;
 
 namespace WordStore.View;
 
-public partial class TranslationEditListView : Microsoft.Maui.Controls.ContentView {
-	public static readonly BindableProperty WordIdProperty = BindableProperty.Create(nameof(WordId), typeof(Guid?), typeof(TranslationEditListView), propertyChanged: OnWordIdChanged);
+public partial class TranslationEditListView : ContentView {
+	public static readonly BindableProperty WordIdProperty = BindableProperty.Create(nameof(WordId), typeof(Guid),
+			typeof(TranslationEditListView), Guid.Empty, propertyChanged: OnWordIdChanged);
 	public Guid WordId {
 		get { return (Guid)GetValue(WordIdProperty); }
 		set { SetValue(WordIdProperty, value); }

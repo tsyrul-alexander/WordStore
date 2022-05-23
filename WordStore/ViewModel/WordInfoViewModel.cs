@@ -14,7 +14,7 @@ namespace WordStore.ViewModel {
 		public ICommand OpenDetailCommand { get; set; }
 		public ICommand AddCommand { get; set; }
 		public WordInfoView WordInfoView { get => wordInfoView; set => SetPropertyValue(ref wordInfoView, value); }
-		public ObservableCollection<LookupItemView<WordTranslation>> Translations { get; set; } = new ObservableCollection<LookupItemView<WordTranslation>>();
+		public ObservableCollection<WordTranslation> Translations { get; set; } = new ObservableCollection<WordTranslation>();
 		public IWordStorage WordStorage { get; }
 		public INavigationManager NavigationManager { get; }
 
@@ -51,7 +51,7 @@ namespace WordStore.ViewModel {
 			}
 			var translations = await WordStorage.WordTranslationRepository
 					.GetListAsync(query => query.Where(tr => tr.WordId == wordItem.Id));
-			Translations.AddRange(translations.Select(tr => new LookupItemView<WordTranslation>(tr)));
+			Translations.AddRange(translations);
 		}
 		protected virtual void OpenWordDetail(WordInfoView info) {
 			NavigationManager.GoToAsync("word-details", new Dictionary<string, object>{

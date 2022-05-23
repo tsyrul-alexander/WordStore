@@ -11,13 +11,15 @@
 				<Border Grid.Column="0" StrokeShape="RoundRectangle 5" Grid.Row="1">
 					<StackLayout Orientation="Horizontal">
 						<Label Text="Word:" Margin="1" Style="{StaticResource HeaderLabel}"/>
-						<Label Text="{Binding Word.Value}" Margin="1" Style="{StaticResource HeaderLabel}" FontAttributes="Bold"/>
+						<Label Text="{Binding Word.DisplayValue}" Margin="1" Style="{StaticResource HeaderLabel}" FontAttributes="Bold"/>
+						<Button Text="Edit" Command="{Binding EditCommand}"/>
 					</StackLayout>
 				</Border>
 				<Button Grid.Column="1" Text="Close" Command="{Binding BackNavigationCommand}"/>
 			</Grid>
-			<view:TranslationEditListView Grid.Row="1" WordId="{Binding Word.Item.Id}"/>
-			<view:ExampleEditListView Grid.Row="2" WordId="{Binding Word.Item.Id}" Sentence="{Binding CurrentSentence}" />
+			<view:TranslationEditListView Grid.Row="1" WordId="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=Word.Id}"/>
+			<view:ExampleEditListView Grid.Row="2" WordId="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=Word.Id}"
+					Sentence="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordDetailViewModel}}, Path=CurrentSentence}" />
 		</Grid>
     </ContentPage.Content>
 </ContentPage>

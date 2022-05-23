@@ -2,7 +2,7 @@ using WordStore.ViewModel;
 
 namespace WordStore.View;
 
-public partial class WordInfoView : Microsoft.Maui.Controls.ContentView {
+public partial class WordInfoView : ContentView {
 	public WordInfoView() {
 		InitializeComponent();
 		var viewModel = (BaseViewModel)BindingContext;

@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using WordStore.Core.Utility;
 using Microsoft.EntityFrameworkCore;
-using WordStore.Core.Model.Db;
+using WordStore.Core.Model;
 
 namespace WordStore.Data.EntityFramework {
 	internal static class EFUtilities {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using WordStore.Core.Model.Db;
+using WordStore.Core.Model;
 using WordStore.Core.Utility;
 using WordStore.Data;
 using WordStore.Manager;

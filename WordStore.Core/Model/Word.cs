@@ -1,6 +1,4 @@
-﻿using WordStore.Core.Model.Db;
-
-namespace WordStore.Core.Model {
+﻿namespace WordStore.Core.Model {
 	public class Word : BaseLookupEntity {
 		public IList<WordTranslation> Translations { get; set; } = new List<WordTranslation>();
 		public IList<WordExample> Examples { get; set; } = new List<WordExample>();

@@ -1,6 +1,4 @@
-﻿using WordStore.Core.Model.Db;
-
-namespace WordStore.Core.Model {
+﻿namespace WordStore.Core.Model {
 	public class Book : BaseLookupEntity {
 		private int pageNumber = 1;
 		private byte[]? image;

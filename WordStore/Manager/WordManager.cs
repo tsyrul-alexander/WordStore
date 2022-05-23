@@ -1,5 +1,5 @@
 ﻿using WordStore.Core.BinaryTree;
-using WordStore.Core.Model.Db;
+using WordStore.Core.Model;
 using WordStore.Core.Utility;
 using WordStore.Data;
 using WordStore.Model.View;

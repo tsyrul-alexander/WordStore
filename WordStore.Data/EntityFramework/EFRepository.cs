@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WordStore.Core.Model.Db;
+using WordStore.Core.Model;
 using WordStore.Core.Utility;
 
 namespace WordStore.Data.EntityFramework {

@@ -1,4 +1,4 @@
-﻿using WordStore.Core.Model.Db;
+﻿using WordStore.Core.Model;
 
 namespace WordStore.Model.View {
 	public class WordItemView {

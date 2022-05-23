@@ -1,10 +1,10 @@
 namespace WordStore.Control;
 
 public partial class PagingControl : ContentView {
-	public static readonly BindableProperty NumberProperty = BindableProperty.Create("Number", typeof(int),
+	public static readonly BindableProperty NumberProperty = BindableProperty.Create(nameof(Number), typeof(int),
 			typeof(PagingControl), default, BindingMode.TwoWay,
 			propertyChanged: OnNumberChanged);
-	public static readonly BindableProperty CountProperty = BindableProperty.Create("Count", typeof(int),
+	public static readonly BindableProperty CountProperty = BindableProperty.Create(nameof(Count), typeof(int),
 			typeof(PagingControl), default);
 	public int Count {
 		get { return (int)GetValue(CountProperty); }

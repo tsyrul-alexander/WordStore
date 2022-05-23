@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WordStore.Core.Model.Db;
+using WordStore.Core.Model;
 
 namespace WordStore.Data.EntityFramework.EntityConfiguration {
 	internal class BaseDbEntityConfiguration<T> : IEntityTypeConfiguration<T> where T : BaseEntity {

@@ -1,21 +1,33 @@
-﻿using WordStore.Core.Model.Db;
+﻿using System.Windows.Input;
+using WordStore.Core.Model;
 using WordStore.Data;
 using WordStore.Manager;
-using WordStore.Model.View;
 
 namespace WordStore.ViewModel {
 	public class WordDetailViewModel : BaseViewModel, IQueryAttributable {
 		private string currentSentence;
-		private LookupItemView<BaseLookupEntity> word;
+		private BaseLookupEntity word;
 
-		public LookupItemView<BaseLookupEntity> Word { get => word; set => SetPropertyValue(ref word, value); }
+		public BaseLookupEntity Word { get => word; set => SetPropertyValue(ref word, value); }
 		public string CurrentSentence { get => currentSentence; set => SetPropertyValue(ref currentSentence, value); }
-		public IWordStorage WordStorage { get; }
+		public ICommand EditCommand { get; set; }
+		public IRepository<Word> WordRepository { get; }
 		public IDialogManager DialogManager { get; }
 
-		public WordDetailViewModel(IWordStorage wordStorage, IDialogManager dialogManager) {
-			WordStorage = wordStorage;
+		public WordDetailViewModel(IRepository<Word> wordRepository, IDialogManager dialogManager) {
+			WordRepository = wordRepository;
 			DialogManager = dialogManager;
+			EditCommand = new Command(Edit);
+		}
+
+		protected virtual async void Edit() {
+			var text = await DialogManager.DisplayPromptAsync("Word", "Name: ", initialValue: Word.DisplayValue);
+			if (string.IsNullOrWhiteSpace(text)) {
+				return;
+			}
+			Word.DisplayValue = text;
+			CurrentSentence = text;
+			//WordRepository.UpdateAsync(Word, nameof(Word.DisplayValue));
 		}
 
 		public void ApplyQueryAttributes(IDictionary<string, object> query) {
@@ -25,8 +37,7 @@ namespace WordStore.ViewModel {
 			SetWord(wordId, sentence);
 		}
 		protected virtual async void SetWord(Guid wordId, string sentence) {
-			var word = await WordStorage.WordRepository.GetAsync(query => query.FilterById(wordId).LookupSelect());
-			Word = GreateLookupItemView(word);
+			Word = await WordRepository.GetAsync(query => query.FilterById(wordId).LookupSelect());
 			CurrentSentence = sentence;
 		}
 	}

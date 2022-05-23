@@ -1,13 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using WordStore.Core.Model.Db;
+using WordStore.Core.Model;
 using WordStore.Data;
 using WordStore.Manager;
-using WordStore.Model.View;
 
 namespace WordStore.ViewModel {
 	public abstract class BaseEditListViewModel<T> : BaseViewModel where T : BaseLookupEntity, new() {
-		public ObservableCollection<LookupItemView<T>> Items { get; set; } = new ObservableCollection<LookupItemView<T>>();
+		public ObservableCollection<T> Items { get; set; } = new ObservableCollection<T>();
 		public ICommand AddCommand { get; set; }
 		public ICommand EditCommand { get; set; }
 		public ICommand DeleteCommand { get; set; }
@@ -16,8 +15,8 @@ namespace WordStore.ViewModel {
 
 		public BaseEditListViewModel(IDialogManager dialogManager, IRepository<T> repository) {
 			AddCommand = new Command(Add);
-			EditCommand = new Command<LookupItemView<T>>(Edit);
-			DeleteCommand = new Command<LookupItemView<T>>(Delete);
+			EditCommand = new Command<T>(Edit);
+			DeleteCommand = new Command<T>(Delete);
 			DialogManager = dialogManager;
 			Repository = repository;
 		}
@@ -30,30 +29,30 @@ namespace WordStore.ViewModel {
 			await InsertEntityAsync(entity);
 			AddEntityToItems(entity);
 		}
-		protected virtual async void Edit(LookupItemView<T> itemView) {
-			var text = await DisplayPromptAsync("Enter:", itemView.Value);
+		protected virtual async void Edit(T item) {
+			var text = await DisplayPromptAsync("Enter:", item.DisplayValue);
 			if (string.IsNullOrEmpty(text)) {
 				return;
 			}
-			SetDisplayValueToItemView(itemView, text);
-			await UpdateEntityDisplayValueAsync(itemView.Item);
+			SetDisplayValueToItemView(item, text);
+			await UpdateEntityDisplayValueAsync(item);
 		}
-		protected virtual async void Delete(LookupItemView<T> itemView) {
-			await DeleteEntityAsync(itemView.Item);
-			DeleteEntityFromItems(itemView);
+		protected virtual async void Delete(T item) {
+			await DeleteEntityAsync(item);
+			DeleteEntityFromItems(item);
 		}
 		protected virtual Task<string> DisplayPromptAsync(string actionMessage, string defValue = null) {
 			var header = GetHeader();
 			return DialogManager.DisplayPromptAsync(header, actionMessage, initialValue: defValue);
 		}
 		protected virtual void AddEntityToItems(T entity) {
-			Items.Add(GreateLookupItemView(entity));
+			Items.Add(entity);
 		}
-		protected virtual void DeleteEntityFromItems(LookupItemView<T> itemView) {
-			Items.Remove(itemView);
+		protected virtual void DeleteEntityFromItems(T item) {
+			Items.Remove(item);
 		}
-		protected virtual void SetDisplayValueToItemView(LookupItemView<T> itemView, string displayValue) {
-			itemView.Value = displayValue;
+		protected virtual void SetDisplayValueToItemView(T item, string displayValue) {
+			item.DisplayValue = displayValue;
 		}
 		protected virtual Task InsertEntityAsync(T entity) {
 			return Repository.InsertAsync(entity);

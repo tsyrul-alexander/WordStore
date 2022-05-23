@@ -1,6 +1,4 @@
-﻿using WordStore.Core.Model.Db;
-
-namespace WordStore.Core.Model {
+﻿namespace WordStore.Core.Model {
 	public class WordExample : BaseLookupEntity {
 		private Guid wordId;
 

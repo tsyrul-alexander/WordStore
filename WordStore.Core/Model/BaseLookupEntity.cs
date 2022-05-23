@@ -1,4 +1,4 @@
-﻿namespace WordStore.Core.Model.Db {
+﻿namespace WordStore.Core.Model {
 	public class BaseLookupEntity : BaseEntity {
 		private string displayValue;
 		public string DisplayValue { get => displayValue; set => SetPropertyValue(ref displayValue, value); }

@@ -1,6 +1,4 @@
-﻿using WordStore.Core.Model.Db;
-
-namespace WordStore.Core.Model {
+﻿namespace WordStore.Core.Model {
 	public class WordTranslation : BaseLookupEntity {
 		private Guid wordId;
 

@@ -1,4 +1,4 @@
-﻿namespace WordStore.Core.Model.Db {
+﻿namespace WordStore.Core.Model {
 	public class BaseEntity : BaseModel {
 		private Guid id;
 		public Guid Id { get => id; set => SetPropertyValue(ref id, value); }
