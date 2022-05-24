@@ -7,7 +7,7 @@ using WordStore.Model.EventArgs;
 using WordStore.Model.View;
 
 namespace WordStore.ViewModel {
-	public class ContentViewModel : BaseViewModel {
+	public class BookReaderViewModel : BaseViewModel {
 		private bool isActive;
 
 		public bool IsActive { get => isActive; set => SetPropertyValue(ref isActive, value, OnActiveChange); }
@@ -20,7 +20,7 @@ namespace WordStore.ViewModel {
 		public IWordStorage WordStorage { get; }
 		public AppConstants AppConstants { get; }
 
-		public ContentViewModel(IBookPaginationManager paginationManager,
+		public BookReaderViewModel(IBookPaginationManager paginationManager,
 				IWordManager wordManager, IDialogManager dialogManager, INavigationManager navigationManager,
 				IWordStorage wordStorage, AppConstants appConstants) {
 			PaginationManager = paginationManager;
@@ -87,6 +87,17 @@ namespace WordStore.ViewModel {
 			};
 			line.Words.AddRange(WordManager.GetWords(text));
 			return line;
+		}
+		protected override void SubscribeMessages() {
+			base.SubscribeMessages();
+			SubscribeMessage<WordChangedEventArgs>("WordChanged", OnWordChanged);
+		}
+		protected override void UnsubscribeMessages() {
+			base.UnsubscribeMessages();
+			UnsubscribeMessage<WordChangedEventArgs>("WordChanged");
+		}
+		protected virtual void OnWordChanged(WordChangedEventArgs args) {
+			UpdateContent();
 		}
 	}
 }

@@ -32,11 +32,9 @@ namespace WordStore.ViewModel {
 		}
 		protected virtual void OpenDetail() {
 			OpenWordDetail(WordInfoView);
+			SetWordInfo(null);
 		}
-		protected virtual async void AddWord() {
-			var word = new Word(Guid.NewGuid(), WordInfoView.WordItemView.Value);
-			await WordStorage.WordRepository.InsertAsync(word);
-			WordInfoView.WordItemView.WordItem = word;
+		protected virtual void AddWord() {
 			OpenDetail();
 		}
 		protected virtual void Close(object obj) {
@@ -45,7 +43,7 @@ namespace WordStore.ViewModel {
 		protected virtual async void SetWordInfo(WordInfoView wordInfoView) {
 			Translations.Clear();
 			WordInfoView = wordInfoView;
-			var wordItem = wordInfoView.WordItemView.WordItem;
+			var wordItem = wordInfoView?.WordItemView?.WordItem;
 			if (wordItem == null) {
 				return;
 			}
@@ -54,10 +52,20 @@ namespace WordStore.ViewModel {
 			Translations.AddRange(translations);
 		}
 		protected virtual void OpenWordDetail(WordInfoView info) {
-			NavigationManager.GoToAsync("word-details", new Dictionary<string, object>{
-				{ "wordId", info.WordItemView.WordItem.Id },
+			var parameters = GetOpenWordDetailParams(info);
+			NavigationManager.GoToAsync("word-details", parameters);
+		}
+		protected virtual Dictionary<string, object> GetOpenWordDetailParams(WordInfoView info) {
+			var parameters = new Dictionary<string, object>{
 				{ "sentence", info.LineWordView.Sentence }
-			});
+			};
+			var wordId = info.WordItemView.WordItem?.Id;
+			if (wordId == null) {
+				parameters.Add("wordName", info.WordItemView.Value);
+			} else {
+				parameters.Add("wordId", wordId);
+			}
+			return parameters;
 		}
 	}
 }

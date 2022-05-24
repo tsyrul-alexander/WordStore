@@ -10,6 +10,9 @@ namespace WordStore.Manager {
 			return Application.Current.MainPage.DisplayPromptAsync(title, message, accept, cancel, placeholder, maxLength,
 				keyboard, initialValue);
 		}
+		public virtual Task DisplayAlertAsync(string title, string message, string cancel = "OK") {
+			return Application.Current.MainPage.DisplayAlert(title, message, cancel);
+		}
 		public virtual ActivityIndicatorDialogInfo ShowActivityIndicator() {
 			var page = Shell.Current.CurrentPage;
 			CommunityToolkit.Maui.Views.Popup popup = null;

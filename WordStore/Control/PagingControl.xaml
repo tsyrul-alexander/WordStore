@@ -5,7 +5,7 @@
              x:Class="WordStore.Control.PagingControl" Padding="2">
 	<StackLayout Orientation="Horizontal">
 		<Button Text="‹" VerticalOptions="Center" Clicked="PreviousButton_Clicked"/>
-		<Label x:Name="NumberLabel" Text="{Binding Number}" Margin="2" VerticalOptions="Center"/>
+		<Label x:Name="NumberLabel" Margin="2" VerticalOptions="Center"/>
 		<Button Text="›" VerticalOptions="Center" Clicked="NextButton_Clicked"/>
 	</StackLayout>
 </ContentView>

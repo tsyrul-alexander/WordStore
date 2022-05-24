@@ -1,4 +1,5 @@
-﻿using WordStore.Core.Model;
+﻿using System.Linq.Expressions;
+using WordStore.Core.Model;
 using WordStore.Data;
 using WordStore.Manager;
 
@@ -15,8 +16,8 @@ namespace WordStore.ViewModel {
 		protected override string GetHeader() {
 			return "Translations";
 		}
-		protected override Task<List<WordTranslation>> GetItems(Guid wordId) {
-			return Repository.GetListAsync(query => query.Where(ex => ex.WordId == wordId).LookupOrderBy());
+		protected override Expression<Func<WordTranslation, bool>> GetItemsFilter(Guid wordId) {
+			return ex => ex.WordId == wordId;
 		}
 	}
 }

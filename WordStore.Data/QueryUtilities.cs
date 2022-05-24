@@ -1,4 +1,5 @@
-﻿using WordStore.Core.Model;
+﻿using System.Linq.Expressions;
+using WordStore.Core.Model;
 
 namespace WordStore.Data {
 	public static class QueryUtilities {
@@ -10,6 +11,18 @@ namespace WordStore.Data {
 		}
 		public static IQueryable<BaseLookupEntity> LookupSelect<TEntity>(this IQueryable<TEntity> query) where TEntity : BaseLookupEntity {
 			return query.Select(entity => new BaseLookupEntity(entity.Id, entity.DisplayValue));
+		}
+		public static async Task<bool> GetIsUniqueLookup<TEntity>(this IRepository<TEntity> repository, string displayValue,
+				Expression<Func<TEntity, bool>>? additionFilter = null) where TEntity : BaseLookupEntity {
+			var items = await repository.GetListAsync(query => {
+				query = query.Where(item => item.DisplayValue == displayValue);
+				if (additionFilter != null) {
+					query = query.Where(additionFilter);
+				}
+				return query.Take(1);
+			});
+			var item = items.FirstOrDefault();
+			return item == null;
 		}
 	}
 }

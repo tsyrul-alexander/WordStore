@@ -11,7 +11,7 @@
 		}
 
 		internal virtual void SearchStartWith(string value, IList<TData> items) {
-			if (Value == value || Value.StartsWith(value + " ")) {
+			if (Value == value || Value.StartsWith(value)) {
 				items.Add(Data);
 			}
 			if (GetIsGreated(Value, value)) {

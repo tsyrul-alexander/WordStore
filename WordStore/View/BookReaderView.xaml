@@ -9,14 +9,14 @@
 			 xmlns:control="clr-namespace:WordStore.Control"
 			 Title="Content"
 			 Shell.NavBarIsVisible="false"
-			 BindingContext="{Binding Path=Content, Source={StaticResource Locator}}">
+			 BindingContext="{Binding Path=BookReader, Source={StaticResource Locator}}">
 	<ContentPage.Resources>
 		<DataTemplate x:Key="LineDataTemplate" x:DataType="model_view:LineWordView">
 			<Border StrokeShape="RoundRectangle 5">
 				<Grid ColumnDefinitions="Auto, *, 5" Margin="5">
 					<Label Grid.Column="0" Text="{Binding Number}" VerticalOptions="Center" Margin="2"></Label>
 					<control:WrapLayout Grid.Column="1" ItemsSource="{Binding Words}" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
-							Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:ContentViewModel}}, Path=WordSelectedCommand}"/>
+							Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:BookReaderViewModel}}, Path=WordSelectedCommand}"/>
 				</Grid>
 			</Border>
 		</DataTemplate>

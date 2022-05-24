@@ -15,5 +15,11 @@
 				yield return array.Skip(i * size).Take(size);
 			}
 		}
+		public static T? GetValueOrDefault<T>(this IDictionary<string, object> dictionary, string key) {
+			if (dictionary.TryGetValue(key, out var value)) {
+				return (T)value;
+			}
+			return default;
+		}
 	}
 }

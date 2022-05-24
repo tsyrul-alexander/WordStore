@@ -26,7 +26,7 @@ namespace WordStore.Manager {
 		protected virtual async void InitializeWordsTree() {
 			Tree = new StringBinaryTree<BaseLookupEntity>();
 			var words = await WordStorage.WordRepository.GetListAsync(query => query.LookupSelect());
-			words.Foreach(word => Tree.AddNode(word, word.DisplayValue));
+			words.Foreach(word => Tree.AddNode(word, word.DisplayValue.ToLower()));
 		}
 		public virtual IEnumerable<WordItemView> GetWords(string text) {
 			var list = new List<WordItemView>();
@@ -48,8 +48,12 @@ namespace WordStore.Manager {
 					word = string.Empty;
 					startIndex = (i + 1);
 				}
-				if (currentChar != ' ' && !isLetter) {
-					list.Add(new WordItemView(currentChar.ToString(), WordItemViewType.Char));
+				if (currentChar != text[i]) {
+					currentChar = text[i];
+					isLetter = GetIsLetter(currentChar);
+				}
+				if (text[i] != ' ' && !isLetter) {
+					list.Add(new WordItemView(text[i].ToString(), WordItemViewType.Char));
 				}
 			}
 			return list;
@@ -57,20 +61,22 @@ namespace WordStore.Manager {
 		protected virtual bool GetIsLetter(char ch) {
 			return char.IsLetter(ch);
 		}
-		protected virtual WordItemView GetWord(string word, int startIndex, ref int index, string text) {//todo
-			var findWords = Tree.SearchStartWith(word);
+		protected virtual WordItemView GetWord(string word, int startIndex, ref int index, string text) {
+			word = word.ToLower();
+			var findWords = Tree.SearchStartWith(word.ToLower());
 			if (findWords.Count == 0) {
 				return new WordItemView(word);
 			}
 			foreach (var findWord in findWords.OrderByDescending(w => w.DisplayValue.Length)) {
-				if (findWord.DisplayValue == word) { 
+				var findWordDisplayValue = findWord.DisplayValue.ToLower();
+				if (findWordDisplayValue == word) {
 					return new WordItemView(word, WordItemViewType.Word, findWord);
 				}
-				var findWordLength = findWord.DisplayValue.Length;
+				var findWordLength = findWordDisplayValue.Length;
 				if (findWordLength > (text.Length - startIndex)) {
 					continue;
 				}
-				if (text[startIndex..(startIndex + findWordLength)] == findWord.DisplayValue) {
+				if (text[startIndex..(startIndex + findWordLength)].ToLower() == findWordDisplayValue) {
 					var charCount = (findWordLength - word.Length) - 1;
 					index += charCount;
 					return new WordItemView(findWord.DisplayValue, WordItemViewType.Word, findWord);

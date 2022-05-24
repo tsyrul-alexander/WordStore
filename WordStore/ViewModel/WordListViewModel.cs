@@ -4,6 +4,7 @@ using WordStore.Core.Model;
 using WordStore.Core.Utility;
 using WordStore.Data;
 using WordStore.Manager;
+using WordStore.Model.EventArgs;
 
 namespace WordStore.ViewModel {
 	public class WordListViewModel : BaseViewModel {
@@ -35,6 +36,17 @@ namespace WordStore.ViewModel {
 			Words.Clear();
 			var words = await WordStorage.WordRepository.GetListAsync(query => query.LookupOrderBy().Take(WordCount).LookupSelect());
 			Words.AddRange(words);
+		}
+		protected override void SubscribeMessages() {
+			base.SubscribeMessages();
+			SubscribeMessage<WordChangedEventArgs>("WordChanged", OnWordChanged);
+		}
+		protected override void UnsubscribeMessages() {
+			base.UnsubscribeMessages();
+			UnsubscribeMessage<WordChangedEventArgs>("WordChanged");
+		}
+		protected virtual void OnWordChanged(WordChangedEventArgs args) {
+			LoadWords();
 		}
 	}
 }

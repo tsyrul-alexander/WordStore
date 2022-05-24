@@ -20,7 +20,7 @@
 					<BindableLayout.ItemTemplate>
 						<DataTemplate>
 							<Border StrokeShape="RoundRectangle 5">
-								<Label Text="{Binding Value}"/>
+								<Label Text="{Binding DisplayValue}"/>
 							</Border>
 						</DataTemplate>
 					</BindableLayout.ItemTemplate>

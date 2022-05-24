@@ -43,8 +43,8 @@
 			</StackLayout>
 			<StackLayout>
 				<Grid ColumnDefinitions="*, Auto" IsVisible="{Binding CurrentSentence, Converter={StaticResource IsNullConverter}, ConverterParameter={StaticResource TrueValue}}">
-					<Label Grid.Column="0" Text="{Binding CurrentSentence}"/>
-					<Button Text="Add" Command="{Binding AddCurrentSentenceCommand}"/>
+					<Entry Grid.Column="0" Text="{Binding CurrentSentence}"/>
+					<Button Grid.Column="1" Text="Add" Command="{Binding AddCurrentSentenceCommand}"/>
 				</Grid>
 				<StackLayout BindableLayout.ItemsSource="{Binding Path=Items}" BindableLayout.ItemTemplate="{StaticResource ItemDataTemplate}"/>
 			</StackLayout>

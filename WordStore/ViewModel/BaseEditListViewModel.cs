@@ -25,7 +25,10 @@ namespace WordStore.ViewModel {
 			if (string.IsNullOrEmpty(text)) {
 				return;
 			}
-			var entity = CreateEntity(text);
+			await Add(text);
+		}
+		protected virtual async Task Add(string displayValue) {
+			var entity = CreateEntity(displayValue);
 			await InsertEntityAsync(entity);
 			AddEntityToItems(entity);
 		}

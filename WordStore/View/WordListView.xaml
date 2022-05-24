@@ -7,7 +7,8 @@
 			 xmlns:core_model="clr-namespace:WordStore.Core.Model;assembly=WordStore.Core"
              Title="WordList"
              BackgroundColor="White"
-             BindingContext="{Binding Path=WordList, Source={StaticResource Locator}}">
+             BindingContext="{Binding Path=WordList, Source={StaticResource Locator}}"
+			 Shell.NavBarIsVisible="false">
 	<Shell.SearchHandler>
 		<handler:WordSearchHandler x:FactoryMethod="GetWordSearchHandler" Placeholder="Enter search term"
                                       ShowsResults="true"
@@ -17,14 +18,12 @@
 	</Shell.SearchHandler>
 	<ContentPage.Resources>
 		<DataTemplate x:Key="WordListDataTemplate">
-			<ViewCell>
-				<Border StrokeShape="RoundRectangle 5">
-					<Button Text="{Binding DisplayValue}" Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordListViewModel}}, Path=SelectedWordCommand}" CommandParameter="{Binding}"/>
-				</Border>
-			</ViewCell>
+			<Border StrokeShape="RoundRectangle 5">
+				<Button Text="{Binding DisplayValue}" Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:WordListViewModel}}, Path=SelectedWordCommand}" CommandParameter="{Binding}"/>
+			</Border>
 		</DataTemplate>
 	</ContentPage.Resources>
 	<StackLayout>
-		<ListView ItemsSource="{Binding Words}" ItemTemplate="{StaticResource Key=WordListDataTemplate}" />
+		<StackLayout BindableLayout.ItemsSource="{Binding Words}" BindableLayout.ItemTemplate="{StaticResource Key=WordListDataTemplate}" />
 	</StackLayout>
 </ContentPage>

@@ -2,7 +2,7 @@
 	public class ViewModelLocator {
 		public static IServiceProvider ServiceProvider { get; set; }
 		public MainViewModel Main => GetViewModel<MainViewModel>();
-		public ContentViewModel Content => GetViewModel<ContentViewModel>();
+		public BookReaderViewModel BookReader => GetViewModel<BookReaderViewModel>();
 		public WordListViewModel WordList => GetViewModel<WordListViewModel>();
 		public WordDetailViewModel WordDetail => GetViewModel<WordDetailViewModel>();
 		public WordInfoViewModel AddWord => GetViewModel<WordInfoViewModel>();
