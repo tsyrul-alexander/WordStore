@@ -25,7 +25,7 @@ namespace WordStore.ViewModel {
 
 		protected virtual async void Edit() {
 			var text = await DialogManager.DisplayPromptAsync("Word", "Name: ", initialValue: Word.DisplayValue);
-			text = text.ToTitleCase();
+			text = text.FirstCharToUpper();
 			if (string.IsNullOrWhiteSpace(text)) {
 				return;
 			}
@@ -59,7 +59,7 @@ namespace WordStore.ViewModel {
 			CurrentSentence = sentence;
 		}
 		protected virtual async void SetWord(string wordName) {
-			var word = CreateNewWord(wordName.ToTitleCase());
+			var word = CreateNewWord(wordName.FirstCharToUpper());
 			await WordRepository.InsertAsync(word);
 			Word = word;
 			OnWordInserted(word.Id);

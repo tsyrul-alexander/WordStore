@@ -25,7 +25,8 @@
 		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*"/>
-				<RowDefinition Height="{Binding Height, Source={x:Reference InfoView}, Converter={StaticResource PositiveNumberConverter}}"/>
+				<RowDefinition Height="{OnPlatform WinUI={Binding Height, Source={x:Reference InfoView}, Converter={StaticResource PositiveNumberConverter}}, Default=Auto}"/>
+				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
 			<ScrollView Grid.Row="0" Grid.RowSpan="2">
@@ -35,7 +36,7 @@
 			<StackLayout Grid.Row="1">
 				<view:WordInfoView x:Name="InfoView" IsVisible="false" MinimumHeightRequest="0"></view:WordInfoView>
 			</StackLayout>
-			<Border Grid.Row="2" StrokeShape="RoundRectangle 5">
+			<Border Grid.Row="2" StrokeShape="RoundRectangle 5" ZIndex="2">
 				<Grid ColumnDefinitions="*, Auto, 5">
 					<control:PagingControl Grid.Column="1" Number="{Binding PaginationManager.PageNumber}" Count="{Binding PaginationManager.PageCount}" HorizontalOptions="End"/>
 				</Grid>

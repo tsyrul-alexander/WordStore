@@ -10,10 +10,9 @@
 		public BookEditorViewModel BookEditor => GetViewModel<BookEditorViewModel>();
 		public TranslationEditListViewModel TranslationEditList => GetViewModel<TranslationEditListViewModel>();
 		public ExampleEditListViewModel ExampleEditList => GetViewModel<ExampleEditListViewModel>();
+		
 		protected virtual T GetViewModel<T>() where T : BaseViewModel {
-			var viewModel = ServiceProvider.GetService<T>();
-			viewModel.Initialize(ServiceProvider);
-			return viewModel;
+			return ServiceProvider.GetService<T>();
 		}
 	}
 }

@@ -8,9 +8,6 @@ using WordStore.Model.View;
 
 namespace WordStore.ViewModel {
 	public class BookReaderViewModel : BaseViewModel {
-		private bool isActive;
-
-		public bool IsActive { get => isActive; set => SetPropertyValue(ref isActive, value, OnActiveChange); }
 		public ObservableCollection<LineWordView> Content { get; set; } = new ObservableCollection<LineWordView>();
 		public ICommand WordSelectedCommand { get; set; }
 		public IBookPaginationManager PaginationManager { get; }
@@ -32,14 +29,16 @@ namespace WordStore.ViewModel {
 			WordSelectedCommand = new Command<WordItemView>(WordSelected);
 		}
 
-		public override void Initialize(IServiceProvider serviceProvider) {
-			base.Initialize(serviceProvider);
-			PaginationManager.PropertyChanged += PaginationManager_PropertyChanged;
-			NavigationManager.Navigated += NavigationManager_Navigate;
+		public override async void Initialize() {
+			await InitializeWordManager();
+			base.Initialize();
 			UpdateContent();
+			PaginationManager.PropertyChanged += PaginationManager_PropertyChanged;
 		}
-		protected virtual void NavigationManager_Navigate(INavigationManager _, NavigatedEventArgs args) {
-			IsActive = args.RouteName == "//Content/BookReader";
+		protected virtual async Task InitializeWordManager() {
+			var indicator = DialogManager.ShowActivityIndicator();
+			await WordManager.InitializeAsync();
+			indicator.Hide();
 		}
 		protected virtual void WordSelected(WordItemView wordItemView) {
 			if (wordItemView.Type == WordItemViewType.Char) {
@@ -54,7 +53,8 @@ namespace WordStore.ViewModel {
 				LineWordView = line
 			});
 		}
-		private void OnActiveChange(bool _) {
+		protected override void OnActiveChange(bool isActive) {
+			base.OnActiveChange(isActive);
 			UpdateContent();
 		}
 		protected virtual void PaginationManager_PropertyChanged(object sender, 
@@ -64,7 +64,7 @@ namespace WordStore.ViewModel {
 			}
 		}
 		protected virtual async void UpdateContent() {
-			if (!IsActive) {
+			if (!IsActive || !IsInitialized) {
 				return;
 			}
 			var indicator = DialogManager.ShowActivityIndicator();
@@ -96,7 +96,8 @@ namespace WordStore.ViewModel {
 			base.UnsubscribeMessages();
 			UnsubscribeMessage<WordChangedEventArgs>("WordChanged");
 		}
-		protected virtual void OnWordChanged(WordChangedEventArgs args) {
+		protected virtual async void OnWordChanged(WordChangedEventArgs args) {
+			await WordManager.InitializeAsync();
 			UpdateContent();
 		}
 	}

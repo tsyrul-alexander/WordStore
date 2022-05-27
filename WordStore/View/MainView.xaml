@@ -7,7 +7,7 @@
              BindingContext="{Binding Path=Main, Source={StaticResource Locator}}">
 	<TabBar>
 		<ShellContent Title="Books" ContentTemplate="{DataTemplate view:BookListView}" />
-		<Tab Title="Content" Route="Content">
+		<Tab Title="Content" Route="Content" FlyoutDisplayOptions="AsMultipleItems">
 			<ShellContent Title="BookEditor" Route="BookEditor" ContentTemplate="{DataTemplate view:BookEditorView}" />
 			<ShellContent Title="BookReader" Route="BookReader" ContentTemplate="{DataTemplate view:BookReaderView}" />
 		</Tab>

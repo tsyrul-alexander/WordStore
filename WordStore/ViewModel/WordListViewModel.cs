@@ -23,8 +23,8 @@ namespace WordStore.ViewModel {
 			SelectedWordCommand = new Command<BaseLookupEntity>(SelectedWord);
 		}
 
-		public override void Initialize(IServiceProvider serviceProvider) {
-			base.Initialize(serviceProvider);
+		public override void Initialize() {
+			base.Initialize();
 			LoadWords();
 		}
 		protected virtual void SelectedWord(BaseLookupEntity item) {

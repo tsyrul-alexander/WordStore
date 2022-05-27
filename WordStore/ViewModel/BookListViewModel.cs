@@ -34,8 +34,8 @@ namespace WordStore.ViewModel {
 			ImportBookCommand = new Command(ImportBook);
 		}
 
-		public override void Initialize(IServiceProvider serviceProvider) {
-			base.Initialize(serviceProvider);
+		public override void Initialize() {
+			base.Initialize();
 			InitializeBooks();
 		}
 		protected virtual async void InitializeBooks() {

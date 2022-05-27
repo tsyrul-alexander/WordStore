@@ -2,33 +2,31 @@
 using WordStore.Core.Model;
 using WordStore.Core.Utility;
 using WordStore.Data;
+using WordStore.Exception;
 using WordStore.Model.View;
 
 namespace WordStore.Manager {
 	public class WordManager : IWordManager {
-		private StringBinaryTree<BaseLookupEntity> tree;
 
 		public IWordStorage WordStorage { get; }
-		protected StringBinaryTree<BaseLookupEntity> Tree { 
-			get {
-				if (tree == null) {
-					InitializeWordsTree();
-				}
-				return tree;
-			}
-			set { tree = value; }
-		}
+		protected StringBinaryTree<BaseLookupEntity> Tree { get; set; }
 
 		public WordManager(IWordStorage wordStorage) {
 			WordStorage = wordStorage;
 		}
 
+		public virtual Task InitializeAsync() {
+			return Task.Run(InitializeWordsTree);
+		}
 		protected virtual async void InitializeWordsTree() {
 			Tree = new StringBinaryTree<BaseLookupEntity>();
 			var words = await WordStorage.WordRepository.GetListAsync(query => query.LookupSelect());
 			words.Foreach(word => Tree.AddNode(word, word.DisplayValue.ToLower()));
 		}
 		public virtual IEnumerable<WordItemView> GetWords(string text) {
+			if (Tree == null) {
+				throw new NotInitializeException();
+			}
 			var list = new List<WordItemView>();
 			string word = string.Empty;
 			int startIndex = 0;
@@ -62,27 +60,33 @@ namespace WordStore.Manager {
 			return char.IsLetter(ch);
 		}
 		protected virtual WordItemView GetWord(string word, int startIndex, ref int index, string text) {
-			word = word.ToLower();
 			var findWords = Tree.SearchStartWith(word.ToLower());
 			if (findWords.Count == 0) {
 				return new WordItemView(word);
 			}
+			return GetWord(word, findWords, startIndex, ref index, text);
+		}
+		protected virtual WordItemView GetWord(string word, IList<BaseLookupEntity> findWords, int startIndex, 
+				ref int index, string text) {
 			foreach (var findWord in findWords.OrderByDescending(w => w.DisplayValue.Length)) {
-				var findWordDisplayValue = findWord.DisplayValue.ToLower();
-				if (findWordDisplayValue == word) {
+				if (GetIsEqual(findWord.DisplayValue, word)) {
 					return new WordItemView(word, WordItemViewType.Word, findWord);
 				}
-				var findWordLength = findWordDisplayValue.Length;
+				var findWordLength = findWord.DisplayValue.Length;
 				if (findWordLength > (text.Length - startIndex)) {
 					continue;
 				}
-				if (text[startIndex..(startIndex + findWordLength)].ToLower() == findWordDisplayValue) {
+				var textWithSameSize = text[startIndex..(startIndex + findWordLength)];
+				if (GetIsEqual(textWithSameSize, findWord.DisplayValue)) {
 					var charCount = (findWordLength - word.Length) - 1;
 					index += charCount;
-					return new WordItemView(findWord.DisplayValue, WordItemViewType.Word, findWord);
+					return new WordItemView(textWithSameSize, WordItemViewType.Word, findWord);
 				}
 			}
 			return new WordItemView(word);
+		}
+		protected virtual bool GetIsEqual(string value1, string value2) {
+			return value1.ToLower() == value2.ToLower();
 		}
 	}
 }

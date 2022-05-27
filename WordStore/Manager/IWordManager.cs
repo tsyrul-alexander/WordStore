@@ -1,7 +1,8 @@
-﻿using WordStore.Model.View;
+﻿using WordStore.Core;
+using WordStore.Model.View;
 
 namespace WordStore.Manager {
-	public interface IWordManager {
+	public interface IWordManager : IAsyncInitialize {
 		IEnumerable<WordItemView> GetWords(string text);
 	}
 }
