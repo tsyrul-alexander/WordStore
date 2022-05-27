@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Configuration;
 using WordStore.Extension;
 using WordStore.Handler;
 using WordStore.View;
@@ -15,6 +16,7 @@ public static class MauiProgram {
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 			});
 		InitializeServices(builder.Services);
+		InitializeConfiguration(builder.Configuration);
 		var app = builder.Build();
 		InitializeViewModelLocator(app.Services);
 		RegisterRoutes();
@@ -22,6 +24,9 @@ public static class MauiProgram {
 	}
 	internal static void InitializeViewModelLocator(IServiceProvider serviceProvider) {
 		ViewModelLocator.ServiceProvider = serviceProvider;
+	}
+	internal static void InitializeConfiguration(ConfigurationManager configurationManager) {
+		configurationManager.AddJsonFile("appsettings.json");
 	}
 	internal static void InitializeServices(IServiceCollection serviceCollection) {
 		serviceCollection.AddSingleton<AppSettings>();
