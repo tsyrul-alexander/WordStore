@@ -3,12 +3,12 @@ using System.Windows.Input;
 using WordStore.Model.View;
 
 namespace WordStore.Control {
-	public class WrapLayout : FlexLayout {
+	public class WordLayout : FlexLayout {
 		protected readonly Color DefaultChildTestColor = Color.Parse("#606060");
 		public static readonly BindableProperty ItemsSourceProperty =
-				BindableProperty.CreateAttached("ItemsSource", typeof(IEnumerable<WordItemView>), typeof(WrapLayout), default(IEnumerable),
+				BindableProperty.CreateAttached(nameof(ItemsSource), typeof(IEnumerable<WordItemView>), typeof(WordLayout), default(IEnumerable),
 					propertyChanged: SetItemsSource);
-		public static readonly BindableProperty CommandProperty = BindableProperty.Create("Command", typeof(ICommand), typeof(WrapLayout),
+		public static readonly BindableProperty CommandProperty = BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(WordLayout),
 					propertyChanged: SetCommand);
 
 		public IEnumerable<WordItemView> ItemsSource {
@@ -20,7 +20,7 @@ namespace WordStore.Control {
 			set { SetValue(CommandProperty, value); }
 		}
 
-		public WrapLayout() {
+		public WordLayout() {
 			Wrap = Microsoft.Maui.Layouts.FlexWrap.Wrap;
 			JustifyContent = Microsoft.Maui.Layouts.FlexJustify.Start;
 			AlignItems = Microsoft.Maui.Layouts.FlexAlignItems.Start;
@@ -28,13 +28,13 @@ namespace WordStore.Control {
 		}
 
 		protected static void SetItemsSource(BindableObject bindable, object oldValue, object newValue) {
-			var view = (WrapLayout)bindable;
+			var view = (WordLayout)bindable;
 			var items = newValue as IEnumerable<WordItemView>;
 			view.CreateChildren(items);
 		}
 		protected static void SetCommand(BindableObject bindable, object oldValue, object newValue) {
 			var command = (ICommand)newValue;
-			var view = (WrapLayout)bindable;
+			var view = (WordLayout)bindable;
 			foreach (var child in view.Children) {
 				if (child is Button button) {
 					button.Command = command;

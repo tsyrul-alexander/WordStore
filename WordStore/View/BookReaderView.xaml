@@ -10,17 +10,6 @@
 			 Title="Content"
 			 Shell.NavBarIsVisible="false"
 			 BindingContext="{Binding Path=BookReader, Source={StaticResource Locator}}">
-	<ContentPage.Resources>
-		<DataTemplate x:Key="LineDataTemplate" x:DataType="model_view:LineWordView">
-			<Border StrokeShape="RoundRectangle 5">
-				<Grid ColumnDefinitions="Auto, *, 5" Margin="5">
-					<Label Grid.Column="0" Text="{Binding Number}" VerticalOptions="Center" Margin="2"></Label>
-					<control:WrapLayout Grid.Column="1" ItemsSource="{Binding Words}" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
-							Command="{Binding Source={RelativeSource AncestorType={x:Type view_model:BookReaderViewModel}}, Path=WordSelectedCommand}"/>
-				</Grid>
-			</Border>
-		</DataTemplate>
-	</ContentPage.Resources>
 	<ContentPage.Content>
 		<Grid>
 			<Grid.RowDefinitions>
@@ -30,8 +19,7 @@
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
 			<ScrollView Grid.Row="0" Grid.RowSpan="2">
-				<StackLayout  BindableLayout.ItemsSource="{Binding Content}" 
-					BindableLayout.ItemTemplate="{StaticResource LineDataTemplate}"/>
+				<control:LineWordLayout ItemsSource="{Binding Content}" ItemCommand="{Binding WordSelectedCommand}"/>
 			</ScrollView>
 			<StackLayout Grid.Row="1">
 				<view:WordInfoView x:Name="InfoView" IsVisible="false" MinimumHeightRequest="0"></view:WordInfoView>
